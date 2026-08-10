@@ -16,3 +16,23 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.trust{grid-template-columns:repeat(2,1fr)}.contactCards{grid-template-columns:1fr}}
 @media(max-width:700px){header{height:70px;padding:0 4%}.brandLogo{height:48px}nav{display:none}.quickActions{padding:14px 4% 18px}.quickActions a,.quickActions button{width:100%;text-align:center}.services,.detail,.areas,.contactSection{padding:42px 4%}.grid{grid-template-columns:1fr 1fr;gap:10px}.card{padding:18px 10px}.card h3{font-size:13px}.card p{font-size:12px}.serviceGraphicWrap{border-radius:12px;margin-bottom:26px}.trust{grid-template-columns:1fr 1fr;padding-top:24px;padding-bottom:24px}.contactbar span{font-size:11px}.contactbar a,.contactbar button{gap:5px}.quoteModal{padding:26px 18px 22px}.formGrid{grid-template-columns:1fr}.formGrid label.full{grid-column:auto}}
 @media(max-width:430px){.grid{grid-template-columns:1fr}}
+
+/* V5 WhatsApp icon cleanup */
+.whatsappBtn .waIcon,
+.contactbar .waIcon,
+.contactCard .waIcon{
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  display:inline-block;
+  vertical-align:middle;
+}
+.contactCard .waIcon.big,
+.contactCard .waIcon{
+  width:36px;
+  height:36px;
+}
+.whatsappBtn{gap:10px}
+.contactbar a:nth-child(2){color:#25D366}
+.contactbar a:nth-child(2) .waIcon{color:#25D366}
+.whatsappBtn .waIcon{color:#07150b}
