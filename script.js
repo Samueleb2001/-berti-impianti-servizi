@@ -1,3 +1,4 @@
+const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyGJnLVLCJCCX9c09DTnTdouPmdkWnofRM96NrVAGxsr2i88IhzmU-8sP8cpVC0Kgs7/exec";
 const services={
 elettrico:{icon:"⚡",title:"IMPIANTI ELETTRICI",short:"Realizzazione, modifiche, adeguamenti e manutenzione.",headline:"Impianti elettrici e interventi su misura",text:"Interventi elettrici per abitazioni e altri ambienti, dalla piccola modifica alla manutenzione dell'impianto.",items:["Prese e punti luce","Modifiche e ampliamenti","Quadri e protezioni","Manutenzione e verifiche"],image:"images/Impianti-elettrici.jpg.PNG"},
 illuminazione:{icon:"💡",title:"ILLUMINAZIONE",short:"Lampade, faretti, plafoniere, LED e illuminazione esterna.",headline:"La luce giusta cambia ogni ambiente",text:"Installazione e sostituzione di sistemi di illuminazione per interni ed esterni, con attenzione a funzionalità e resa.",items:["Plafoniere e lampadari","Faretti e strisce LED","Illuminazione esterna","Sensori e crepuscolari"],image:"images/Illuminazione.jpg.PNG"},
@@ -73,13 +74,11 @@ quoteForm.addEventListener("submit",async e=>{
  const s=services[qService.value];
 
  const payload={
-   access_key:"c3919611-3bf0-4787-ae47-66a33980ef2b",
-   subject:`Richiesta preventivo - ${s.title} - BERTI Impianti & Servizi`,
-   from_name:"Sito BERTI Impianti & Servizi",
+   priority:"Normale",
    name:document.getElementById("qName").value.trim(),
    surname:document.getElementById("qSurname").value.trim(),
    email:document.getElementById("qEmail").value.trim(),
-   phone:document.getElementById("qPhone").value.trim() || "Non indicato",
+   phone:document.getElementById("qPhone").value.trim(),
    address:document.getElementById("qAddress").value.trim(),
    service:s.title,
    message:document.getElementById("qDescription").value.trim()
@@ -91,24 +90,21 @@ quoteForm.addEventListener("submit",async e=>{
  formStatus.textContent="";
 
  try{
-   const response=await fetch("https://api.web3forms.com/submit",{
+   await fetch(APPS_SCRIPT_URL,{
      method:"POST",
-     headers:{"Content-Type":"application/json","Accept":"application/json"},
+     mode:"no-cors",
+     headers:{"Content-Type":"text/plain;charset=utf-8"},
      body:JSON.stringify(payload)
    });
 
-   const result=await response.json();
+   formStatus.className="formStatus success";
+   formStatus.textContent="Richiesta inviata correttamente. È stata registrata e ti ricontatteremo al più presto.";
+   quoteForm.reset();
+   qService.value=currentService;
+   setTimeout(closeQuote,2400);
 
-   if(result.success){
-     formStatus.className="formStatus success";
-     formStatus.textContent="Richiesta inviata correttamente. Ti ricontatteremo al più presto.";
-     quoteForm.reset();
-     qService.value=currentService;
-     setTimeout(closeQuote,2200);
-   }else{
-     throw new Error(result.message || "Invio non riuscito");
-   }
  }catch(err){
+   console.error(err);
    formStatus.className="formStatus error";
    formStatus.textContent="Invio non riuscito. Riprova tra poco oppure contattaci su WhatsApp.";
  }finally{
