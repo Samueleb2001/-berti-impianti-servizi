@@ -5,32 +5,52 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b1118">
   <title>BERTI | Impianti & Servizi</title>
-  <meta name="description" content="Impianti elettrici, manutenzioni, illuminazione, ricerca guasti, piccoli interventi idraulici e automazioni.">
+  <meta name="description" content="BERTI Impianti & Servizi: impianti elettrici, illuminazione, ricerca guasti, manutenzioni, piccoli interventi idraulici, montaggi, automazioni e trasporto oggetti.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-  <a class="brand" href="#home"><span class="bmark">B</span><span><b>BERTI</b><small>IMPIANTI & SERVIZI</small></span></a>
-  <nav><a href="#home">Home</a><a href="#servizi">Servizi</a><a href="#dettaglio">Lavori</a><a href="#contatti">Contatti</a></nav>
+  <a class="brand" href="#home" aria-label="BERTI Impianti e Servizi">
+    <span class="bmark">B</span>
+    <span><b>BERTI</b><small>IMPIANTI & SERVIZI</small></span>
+  </a>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#servizi">Servizi</a>
+    <a href="#dettaglio">Dettagli</a>
+    <a href="#zone">Zone</a>
+    <a href="#contatti">Contatti</a>
+  </nav>
 </header>
 
 <main id="home">
   <section class="hero" id="hero">
     <div class="shade"></div>
     <div class="heroContent">
-      <p class="eyebrow" id="eyebrow">ELETTRICISTA & MANUTENZIONI</p>
+      <p class="eyebrow" id="eyebrow">IMPIANTI ELETTRICI & MANUTENZIONI</p>
       <h1 id="heroTitle">SOLUZIONI<br>PER LA TUA CASA,<br><em>SENZA PENSIERI.</em></h1>
-      <p id="heroText">Impianti elettrici, riparazioni e manutenzioni con interventi rapidi, puliti e professionali.</p>
-      <div class="actions">
-        <a class="primary" href="tel:+390000000000">☎ CHIAMA ORA</a>
-        <a class="secondary" href="#preventivo">▣ RICHIEDI UN PREVENTIVO</a>
+      <p id="heroText">Impianti elettrici, riparazioni, manutenzioni e servizi pratici per la casa.</p>
+
+      <div class="heroBadges">
+        <span>✓ Preventivo gratuito e senza impegno</span>
+        <span>✓ Contatti 07:00–22:30</span>
+        <span>✓ Pronto intervento serale fino alle 22:30</span>
       </div>
+
+      <div class="actions">
+        <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA ORA</a>
+        <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉ WHATSAPP</a>
+        <a class="secondary" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉ RICHIEDI UN PREVENTIVO</a>
+      </div>
+
+      <p class="hoursNotice" id="hoursNotice" aria-live="polite"></p>
     </div>
   </section>
 
   <section class="services" id="servizi">
     <p class="sectionLabel">I NOSTRI SERVIZI</p>
     <h2>COSA POSSIAMO FARE PER TE</h2>
+    <p class="intro">Seleziona un servizio: cambieranno la presentazione e i dettagli dell'intervento.</p>
     <div class="grid" id="serviceGrid"></div>
   </section>
 
@@ -40,28 +60,80 @@
       <h2 id="detailTitle">Impianti elettrici e interventi su misura</h2>
       <p id="detailText"></p>
       <ul id="detailList"></ul>
+
       <div class="actions">
-        <a class="primary" href="tel:+390000000000">☎ CHIAMA ORA</a>
-        <a class="secondary dark" href="#preventivo">RICHIEDI PREVENTIVO</a>
+        <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA</a>
+        <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉ WHATSAPP</a>
+        <a class="secondary dark" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉ EMAIL</a>
       </div>
     </div>
     <div class="detailVisual" id="detailVisual"><span id="detailIcon">⚡</span></div>
   </section>
 
-  <section class="quote" id="preventivo">
-    <p class="sectionLabel">CONTATTACI</p>
-    <h2>RICHIEDI UN PREVENTIVO</h2>
-    <p>Questa è la prima versione: nel prossimo passaggio collegheremo il modulo, WhatsApp, telefono ed email reali.</p>
+  <section class="trust">
+    <div><b>PREVENTIVO GRATUITO</b><span>Senza impegno</span></div>
+    <div><b>CONTATTO DIRETTO</b><span>Telefono, WhatsApp o email</span></div>
+    <div><b>SERALE</b><span>Disponibilità fino alle 22:30</span></div>
+    <div><b>PIÙ SERVIZI</b><span>Un unico riferimento per la casa</span></div>
+  </section>
+
+  <section class="areas" id="zone">
+    <p class="sectionLabel">ZONE SERVITE</p>
+    <h2>DOVE INTERVENIAMO</h2>
+    <div class="areaList">
+      <span>Castel San Pietro Terme</span>
+      <span>Imola</span>
+      <span>San Lazzaro di Savena</span>
+      <span>Bologna</span>
+      <span>Misano Adriatico</span>
+      <span>Riccione</span>
+      <span>Cattolica</span>
+    </div>
+    <p class="areasNote">Per interventi in altre zone, contattaci e valutiamo la disponibilità.</p>
+  </section>
+
+  <section class="contactSection" id="contatti">
+    <p class="sectionLabel">CONTATTI</p>
+    <h2>PARLIAMO DEL TUO INTERVENTO</h2>
+    <p>Puoi contattarci dalle <b>07:00 alle 22:30</b>. Fuori orario puoi comunque inviare un messaggio WhatsApp o una richiesta via email: verrà gestita dalle 07:00.</p>
+
+    <div class="contactCards">
+      <a class="contactCard call-link" href="tel:+393703173136">
+        <span class="contactIcon">☎</span>
+        <b>Chiama</b>
+        <small>370 317 3136</small>
+      </a>
+      <a class="contactCard whatsapp" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">
+        <span class="contactIcon">◉</span>
+        <b>WhatsApp</b>
+        <small>Messaggio già predisposto</small>
+      </a>
+      <a class="contactCard" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">
+        <span class="contactIcon">✉</span>
+        <b>Email / Preventivo</b>
+        <small>bertisamuele01@gmail.com</small>
+      </a>
+    </div>
+
+    <div class="adminContact">
+      <b>PEC:</b> <a href="mailto:bertisamuele01@pec.it">bertisamuele01@pec.it</a>
+    </div>
   </section>
 </main>
 
-<footer id="contatti">BERTI — Impianti & Servizi</footer>
+<footer>
+  <div class="footerBrand">BERTI <span>IMPIANTI & SERVIZI</span></div>
+  <p>Impianti, manutenzioni e servizi per la casa.</p>
+  <p class="legalNote">Partita IVA: in fase di apertura.</p>
+</footer>
 
 <div class="contactbar">
-  <a href="tel:+390000000000">☎<span>CHIAMA</span></a>
-  <a href="https://wa.me/390000000000">◉<span>WHATSAPP</span></a>
-  <a href="mailto:info@example.it">✉<span>EMAIL</span></a>
+  <a class="call-link" href="tel:+393703173136">☎<span>CHIAMA</span></a>
+  <a href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉<span>WHATSAPP</span></a>
+  <a href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉<span>PREVENTIVO</span></a>
 </div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="script.js"></script>
 </body>
