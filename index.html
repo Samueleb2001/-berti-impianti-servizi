@@ -120,7 +120,7 @@
     <button class="modalClose" id="modalClose" type="button" aria-label="Chiudi">×</button>
     <p class="sectionLabel">PREVENTIVO GRATUITO</p>
     <h2 id="quoteTitle">Raccontaci cosa ti serve</h2>
-    <p class="modalIntro">Compila i campi. Alla fine si aprirà la tua app email con la richiesta già pronta da inviare a BERTI.</p>
+    <p class="modalIntro">Compila i campi e invia la richiesta direttamente dal sito. Riceverai una conferma senza aprire l’app Mail.</p>
     <form id="quoteForm">
       <div class="formGrid">
         <label>Nome *<input id="qName" type="text" autocomplete="given-name" required></label>
@@ -131,8 +131,8 @@
         <label class="full">Servizio richiesto *<select id="qService" required></select></label>
         <label class="full">Descrizione del lavoro *<textarea id="qDescription" rows="6" placeholder="Esempio: devo montare un armadio a 3 ante, il mobile è già in casa..." required></textarea></label>
       </div>
-      <button class="sendQuote" type="submit">CREA RICHIESTA PREVENTIVO</button>
-      <p class="formNote">Si aprirà l'app email del cliente con destinatario, oggetto e testo già compilati.</p>
+      <button class="sendQuote" type="submit">INVIA RICHIESTA</button>
+      <p class="formNote">La richiesta verrà inviata direttamente a BERTI Impianti & Servizi.</p><p class="formStatus" id="formStatus" aria-live="polite"></p>
     </form>
   </div>
 </div>

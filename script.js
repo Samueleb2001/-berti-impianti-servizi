@@ -65,38 +65,56 @@ document.getElementById("modalClose").addEventListener("click",closeQuote);
 quoteModal.addEventListener("click",e=>{if(e.target===quoteModal)closeQuote();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeQuote();});
 
-quoteForm.addEventListener("submit",e=>{
+quoteForm.addEventListener("submit",async e=>{
  e.preventDefault();
+
+ const submitBtn=quoteForm.querySelector(".sendQuote");
+ const formStatus=document.getElementById("formStatus");
  const s=services[qService.value];
- const name=document.getElementById("qName").value.trim();
- const surname=document.getElementById("qSurname").value.trim();
- const userEmail=document.getElementById("qEmail").value.trim();
- const phone=document.getElementById("qPhone").value.trim();
- const address=document.getElementById("qAddress").value.trim();
- const desc=document.getElementById("qDescription").value.trim();
- const subject=`Richiesta preventivo - ${s.title} - BERTI Impianti & Servizi`;
- const body=`Buongiorno BERTI Impianti & Servizi,
 
-vorrei richiedere un preventivo.
+ const payload={
+   access_key:"c3919611-3bf0-4787-ae47-66a33980ef2b",
+   subject:`Richiesta preventivo - ${s.title} - BERTI Impianti & Servizi`,
+   from_name:"Sito BERTI Impianti & Servizi",
+   name:document.getElementById("qName").value.trim(),
+   surname:document.getElementById("qSurname").value.trim(),
+   email:document.getElementById("qEmail").value.trim(),
+   phone:document.getElementById("qPhone").value.trim() || "Non indicato",
+   address:document.getElementById("qAddress").value.trim(),
+   service:s.title,
+   message:document.getElementById("qDescription").value.trim()
+ };
 
-DATI CLIENTE
-Nome: ${name}
-Cognome: ${surname}
-Email: ${userEmail}
-Telefono: ${phone || "Non indicato"}
-Indirizzo / Comune intervento: ${address}
+ submitBtn.disabled=true;
+ submitBtn.textContent="INVIO IN CORSO...";
+ formStatus.className="formStatus";
+ formStatus.textContent="";
 
-SERVIZIO RICHIESTO
-${s.title}
+ try{
+   const response=await fetch("https://api.web3forms.com/submit",{
+     method:"POST",
+     headers:{"Content-Type":"application/json","Accept":"application/json"},
+     body:JSON.stringify(payload)
+   });
 
-DESCRIZIONE DEL LAVORO
-${desc}
+   const result=await response.json();
 
-Resto in attesa di un vostro riscontro.
-
-Grazie,
-${name} ${surname}`;
- window.location.href=`mailto:bertisamuele01@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+   if(result.success){
+     formStatus.className="formStatus success";
+     formStatus.textContent="Richiesta inviata correttamente. Ti ricontatteremo al più presto.";
+     quoteForm.reset();
+     qService.value=currentService;
+     setTimeout(closeQuote,2200);
+   }else{
+     throw new Error(result.message || "Invio non riuscito");
+   }
+ }catch(err){
+   formStatus.className="formStatus error";
+   formStatus.textContent="Invio non riuscito. Riprova tra poco oppure contattaci su WhatsApp.";
+ }finally{
+   submitBtn.disabled=false;
+   submitBtn.textContent="INVIA RICHIESTA";
+ }
 });
 
 function isCallOpen(){const now=new Date();const mins=now.getHours()*60+now.getMinutes();return mins>=420&&mins<1350;}

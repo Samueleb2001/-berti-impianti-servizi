@@ -36,3 +36,9 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
 .contactbar a:nth-child(2){color:#25D366}
 .contactbar a:nth-child(2) .waIcon{color:#25D366}
 .whatsappBtn .waIcon{color:#07150b}
+
+/* V6 direct form sending */
+.sendQuote:disabled{opacity:.6;cursor:wait}
+.formStatus{min-height:22px;margin:12px 0 0;font-size:14px;font-weight:800;text-align:center}
+.formStatus.success{color:#138a45}
+.formStatus.error{color:#b42318}
