@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <header>
   <a class="brand" href="#home" aria-label="BERTI Impianti e Servizi">
     <span class="bmark">B</span>
@@ -24,38 +25,31 @@
 </header>
 
 <main id="home">
-  <section class="hero" id="hero">
-    <div class="shade"></div>
-    <div class="heroContent">
-      <p class="eyebrow" id="eyebrow">IMPIANTI ELETTRICI & MANUTENZIONI</p>
-      <h1 id="heroTitle">SOLUZIONI<br>PER LA TUA CASA,<br><em>SENZA PENSIERI.</em></h1>
-      <p id="heroText">Impianti elettrici, riparazioni, manutenzioni e servizi pratici per la casa.</p>
 
-      <div class="heroBadges">
-        <span>✓ Preventivo gratuito e senza impegno</span>
-        <span>✓ Contatti 07:00–22:30</span>
-        <span>✓ Pronto intervento serale fino alle 22:30</span>
-      </div>
+  <section class="hero">
+    <img class="heroImage" src="images/Home.jpg.jpg" alt="BERTI Impianti & Servizi">
+  </section>
 
-      <div class="actions">
-        <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA ORA</a>
-        <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉ WHATSAPP</a>
-        <a class="secondary" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉ RICHIEDI UN PREVENTIVO</a>
-      </div>
-
-      <p class="hoursNotice" id="hoursNotice" aria-live="polite"></p>
-    </div>
+  <section class="quickActions">
+    <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA ORA</a>
+    <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno%2Forario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉ WHATSAPP</a>
+    <a class="mailBtn" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno%2Forario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉ RICHIEDI PREVENTIVO</a>
+    <p class="hoursNotice" id="hoursNotice" aria-live="polite"></p>
   </section>
 
   <section class="services" id="servizi">
     <p class="sectionLabel">I NOSTRI SERVIZI</p>
     <h2>COSA POSSIAMO FARE PER TE</h2>
-    <p class="intro">Seleziona un servizio: cambieranno la presentazione e i dettagli dell'intervento.</p>
+    <p class="intro">Tocca un servizio: comparirà la grafica dedicata e, subito sotto, tutti i dettagli.</p>
     <div class="grid" id="serviceGrid"></div>
   </section>
 
   <section class="detail" id="dettaglio">
-    <div>
+    <div class="serviceGraphicWrap">
+      <img id="serviceGraphic" class="serviceGraphic" src="images/Impianti-elettrici.jpg.PNG" alt="Impianti elettrici BERTI">
+    </div>
+
+    <div class="detailBody">
       <p class="sectionLabel" id="detailLabel">IMPIANTI ELETTRICI</p>
       <h2 id="detailTitle">Impianti elettrici e interventi su misura</h2>
       <p id="detailText"></p>
@@ -63,11 +57,10 @@
 
       <div class="actions">
         <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA</a>
-        <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉ WHATSAPP</a>
-        <a class="secondary dark" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉ EMAIL</a>
+        <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi." target="_blank" rel="noopener">◉ WHATSAPP</a>
+        <a class="secondary dark" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi">✉ EMAIL</a>
       </div>
     </div>
-    <div class="detailVisual" id="detailVisual"><span id="detailIcon">⚡</span></div>
   </section>
 
   <section class="trust">
@@ -99,19 +92,13 @@
 
     <div class="contactCards">
       <a class="contactCard call-link" href="tel:+393703173136">
-        <span class="contactIcon">☎</span>
-        <b>Chiama</b>
-        <small>370 317 3136</small>
+        <span class="contactIcon">☎</span><b>Chiama</b><small>370 317 3136</small>
       </a>
-      <a class="contactCard whatsapp" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">
-        <span class="contactIcon">◉</span>
-        <b>WhatsApp</b>
-        <small>Messaggio già predisposto</small>
+      <a class="contactCard whatsapp" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi." target="_blank" rel="noopener">
+        <span class="contactIcon">◉</span><b>WhatsApp</b><small>Messaggio già predisposto</small>
       </a>
-      <a class="contactCard" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">
-        <span class="contactIcon">✉</span>
-        <b>Email / Preventivo</b>
-        <small>bertisamuele01@gmail.com</small>
+      <a class="contactCard" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi">
+        <span class="contactIcon">✉</span><b>Email / Preventivo</b><small>bertisamuele01@gmail.com</small>
       </a>
     </div>
 
@@ -129,8 +116,8 @@
 
 <div class="contactbar">
   <a class="call-link" href="tel:+393703173136">☎<span>CHIAMA</span></a>
-  <a href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉<span>WHATSAPP</span></a>
-  <a href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno/orario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉<span>PREVENTIVO</span></a>
+  <a href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi." target="_blank" rel="noopener">◉<span>WHATSAPP</span></a>
+  <a href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi">✉<span>PREVENTIVO</span></a>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
