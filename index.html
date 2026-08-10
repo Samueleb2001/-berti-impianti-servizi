@@ -12,8 +12,7 @@
 
 <header>
   <a class="brand" href="#home" aria-label="BERTI Impianti e Servizi">
-    <span class="bmark">B</span>
-    <span><b>BERTI</b><small>IMPIANTI & SERVIZI</small></span>
+    <img class="brandLogo" src="images/logo-berti.png" alt="BERTI Impianti & Servizi">
   </a>
   <nav>
     <a href="#home">Home</a>
@@ -25,15 +24,20 @@
 </header>
 
 <main id="home">
-
   <section class="hero">
     <img class="heroImage" src="images/Home.jpg.jpg" alt="BERTI Impianti & Servizi">
   </section>
 
   <section class="quickActions">
     <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA ORA</a>
-    <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%3A%0AComune%20dell%27intervento%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno%2Forario%20preferito%20per%20essere%20ricontattato%3A" target="_blank" rel="noopener">◉ WHATSAPP</a>
-    <a class="mailBtn" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi&body=Buongiorno%2C%0Avorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi.%0A%0ANome%20e%20cognome%3A%0AComune%20dell%27intervento%3A%0ANumero%20di%20telefono%3A%0ATipo%20di%20intervento%3A%0ADescrizione%20della%20necessit%C3%A0%3A%0AGiorno%2Forario%20preferito%20per%20essere%20ricontattato%3A%0A%0AAllego%20eventualmente%20alcune%20foto%20utili%20alla%20valutazione.%0A%0AGrazie.">✉ RICHIEDI PREVENTIVO</a>
+    <a class="whatsappBtn js-wa-link" href="#" target="_blank" rel="noopener">
+      <svg class="waIcon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M19.11 17.52c-.43-.22-2.52-1.24-2.91-1.38-.39-.14-.67-.22-.96.22-.28.43-1.1 1.38-1.35 1.66-.25.29-.5.32-.92.11-.43-.22-1.8-.66-3.43-2.11-1.27-1.13-2.12-2.52-2.37-2.95-.25-.43-.03-.66.19-.87.2-.19.43-.5.64-.75.21-.25.28-.43.43-.72.14-.29.07-.54-.04-.75-.11-.22-.96-2.31-1.31-3.16-.35-.84-.7-.73-.96-.74h-.82c-.29 0-.75.11-1.14.54-.39.43-1.49 1.46-1.49 3.56 0 2.09 1.53 4.12 1.74 4.41.21.29 3 4.58 7.27 6.42 1.02.44 1.81.7 2.43.89 1.02.32 1.95.28 2.69.17.82-.12 2.52-1.03 2.88-2.02.36-1 .36-1.85.25-2.02-.11-.18-.39-.29-.82-.5z"/>
+        <path d="M16.02 2.67c-7.31 0-13.25 5.92-13.25 13.22 0 2.33.61 4.61 1.77 6.61L2.67 29.33l7-1.84a13.22 13.22 0 0 0 6.34 1.61h.01c7.31 0 13.25-5.92 13.25-13.22 0-3.53-1.38-6.85-3.88-9.35a13.15 13.15 0 0 0-9.37-3.86zm0 24.19h-.01a10.98 10.98 0 0 1-5.59-1.53l-.4-.24-4.15 1.09 1.11-4.05-.26-.42a10.9 10.9 0 0 1-1.68-5.82c0-6.06 4.93-10.98 10.99-10.98 2.93 0 5.69 1.14 7.77 3.21a10.9 10.9 0 0 1 3.22 7.77c-.01 6.05-4.94 10.97-11 10.97z"/>
+      </svg>
+      WHATSAPP
+    </a>
+    <button class="mailBtn quote-open" type="button">✉ RICHIEDI PREVENTIVO</button>
     <p class="hoursNotice" id="hoursNotice" aria-live="polite"></p>
   </section>
 
@@ -48,17 +52,21 @@
     <div class="serviceGraphicWrap">
       <img id="serviceGraphic" class="serviceGraphic" src="images/Impianti-elettrici.jpg.PNG" alt="Impianti elettrici BERTI">
     </div>
-
     <div class="detailBody">
       <p class="sectionLabel" id="detailLabel">IMPIANTI ELETTRICI</p>
       <h2 id="detailTitle">Impianti elettrici e interventi su misura</h2>
       <p id="detailText"></p>
       <ul id="detailList"></ul>
-
       <div class="actions">
         <a class="primary call-link" href="tel:+393703173136">☎ CHIAMA</a>
-        <a class="whatsappBtn" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi." target="_blank" rel="noopener">◉ WHATSAPP</a>
-        <a class="secondary dark" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi">✉ EMAIL</a>
+        <a class="whatsappBtn js-wa-link" href="#" target="_blank" rel="noopener">
+          <svg class="waIcon" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M19.11 17.52c-.43-.22-2.52-1.24-2.91-1.38-.39-.14-.67-.22-.96.22-.28.43-1.1 1.38-1.35 1.66-.25.29-.5.32-.92.11-.43-.22-1.8-.66-3.43-2.11-1.27-1.13-2.12-2.52-2.37-2.95-.25-.43-.03-.66.19-.87.2-.19.43-.5.64-.75.21-.25.28-.43.43-.72.14-.29.07-.54-.04-.75-.11-.22-.96-2.31-1.31-3.16-.35-.84-.7-.73-.96-.74h-.82c-.29 0-.75.11-1.14.54-.39.43-1.49 1.46-1.49 3.56 0 2.09 1.53 4.12 1.74 4.41.21.29 3 4.58 7.27 6.42 1.02.44 1.81.7 2.43.89 1.02.32 1.95.28 2.69.17.82-.12 2.52-1.03 2.88-2.02.36-1 .36-1.85.25-2.02-.11-.18-.39-.29-.82-.5z"/>
+            <path d="M16.02 2.67c-7.31 0-13.25 5.92-13.25 13.22 0 2.33.61 4.61 1.77 6.61L2.67 29.33l7-1.84a13.22 13.22 0 0 0 6.34 1.61h.01c7.31 0 13.25-5.92 13.25-13.22 0-3.53-1.38-6.85-3.88-9.35a13.15 13.15 0 0 0-9.37-3.86zm0 24.19h-.01a10.98 10.98 0 0 1-5.59-1.53l-.4-.24-4.15 1.09 1.11-4.05-.26-.42a10.9 10.9 0 0 1-1.68-5.82c0-6.06 4.93-10.98 10.99-10.98 2.93 0 5.69 1.14 7.77 3.21a10.9 10.9 0 0 1 3.22 7.77c-.01 6.05-4.94 10.97-11 10.97z"/>
+          </svg>
+          WHATSAPP
+        </a>
+        <button class="secondary dark quote-open" type="button">✉ PREVENTIVO</button>
       </div>
     </div>
   </section>
@@ -74,13 +82,8 @@
     <p class="sectionLabel">ZONE SERVITE</p>
     <h2>DOVE INTERVENIAMO</h2>
     <div class="areaList">
-      <span>Castel San Pietro Terme</span>
-      <span>Imola</span>
-      <span>San Lazzaro di Savena</span>
-      <span>Bologna</span>
-      <span>Misano Adriatico</span>
-      <span>Riccione</span>
-      <span>Cattolica</span>
+      <span>Castel San Pietro Terme</span><span>Imola</span><span>San Lazzaro di Savena</span>
+      <span>Bologna</span><span>Misano Adriatico</span><span>Riccione</span><span>Cattolica</span>
     </div>
     <p class="areasNote">Per interventi in altre zone, contattaci e valutiamo la disponibilità.</p>
   </section>
@@ -89,22 +92,12 @@
     <p class="sectionLabel">CONTATTI</p>
     <h2>PARLIAMO DEL TUO INTERVENTO</h2>
     <p>Puoi contattarci dalle <b>07:00 alle 22:30</b>. Fuori orario puoi comunque inviare un messaggio WhatsApp o una richiesta via email: verrà gestita dalle 07:00.</p>
-
     <div class="contactCards">
-      <a class="contactCard call-link" href="tel:+393703173136">
-        <span class="contactIcon">☎</span><b>Chiama</b><small>370 317 3136</small>
-      </a>
-      <a class="contactCard whatsapp" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi." target="_blank" rel="noopener">
-        <span class="contactIcon">◉</span><b>WhatsApp</b><small>Messaggio già predisposto</small>
-      </a>
-      <a class="contactCard" href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi">
-        <span class="contactIcon">✉</span><b>Email / Preventivo</b><small>bertisamuele01@gmail.com</small>
-      </a>
+      <a class="contactCard call-link" href="tel:+393703173136"><span class="contactIcon">☎</span><b>Chiama</b><small>370 317 3136</small></a>
+      <a class="contactCard whatsapp js-wa-link" href="#" target="_blank" rel="noopener"><span class="contactIcon"><svg class="waIcon big" viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.52c-.43-.22-2.52-1.24-2.91-1.38-.39-.14-.67-.22-.96.22-.28.43-1.1 1.38-1.35 1.66-.25.29-.5.32-.92.11-.43-.22-1.8-.66-3.43-2.11-1.27-1.13-2.12-2.52-2.37-2.95-.25-.43-.03-.66.19-.87.2-.19.43-.5.64-.75.21-.25.28-.43.43-.72.14-.29.07-.54-.04-.75-.11-.22-.96-2.31-1.31-3.16-.35-.84-.7-.73-.96-.74h-.82c-.29 0-.75.11-1.14.54-.39.43-1.49 1.46-1.49 3.56 0 2.09 1.53 4.12 1.74 4.41.21.29 3 4.58 7.27 6.42 1.02.44 1.81.7 2.43.89 1.02.32 1.95.28 2.69.17.82-.12 2.52-1.03 2.88-2.02.36-1 .36-1.85.25-2.02-.11-.18-.39-.29-.82-.5z"/><path d="M16.02 2.67c-7.31 0-13.25 5.92-13.25 13.22 0 2.33.61 4.61 1.77 6.61L2.67 29.33l7-1.84a13.22 13.22 0 0 0 6.34 1.61h.01c7.31 0 13.25-5.92 13.25-13.22 0-3.53-1.38-6.85-3.88-9.35a13.15 13.15 0 0 0-9.37-3.86zm0 24.19h-.01a10.98 10.98 0 0 1-5.59-1.53l-.4-.24-4.15 1.09 1.11-4.05-.26-.42a10.9 10.9 0 0 1-1.68-5.82c0-6.06 4.93-10.98 10.99-10.98 2.93 0 5.69 1.14 7.77 3.21a10.9 10.9 0 0 1 3.22 7.77c-.01 6.05-4.94 10.97-11 10.97z"/></svg></span><b>WhatsApp</b><small>Messaggio già predisposto</small></a>
+      <button class="contactCard quote-open" type="button"><span class="contactIcon">✉</span><b>Email / Preventivo</b><small>Compila la richiesta</small></button>
     </div>
-
-    <div class="adminContact">
-      <b>PEC:</b> <a href="mailto:bertisamuele01@pec.it">bertisamuele01@pec.it</a>
-    </div>
+    <div class="adminContact"><b>PEC:</b> <a href="mailto:bertisamuele01@pec.it">bertisamuele01@pec.it</a></div>
   </section>
 </main>
 
@@ -116,12 +109,33 @@
 
 <div class="contactbar">
   <a class="call-link" href="tel:+393703173136">☎<span>CHIAMA</span></a>
-  <a href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20un%20preventivo%20a%20BERTI%20Impianti%20%26%20Servizi." target="_blank" rel="noopener">◉<span>WHATSAPP</span></a>
-  <a href="mailto:bertisamuele01@gmail.com?subject=Richiesta%20preventivo%20-%20BERTI%20Impianti%20%26%20Servizi">✉<span>PREVENTIVO</span></a>
+  <a class="js-wa-link" href="#" target="_blank" rel="noopener"><svg class="waIcon" viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.52c-.43-.22-2.52-1.24-2.91-1.38-.39-.14-.67-.22-.96.22-.28.43-1.1 1.38-1.35 1.66-.25.29-.5.32-.92.11-.43-.22-1.8-.66-3.43-2.11-1.27-1.13-2.12-2.52-2.37-2.95-.25-.43-.03-.66.19-.87.2-.19.43-.5.64-.75.21-.25.28-.43.43-.72.14-.29.07-.54-.04-.75-.11-.22-.96-2.31-1.31-3.16-.35-.84-.7-.73-.96-.74h-.82c-.29 0-.75.11-1.14.54-.39.43-1.49 1.46-1.49 3.56 0 2.09 1.53 4.12 1.74 4.41.21.29 3 4.58 7.27 6.42 1.02.44 1.81.7 2.43.89 1.02.32 1.95.28 2.69.17.82-.12 2.52-1.03 2.88-2.02.36-1 .36-1.85.25-2.02-.11-.18-.39-.29-.82-.5z"/><path d="M16.02 2.67c-7.31 0-13.25 5.92-13.25 13.22 0 2.33.61 4.61 1.77 6.61L2.67 29.33l7-1.84a13.22 13.22 0 0 0 6.34 1.61h.01c7.31 0 13.25-5.92 13.25-13.22 0-3.53-1.38-6.85-3.88-9.35a13.15 13.15 0 0 0-9.37-3.86zm0 24.19h-.01a10.98 10.98 0 0 1-5.59-1.53l-.4-.24-4.15 1.09 1.11-4.05-.26-.42a10.9 10.9 0 0 1-1.68-5.82c0-6.06 4.93-10.98 10.99-10.98 2.93 0 5.69 1.14 7.77 3.21a10.9 10.9 0 0 1 3.22 7.77c-.01 6.05-4.94 10.97-11 10.97z"/></svg><span>WHATSAPP</span></a>
+  <button class="quote-open" type="button">✉<span>PREVENTIVO</span></button>
+</div>
+
+<div class="modalBackdrop" id="quoteModal" aria-hidden="true">
+  <div class="quoteModal" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+    <button class="modalClose" id="modalClose" type="button" aria-label="Chiudi">×</button>
+    <p class="sectionLabel">PREVENTIVO GRATUITO</p>
+    <h2 id="quoteTitle">Raccontaci cosa ti serve</h2>
+    <p class="modalIntro">Compila i campi. Alla fine si aprirà la tua app email con la richiesta già pronta da inviare a BERTI.</p>
+    <form id="quoteForm">
+      <div class="formGrid">
+        <label>Nome *<input id="qName" type="text" autocomplete="given-name" required></label>
+        <label>Cognome *<input id="qSurname" type="text" autocomplete="family-name" required></label>
+        <label>La tua email *<input id="qEmail" type="email" autocomplete="email" required></label>
+        <label>Telefono<input id="qPhone" type="tel" autocomplete="tel"></label>
+        <label class="full">Indirizzo / Comune dell'intervento *<input id="qAddress" type="text" autocomplete="street-address" required></label>
+        <label class="full">Servizio richiesto *<select id="qService" required></select></label>
+        <label class="full">Descrizione del lavoro *<textarea id="qDescription" rows="6" placeholder="Esempio: devo montare un armadio a 3 ante, il mobile è già in casa..." required></textarea></label>
+      </div>
+      <button class="sendQuote" type="submit">CREA RICHIESTA PREVENTIVO</button>
+      <p class="formNote">Si aprirà l'app email del cliente con destinatario, oggetto e testo già compilati.</p>
+    </form>
+  </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
 <script src="script.js"></script>
 </body>
 </html>
