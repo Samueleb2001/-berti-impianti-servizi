@@ -119,7 +119,7 @@ tv:{
    "Piccoli accessori multimediali",
    "Riordino collegamenti"
  ],
- image:"images/Tv-staffe-multimedia.jpg.PNG?v=11-1"
+ image:"images/TV-staffe-multimedia.jpg.PNG?v=11-1"
 },
 
 audio:{
@@ -373,7 +373,7 @@ quoteForm.addEventListener("submit",async e=>{
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
-   clientVersion:"12"
+   clientVersion:"13"
  };
 
  submitBtn.disabled=true;
