@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyGJnLVLCJCCX9c09DTnTdouPmdkWnofRM96NrVAGxsr2i88IhzmU-8sP8cpVC0Kgs7/exec";
+const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
 const services={
 elettrico:{
  icon:"⚡",
