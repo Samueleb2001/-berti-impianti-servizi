@@ -1,3 +1,4 @@
+console.log("BERTI frontend V13.2 caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
 const services={
 elettrico:{
