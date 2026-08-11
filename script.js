@@ -222,7 +222,7 @@ porte:{
    "Fermi e accessori",
    "Piccoli problemi di chiusura"
  ],
- image:"images/Manutenzioni-domestiche.jpg.PNG"
+ image:"images/Porte-finestre-regolazione.jpg.PNG"
 },
 
 ritocchi:{
