@@ -42,3 +42,6 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
 .formStatus{min-height:22px;margin:12px 0 0;font-size:14px;font-weight:800;text-align:center}
 .formStatus.success{color:#138a45}
 .formStatus.error{color:#b42318}
+
+/* V12 security / anti-spam */
+.hpField{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}

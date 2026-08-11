@@ -299,6 +299,7 @@ const graphic=document.getElementById("serviceGraphic");
 const quoteModal=document.getElementById("quoteModal");
 const quoteForm=document.getElementById("quoteForm");
 const qService=document.getElementById("qService");
+let quoteFormStartedAt=Date.now();
 
 Object.entries(services).forEach(([key,s],i)=>{
  const b=document.createElement("button");
@@ -338,6 +339,8 @@ function selectService(key,scroll=false){
 }
 
 function openQuote(){
+ quoteFormStartedAt=Date.now();
+ document.getElementById("qWebsite").value="";
  qService.value=currentService;
  quoteModal.classList.add("show"); quoteModal.setAttribute("aria-hidden","false");
  setTimeout(()=>document.getElementById("qName").focus(),100);
@@ -354,6 +357,9 @@ quoteForm.addEventListener("submit",async e=>{
  const submitBtn=quoteForm.querySelector(".sendQuote");
  const formStatus=document.getElementById("formStatus");
  const s=services[qService.value];
+ const now=Date.now();
+
+ if(!quoteForm.reportValidity()) return;
 
  const payload={
    priority:"Normale",
@@ -363,7 +369,11 @@ quoteForm.addEventListener("submit",async e=>{
    phone:document.getElementById("qPhone").value.trim(),
    address:document.getElementById("qAddress").value.trim(),
    service:s.title,
-   message:document.getElementById("qDescription").value.trim()
+   message:document.getElementById("qDescription").value.trim(),
+   website:document.getElementById("qWebsite").value.trim(),
+   formStartedAt:quoteFormStartedAt,
+   submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
+   clientVersion:"12"
  };
 
  submitBtn.disabled=true;
@@ -376,14 +386,17 @@ quoteForm.addEventListener("submit",async e=>{
      method:"POST",
      mode:"no-cors",
      headers:{"Content-Type":"text/plain;charset=utf-8"},
-     body:JSON.stringify(payload)
+     body:JSON.stringify(payload),
+     cache:"no-store",
+     referrerPolicy:"strict-origin-when-cross-origin"
    });
 
    formStatus.className="formStatus success";
-   formStatus.textContent="Richiesta inviata correttamente. È stata registrata e ti ricontatteremo al più presto.";
+   formStatus.textContent="Richiesta inviata. Se i dati sono corretti, verrà registrata automaticamente nel sistema BERTI.";
    quoteForm.reset();
    qService.value=currentService;
-   setTimeout(closeQuote,2400);
+   quoteFormStartedAt=Date.now();
+   setTimeout(closeQuote,2600);
 
  }catch(err){
    console.error(err);

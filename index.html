@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b1118">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self';">
   <title>BERTI | Impianti & Servizi</title>
   <meta name="description" content="BERTI Impianti & Servizi: impianti elettrici, illuminazione, ricerca guasti, manutenzioni, piccoli interventi idraulici, montaggi, automazioni e trasporto oggetti.">
   <link rel="stylesheet" href="style.css">
@@ -126,7 +128,8 @@
     <p class="sectionLabel">PREVENTIVO GRATUITO</p>
     <h2 id="quoteTitle">Raccontaci cosa ti serve</h2>
     <p class="modalIntro">Compila i campi e invia la richiesta direttamente dal sito. La richiesta verrà registrata automaticamente.</p>
-    <form id="quoteForm">
+    <form id="quoteForm" novalidate>
+      <div class="hpField" aria-hidden="true"><label>Lascia vuoto<input id="qWebsite" type="text" tabindex="-1" autocomplete="off"></label></div>
       <div class="formGrid">
         <label>Nome *<input id="qName" type="text" autocomplete="given-name" required></label>
         <label>Cognome *<input id="qSurname" type="text" autocomplete="family-name" required></label>
