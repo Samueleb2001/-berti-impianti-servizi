@@ -1,14 +1,296 @@
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyGJnLVLCJCCX9c09DTnTdouPmdkWnofRM96NrVAGxsr2i88IhzmU-8sP8cpVC0Kgs7/exec";
 const services={
-elettrico:{icon:"⚡",title:"IMPIANTI ELETTRICI",short:"Realizzazione, modifiche, adeguamenti e manutenzione.",headline:"Impianti elettrici e interventi su misura",text:"Interventi elettrici per abitazioni e altri ambienti, dalla piccola modifica alla manutenzione dell'impianto.",items:["Prese e punti luce","Modifiche e ampliamenti","Quadri e protezioni","Manutenzione e verifiche"],image:"images/Impianti-elettrici.jpg.PNG"},
-illuminazione:{icon:"💡",title:"ILLUMINAZIONE",short:"Lampade, faretti, plafoniere, LED e illuminazione esterna.",headline:"La luce giusta cambia ogni ambiente",text:"Installazione e sostituzione di sistemi di illuminazione per interni ed esterni, con attenzione a funzionalità e resa.",items:["Plafoniere e lampadari","Faretti e strisce LED","Illuminazione esterna","Sensori e crepuscolari"],image:"images/Illuminazione.jpg.PNG"},
-guasti:{icon:"🔎",title:"RICERCA E RIPARAZIONE GUASTI",short:"Individuazione e risoluzione di anomalie elettriche.",headline:"Troviamo il problema, poi lo risolviamo",text:"Ricerca mirata dei guasti per individuare anomalie e ripristinare il corretto funzionamento dell'impianto.",items:["Scatti del differenziale","Prese e linee non funzionanti","Problemi di illuminazione","Controlli e diagnosi"],image:"images/Ricerca-guasti.jpg.PNG"},
-idraulica:{icon:"💧",title:"PICCOLI INTERVENTI IDRAULICI",short:"Sostituzioni e piccole riparazioni domestiche.",headline:"Piccoli interventi idraulici",text:"Interventi pratici per le necessità quotidiane della casa quando non serve un'opera idraulica complessa.",items:["Rubinetteria","Sifoni e scarichi semplici","Piccole perdite","Sostituzione accessori"],image:"images/Idraulica.jpg.PNG"},
-manutenzioni:{icon:"🏠",title:"MANUTENZIONI DOMESTICHE",short:"Interventi e riparazioni per interni ed esterni.",headline:"Una soluzione per le manutenzioni di casa",text:"Un unico riferimento per tanti piccoli e medi interventi domestici, con valutazione preventiva del lavoro.",items:["Riparazioni varie","Fissaggi e regolazioni","Manutenzione interni","Manutenzione esterni"],image:"images/Manutenzioni-domestiche.jpg.PNG"},
-montaggi:{icon:"🛠️",title:"MONTAGGI E RIPARAZIONI",short:"Mensole, accessori, tende, quadri e piccoli montaggi.",headline:"Montaggi precisi, senza improvvisare",text:"Installazione, fissaggio e montaggio di elementi e accessori con attenzione alle superfici e alla sicurezza.",items:["Mensole e accessori","Tende e supporti","Quadri e specchi","Piccoli montaggi"],image:"images/Montaggi-riparazioni.jpg.PNG"},
-mobili:{icon:"🪛",title:"MONTAGGIO MOBILI",short:"Montaggio e assemblaggio di mobili e complementi.",headline:"Montaggio mobili a domicilio",text:"Assemblaggio e montaggio di mobili e complementi, con verifica degli ingombri e del corretto posizionamento.",items:["Mobili in kit","Piccoli arredi","Fissaggi a parete quando necessari","Regolazioni finali"],image:"images/Montaggio-mobili.jpg.PNG"},
-trasporto:{icon:"📦",title:"TRASPORTO OGGETTI",short:"Supporto per il trasporto di oggetti e piccoli carichi.",headline:"Hai qualcosa da spostare?",text:"Supporto per trasporto e movimentazione di oggetti, valutando insieme dimensioni, distanza e modalità dell'intervento.",items:["Piccoli trasporti","Movimentazione oggetti","Ritiro e consegna da concordare","Valutazione preventiva"],image:"images/Trasporto-oggetti.jpg.PNG"},
-automazioni:{icon:"▤",title:"TAPPARELLE E AUTOMAZIONI",short:"Riparazioni, motorizzazioni e piccole automazioni.",headline:"Più comodità con le automazioni",text:"Interventi su tapparelle e automazioni domestiche, dalla manutenzione alla motorizzazione.",items:["Tapparelle","Motorizzazioni","Comandi e pulsanti","Piccole automazioni"],image:"images/Tapparelle-automazioni.jpg.PNG"}
+elettrico:{
+ icon:"⚡",
+ title:"IMPIANTI ELETTRICI",
+ short:"Impianti interni ed esterni, tubazioni, canaline, cavi, quadri e manutenzione.",
+ headline:"Impianti elettrici e interventi su misura",
+ text:"Interventi elettrici per abitazioni e altri ambienti, dalla predisposizione alla modifica e manutenzione dell'impianto.",
+ items:[
+   "Impianti elettrici interni ed esterni",
+   "Stesura tubi corrugati, guaine e canaline",
+   "Passaggio e sostituzione cavi",
+   "Prese, punti luce e comandi",
+   "Quadri elettrici e protezioni",
+   "Modifiche e ampliamenti",
+   "Sensori, crepuscolari e temporizzatori",
+   "Manutenzione e verifiche"
+ ],
+ image:"images/Impianti-elettrici.jpg.PNG"
+},
+
+illuminazione:{
+ icon:"💡",
+ title:"ILLUMINAZIONE",
+ short:"Lampade, faretti, plafoniere, LED e illuminazione interna ed esterna.",
+ headline:"La luce giusta cambia ogni ambiente",
+ text:"Installazione e sostituzione di sistemi di illuminazione per interni ed esterni, con attenzione a funzionalità e resa.",
+ items:[
+   "Plafoniere e lampadari",
+   "Faretti",
+   "Strisce LED",
+   "Illuminazione esterna",
+   "Illuminazione garage e portici",
+   "Sensori di movimento",
+   "Crepuscolari e temporizzatori"
+ ],
+ image:"images/Illuminazione.jpg.PNG"
+},
+
+guasti:{
+ icon:"🔎",
+ title:"RICERCA E RIPARAZIONE GUASTI",
+ short:"Individuazione e risoluzione di anomalie elettriche.",
+ headline:"Troviamo il problema, poi lo risolviamo",
+ text:"Ricerca mirata dei guasti per individuare anomalie e ripristinare il corretto funzionamento dell'impianto.",
+ items:[
+   "Scatti del differenziale",
+   "Prese e linee non funzionanti",
+   "Problemi di illuminazione",
+   "Controllo collegamenti",
+   "Diagnosi con strumenti",
+   "Piccoli ripristini"
+ ],
+ image:"images/Ricerca-guasti.jpg.PNG"
+},
+
+esterni:{
+ icon:"🌙",
+ title:"ELETTRICO ESTERNO E GIARDINO",
+ short:"Luci, prese, sensori e predisposizioni per giardino, portico e garage.",
+ headline:"Impianti e illuminazione per gli spazi esterni",
+ text:"Interventi elettrici e predisposizioni per rendere funzionali giardini, terrazzi, portici, garage e altre aree esterne.",
+ items:[
+   "Illuminazione esterna",
+   "Prese e punti alimentazione",
+   "Sensori di movimento",
+   "Crepuscolari",
+   "Canalizzazioni esterne",
+   "Predisposizioni per giardino e portico"
+ ],
+ image:"images/Illuminazione.jpg.PNG"
+},
+
+reti:{
+ icon:"🌐",
+ title:"RETI, WI-FI E CABLAGGIO",
+ short:"Ethernet, prese dati, switch, access point e sistemazione della rete domestica.",
+ headline:"Una rete più ordinata e più stabile",
+ text:"Cablaggio e organizzazione di piccole reti domestiche e locali, con supporto alla distribuzione Ethernet e Wi-Fi.",
+ items:[
+   "Passaggio cavi Ethernet",
+   "Prese dati RJ45",
+   "Collegamento switch",
+   "Installazione access point",
+   "Posizionamento ripetitori",
+   "Riordino cablaggi di rete"
+ ],
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
+},
+
+citofonia:{
+ icon:"🔔",
+ title:"CITOFONI E CAMPANELLI",
+ short:"Installazione, sostituzione e piccoli interventi su citofonia e campanelli.",
+ headline:"Citofoni e campanelli per la casa",
+ text:"Piccoli interventi su sistemi di chiamata e citofonia domestica, dalla sostituzione degli accessori alla nuova installazione compatibile.",
+ items:[
+   "Campanelli",
+   "Pulsanti di chiamata",
+   "Citofoni",
+   "Videocitofoni",
+   "Alimentatori e accessori compatibili",
+   "Ricerca piccoli malfunzionamenti"
+ ],
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
+},
+
+tv:{
+ icon:"📺",
+ title:"TV, STAFFE E MULTIMEDIA",
+ short:"Montaggio TV, staffe a parete, passaggio cavi e sistemazione accessori.",
+ headline:"TV e multimedia installati con ordine",
+ text:"Montaggio e sistemazione di TV e accessori multimediali con attenzione a fissaggi, passaggio cavi e risultato estetico.",
+ items:[
+   "Montaggio TV a parete",
+   "Installazione staffe",
+   "Passaggio e mascheratura cavi",
+   "Posizionamento soundbar",
+   "Piccoli accessori multimediali",
+   "Riordino collegamenti"
+ ],
+ image:"images/Montaggi-riparazioni.jpg.PNG"
+},
+
+audio:{
+ icon:"🔊",
+ title:"AUDIO E FILODIFFUSIONE",
+ short:"Diffusori, cablaggi audio e piccole installazioni per casa e spazi esterni.",
+ headline:"Musica dove ti serve",
+ text:"Installazione e cablaggio di piccoli sistemi audio e diffusori per ambienti interni, portici e spazi esterni.",
+ items:[
+   "Posa cavi audio",
+   "Montaggio diffusori",
+   "Piccoli amplificatori",
+   "Collegamento sorgenti audio",
+   "Filodiffusione semplice",
+   "Sistemazione cablaggi"
+ ],
+ image:"images/Montaggi-riparazioni.jpg.PNG"
+},
+
+idraulica:{
+ icon:"💧",
+ title:"PICCOLI INTERVENTI IDRAULICI",
+ short:"Sostituzioni e piccole riparazioni domestiche.",
+ headline:"Piccoli interventi idraulici",
+ text:"Interventi pratici per le necessità quotidiane della casa quando non serve un'opera idraulica complessa.",
+ items:[
+   "Rubinetteria",
+   "Sifoni e scarichi semplici",
+   "Piccole perdite",
+   "Flessibili e accessori",
+   "Accessori bagno",
+   "Piccoli interventi su sanitari"
+ ],
+ image:"images/Idraulica.jpg.PNG"
+},
+
+manutenzioni:{
+ icon:"🏠",
+ title:"MANUTENZIONI DOMESTICHE",
+ short:"Interventi e riparazioni per interni ed esterni.",
+ headline:"Una soluzione per le manutenzioni di casa",
+ text:"Un unico riferimento per tanti piccoli e medi interventi domestici, con valutazione preventiva del lavoro.",
+ items:[
+   "Riparazioni varie",
+   "Fissaggi e regolazioni",
+   "Manutenzione interni",
+   "Manutenzione esterni",
+   "Sistemazioni dopo montaggi",
+   "Interventi personalizzati"
+ ],
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
+},
+
+montaggi:{
+ icon:"🛠️",
+ title:"MONTAGGI E RIPARAZIONI",
+ short:"Mensole, accessori, tende, quadri, specchi e piccoli montaggi.",
+ headline:"Montaggi precisi, senza improvvisare",
+ text:"Installazione, fissaggio e montaggio di elementi e accessori con attenzione alle superfici e alla sicurezza.",
+ items:[
+   "Mensole e accessori",
+   "Tende e supporti",
+   "Quadri e specchi",
+   "Accessori bagno e cucina",
+   "Staffe e supporti",
+   "Piccole riparazioni"
+ ],
+ image:"images/Montaggi-riparazioni.jpg.PNG"
+},
+
+mobili:{
+ icon:"🪛",
+ title:"MONTAGGIO MOBILI",
+ short:"Montaggio e assemblaggio di mobili e complementi.",
+ headline:"Montaggio mobili a domicilio",
+ text:"Assemblaggio e montaggio di mobili e complementi, con verifica degli ingombri e del corretto posizionamento.",
+ items:[
+   "Mobili in kit",
+   "Armadi e scaffalature",
+   "Piccoli arredi",
+   "Fissaggi a parete quando necessari",
+   "Regolazione ante e cassetti",
+   "Regolazioni finali"
+ ],
+ image:"images/Montaggio-mobili.jpg.PNG"
+},
+
+porte:{
+ icon:"🚪",
+ title:"PORTE, FINESTRE E REGOLAZIONI",
+ short:"Maniglie, cerniere e piccole regolazioni su porte e finestre.",
+ headline:"Piccole regolazioni che fanno la differenza",
+ text:"Interventi di manutenzione e regolazione su porte, finestre e relativi accessori quando il lavoro non richiede opere specialistiche.",
+ items:[
+   "Regolazione porte",
+   "Maniglie",
+   "Cerniere",
+   "Serraggi e registrazioni",
+   "Fermi e accessori",
+   "Piccoli problemi di chiusura"
+ ],
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
+},
+
+ritocchi:{
+ icon:"🎨",
+ title:"RITOCCHI E FINITURE",
+ short:"Piccoli ritocchi e sistemazioni estetiche dopo lavori e montaggi.",
+ headline:"Il lavoro finisce quando è sistemato bene",
+ text:"Piccoli interventi di finitura e ritocco per lasciare ordinata la zona interessata da montaggi o manutenzioni.",
+ items:[
+   "Ritocchi localizzati",
+   "Piccole tinteggiature",
+   "Sistemazione fori e segni superficiali",
+   "Finiture dopo montaggi",
+   "Piccole sigillature",
+   "Sistemazioni estetiche"
+ ],
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
+},
+
+trasporto:{
+ icon:"📦",
+ title:"TRASPORTO OGGETTI",
+ short:"Supporto per il trasporto di oggetti e piccoli carichi.",
+ headline:"Hai qualcosa da spostare?",
+ text:"Supporto per trasporto e movimentazione di oggetti, valutando insieme dimensioni, distanza e modalità dell'intervento.",
+ items:[
+   "Piccoli trasporti",
+   "Movimentazione oggetti",
+   "Ritiro e consegna da concordare",
+   "Supporto allo spostamento di mobili",
+   "Piccoli carichi",
+   "Valutazione preventiva"
+ ],
+ image:"images/Trasporto-oggetti.jpg.PNG"
+},
+
+automazioni:{
+ icon:"▤",
+ title:"TAPPARELLE E AUTOMAZIONI",
+ short:"Riparazioni, motorizzazioni e piccole automazioni.",
+ headline:"Più comodità con le automazioni",
+ text:"Interventi su tapparelle e piccole automazioni domestiche, dalla manutenzione alla motorizzazione.",
+ items:[
+   "Tapparelle",
+   "Motorizzazioni",
+   "Comandi e pulsanti",
+   "Finecorsa e regolazioni",
+   "Piccoli automatismi",
+   "Ricerca piccoli malfunzionamenti"
+ ],
+ image:"images/Tapparelle-automazioni.jpg.PNG"
+},
+
+altro:{
+ icon:"➕",
+ title:"ALTRI SERVIZI",
+ short:"Non trovi il lavoro che ti serve? Descrivilo e lo valutiamo.",
+ headline:"Hai un lavoro particolare?",
+ text:"Descrivici cosa ti serve e valutiamo insieme se possiamo occuparcene e quale intervento è più adatto.",
+ items:[
+   "Valutazione intervento",
+   "Lavori personalizzati",
+   "Piccole sistemazioni",
+   "Interventi combinati",
+   "Sopralluogo quando necessario",
+   "Preventivo gratuito"
+ ],
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
+}
 };
 
 let currentService="elettrico";
