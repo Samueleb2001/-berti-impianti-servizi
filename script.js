@@ -56,7 +56,7 @@ guasti:{
 
 esterni:{
  icon:"🌙",
- title:"ELETTRICO ESTERNO E GIARDINO",
+ title:"ESTERNI E GIARDINO",
  short:"Luci, prese, sensori e predisposizioni per giardino, portico e garage.",
  headline:"Impianti e illuminazione per gli spazi esterni",
  text:"Interventi elettrici e predisposizioni per rendere funzionali giardini, terrazzi, portici, garage e altre aree esterne.",
@@ -68,7 +68,7 @@ esterni:{
    "Canalizzazioni esterne",
    "Predisposizioni per giardino e portico"
  ],
- image:"images/Illuminazione.jpg.PNG"
+ image:"images/Esterni-e-giardino.jpg.PNG?v=11-1"
 },
 
 reti:{
@@ -85,7 +85,7 @@ reti:{
    "Posizionamento ripetitori",
    "Riordino cablaggi di rete"
  ],
- image:"images/Manutenzioni-domestiche.jpg.PNG"
+ image:"images/Reti-Wi-Fi.jpg.PNG?v=11-1"
 },
 
 citofonia:{
@@ -102,7 +102,7 @@ citofonia:{
    "Alimentatori e accessori compatibili",
    "Ricerca piccoli malfunzionamenti"
  ],
- image:"images/Manutenzioni-domestiche.jpg.PNG"
+ image:"images/Citofonia.jpg.PNG?v=11-1"
 },
 
 tv:{
@@ -119,12 +119,12 @@ tv:{
    "Piccoli accessori multimediali",
    "Riordino collegamenti"
  ],
- image:"images/Montaggi-riparazioni.jpg.PNG"
+ image:"images/TV-staffe-multimedia.jpg.PNG?v=11-1"
 },
 
 audio:{
  icon:"🔊",
- title:"AUDIO E FILODIFFUSIONE",
+ title:"IMPIANTI AUDIO E FILODIFFUSIONE",
  short:"Diffusori, cablaggi audio e piccole installazioni per casa e spazi esterni.",
  headline:"Musica dove ti serve",
  text:"Installazione e cablaggio di piccoli sistemi audio e diffusori per ambienti interni, portici e spazi esterni.",
@@ -136,7 +136,7 @@ audio:{
    "Filodiffusione semplice",
    "Sistemazione cablaggi"
  ],
- image:"images/Montaggi-riparazioni.jpg.PNG"
+ image:"images/Impianti-audio-e-filodiffusione.jpg.PNG?v=11-1"
 },
 
 idraulica:{
@@ -238,7 +238,7 @@ ritocchi:{
    "Piccole sigillature",
    "Sistemazioni estetiche"
  ],
- image:"images/Manutenzioni-domestiche.jpg.PNG"
+ image:"images/Ritocchi.jpg.PNG?v=11-1"
 },
 
 trasporto:{
@@ -277,10 +277,10 @@ automazioni:{
 
 altro:{
  icon:"➕",
- title:"ALTRI SERVIZI",
- short:"Non trovi il lavoro che ti serve? Descrivilo e lo valutiamo.",
- headline:"Hai un lavoro particolare?",
- text:"Descrivici cosa ti serve e valutiamo insieme se possiamo occuparcene e quale intervento è più adatto.",
+ title:"ALTRI SERVIZI SU RICHIESTA",
+ short:"Hai un lavoro particolare? Descrivici cosa ti serve e valuteremo la soluzione.",
+ headline:"Non trovi il servizio che stai cercando?",
+ text:"Oltre ai servizi principali possiamo occuparci di numerosi piccoli lavori, installazioni, montaggi e sistemazioni per la casa e gli spazi esterni. Raccontaci cosa devi fare: valuteremo il lavoro, la fattibilità e la soluzione più adatta.",
  items:[
    "Valutazione intervento",
    "Lavori personalizzati",
@@ -289,7 +289,7 @@ altro:{
    "Sopralluogo quando necessario",
    "Preventivo gratuito"
  ],
- image:"images/Manutenzioni-domestiche.jpg.PNG"
+ image:"images/Altri-servizi.jpg.PNG?v=11-1"
 }
 };
 
