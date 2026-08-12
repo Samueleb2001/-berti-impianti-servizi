@@ -1,4 +1,4 @@
-console.log("BERTI frontend V13.2 caricato");
+console.log("BERTI frontend V14.5 caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
 const services={
 elettrico:{
@@ -222,7 +222,7 @@ porte:{
    "Fermi e accessori",
    "Piccoli problemi di chiusura"
  ],
- image:"images/Porte-finestre-regolazione.jpg.PNG"
+ image:"images/Manutenzioni-domestiche.jpg.PNG"
 },
 
 ritocchi:{
@@ -357,9 +357,14 @@ quoteForm.addEventListener("submit",async e=>{
 
  const submitBtn=quoteForm.querySelector(".sendQuote");
  const formStatus=document.getElementById("formStatus");
+ const progress=document.getElementById("sendProgress");
+ const progressBar=document.getElementById("sendProgressBar");
+ const progressPct=document.getElementById("sendProgressPct");
+ const progressLabel=document.getElementById("sendProgressLabel");
  const s=services[qService.value];
  const now=Date.now();
 
+ if(submitBtn.disabled) return;
  if(!quoteForm.reportValidity()) return;
 
  const payload={
@@ -374,41 +379,98 @@ quoteForm.addEventListener("submit",async e=>{
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
-   clientVersion:"13"
+   clientVersion:"14.5"
+ };
+
+ let finished=false;
+ let pct=4;
+ let progressTimer=null;
+
+ const setProgress=(value,label)=>{
+   pct=Math.max(pct,Math.min(value,100));
+   progressBar.style.width=pct+"%";
+   progressPct.textContent=Math.round(pct)+"%";
+   if(label) progressLabel.textContent=label;
+ };
+
+ const startProgress=()=>{
+   progress.hidden=false;
+   setProgress(6,"Verifica dati…");
+
+   const started=performance.now();
+
+   progressTimer=setInterval(()=>{
+     if(finished) return;
+
+     const elapsed=performance.now()-started;
+
+     if(elapsed<900){
+       setProgress(Math.min(35,pct+9),"Invio richiesta…");
+     }else if(elapsed<2000){
+       setProgress(Math.min(68,pct+7),"Registrazione richiesta…");
+     }else if(elapsed<3200){
+       setProgress(Math.min(84,pct+4),"Preparazione pratica…");
+     }else if(elapsed<5000){
+       setProgress(Math.min(93,pct+2),"Quasi fatto…");
+     }else{
+       setProgress(Math.min(96,pct+.6),"Completamento in corso…");
+     }
+   },220);
  };
 
  submitBtn.disabled=true;
- submitBtn.textContent="INVIO IN CORSO...";
+ submitBtn.classList.add("sending");
+ submitBtn.textContent="INVIO IN CORSO…";
  formStatus.className="formStatus";
  formStatus.textContent="";
+ startProgress();
 
  try{
+   /*
+     Con il backend V14.5 il doPost salva subito la richiesta essenziale,
+     accoda la parte pesante e risponde molto prima.
+   */
    await fetch(APPS_SCRIPT_URL,{
      method:"POST",
      mode:"no-cors",
      headers:{"Content-Type":"text/plain;charset=utf-8"},
      body:JSON.stringify(payload),
      cache:"no-store",
-     referrerPolicy:"strict-origin-when-cross-origin"
+     referrerPolicy:"strict-origin-when-cross-origin",
+     keepalive:true
    });
 
+   finished=true;
+   if(progressTimer) clearInterval(progressTimer);
+   setProgress(100,"Richiesta registrata");
+
    formStatus.className="formStatus success";
-   formStatus.textContent="Richiesta inviata. Se i dati sono corretti, verrà registrata automaticamente nel sistema BERTI.";
+   formStatus.textContent="Richiesta inviata correttamente.";
    quoteForm.reset();
    qService.value=currentService;
    quoteFormStartedAt=Date.now();
-   setTimeout(closeQuote,2600);
+
+   setTimeout(closeQuote,1500);
 
  }catch(err){
+   finished=true;
+   if(progressTimer) clearInterval(progressTimer);
    console.error(err);
+
+   progressBar.style.width="100%";
+   progressPct.textContent="!";
+   progressLabel.textContent="Invio non completato";
+
    formStatus.className="formStatus error";
-   formStatus.textContent="Invio non riuscito. Riprova tra poco oppure contattaci su WhatsApp.";
+   formStatus.textContent="Invio non riuscito. Riprova oppure contattaci su WhatsApp.";
  }finally{
-   submitBtn.disabled=false;
-   submitBtn.textContent="INVIA RICHIESTA";
+   setTimeout(()=>{
+     submitBtn.disabled=false;
+     submitBtn.classList.remove("sending");
+     submitBtn.textContent="INVIA RICHIESTA";
+   },700);
  }
 });
-
 function isCallOpen(){const now=new Date();const mins=now.getHours()*60+now.getMinutes();return mins>=420&&mins<1350;}
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
 function updateCallState(){

@@ -8,7 +8,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self';">
   <title>BERTI | Impianti & Servizi</title>
   <meta name="description" content="BERTI Impianti & Servizi: impianti elettrici, illuminazione, ricerca guasti, manutenzioni, piccoli interventi idraulici, montaggi, automazioni e trasporto oggetti.">
-  <link rel="stylesheet" href="style.css?v=13.2">
+  <link rel="stylesheet" href="style.css?v=14.5">
 </head>
 <body>
 
@@ -140,12 +140,22 @@
         <label class="full">Descrizione del lavoro *<textarea id="qDescription" rows="6" placeholder="Esempio: devo montare un armadio a 3 ante, il mobile è già in casa..." required></textarea></label>
       </div>
       <button class="sendQuote" type="submit">INVIA RICHIESTA</button>
-      <p class="formNote">La richiesta verrà registrata automaticamente nel sistema BERTI.</p><p class="formStatus" id="formStatus" aria-live="polite"></p>
+      <p class="formNote">La richiesta verrà registrata automaticamente nel sistema BERTI.</p>
+      <div class="sendProgress" id="sendProgress" hidden aria-live="polite">
+        <div class="sendProgressTop">
+          <span id="sendProgressLabel">Preparazione richiesta…</span>
+          <strong id="sendProgressPct">0%</strong>
+        </div>
+        <div class="sendProgressTrack" aria-hidden="true">
+          <div class="sendProgressBar" id="sendProgressBar"></div>
+        </div>
+      </div>
+      <p class="formStatus" id="formStatus" aria-live="polite"></p>
     </form>
   </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=13.2"></script>
+<script src="script.js?v=14.5"></script>
 </body>
 </html>

@@ -45,3 +45,54 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
 
 /* V12 security / anti-spam */
 .hpField{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+
+
+/* V14.5 - invio richiesta rapido e progressivo */
+.sendProgress{
+  margin-top:14px;
+  padding:13px 14px;
+  border-radius:12px;
+  background:#f3f5f7;
+  border:1px solid #dde2e7;
+}
+.sendProgress[hidden]{display:none!important}
+.sendProgressTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:9px;
+  font-size:13px;
+  font-weight:800;
+  color:#26313d;
+}
+.sendProgressTop strong{color:#101722;font-size:14px}
+.sendProgressTrack{
+  width:100%;
+  height:9px;
+  border-radius:999px;
+  background:#dde2e7;
+  overflow:hidden;
+}
+.sendProgressBar{
+  width:0%;
+  height:100%;
+  border-radius:999px;
+  background:#ffc400;
+  transition:width .28s ease;
+}
+.sendQuote.sending{
+  position:relative;
+  overflow:hidden;
+}
+.sendQuote.sending::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+  transform:translateX(-100%);
+  animation:sendShimmer 1.15s infinite;
+}
+@keyframes sendShimmer{
+  to{transform:translateX(100%)}
+}
