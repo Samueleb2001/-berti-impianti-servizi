@@ -1,4 +1,4 @@
-console.log("BERTI frontend V14.6.1 caricato");
+console.log("BERTI frontend V14.6.2 caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
@@ -396,7 +396,7 @@ quoteForm.addEventListener("submit",async e=>{
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
-   clientVersion:"14.6.1"
+   clientVersion:"14.6.2"
  };
 
  let finished=false;
