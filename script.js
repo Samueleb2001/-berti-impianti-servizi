@@ -1,5 +1,15 @@
-console.log("BERTI frontend V14.5 caricato");
+console.log("BERTI frontend V14.6.1 caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
+const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
+const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
+let analyticsLoaded=false;
+function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
+function trackEvent(name,params={}){if(!analyticsLoaded||typeof window.gtag!=="function")return;window.gtag("event",name,params);}
+function loadGoogleAnalytics(){if(analyticsLoaded||!gaIdConfigurato())return;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag("js",new Date());window.gtag("config",GA_MEASUREMENT_ID,{anonymize_ip:true});const tag=document.createElement("script");tag.async=true;tag.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(GA_MEASUREMENT_ID);document.head.appendChild(tag);analyticsLoaded=true;}
+function getAnalyticsConsent(){try{return localStorage.getItem(ANALYTICS_CONSENT_KEY)||"";}catch(_){return "";}}
+function setAnalyticsConsent(value){try{localStorage.setItem(ANALYTICS_CONSENT_KEY,value);}catch(_){}}
+function initAnalyticsConsent(){const box=document.getElementById("analyticsConsent"),accept=document.getElementById("analyticsAccept"),reject=document.getElementById("analyticsReject");if(!box||!accept||!reject)return;const saved=getAnalyticsConsent();if(saved==="granted"){loadGoogleAnalytics();box.hidden=true;return;}if(saved==="denied"){box.hidden=true;return;}if(!gaIdConfigurato()){box.hidden=true;return;}box.hidden=false;accept.addEventListener("click",()=>{setAnalyticsConsent("granted");box.hidden=true;loadGoogleAnalytics();});reject.addEventListener("click",()=>{setAnalyticsConsent("denied");box.hidden=true;});}
+
 const services={
 elettrico:{
  icon:"⚡",
@@ -243,6 +253,7 @@ ritocchi:{
 },
 
 trasporto:{
+ active:false,
  icon:"📦",
  title:"TRASPORTO OGGETTI",
  short:"Supporto per il trasporto di oggetti e piccoli carichi.",
@@ -302,13 +313,16 @@ const quoteForm=document.getElementById("quoteForm");
 const qService=document.getElementById("qService");
 let quoteFormStartedAt=Date.now();
 
-Object.entries(services).forEach(([key,s],i)=>{
- const b=document.createElement("button");
- b.className="card"+(i===0?" active":""); b.dataset.key=key;
- b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p>`;
- b.onclick=()=>selectService(key,true); grid.appendChild(b);
- const opt=document.createElement("option"); opt.value=key; opt.textContent=s.title; qService.appendChild(opt);
-});
+Object.entries(services)
+ .filter(([,s])=>s.active!==false)
+ .forEach(([key,s],i)=>{
+   const b=document.createElement("button");
+   b.className="card"+(i===0?" active":""); b.dataset.key=key;
+   b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p>`;
+   b.onclick=()=>{trackEvent("service_select",{service:s.title});selectService(key,true);};
+   grid.appendChild(b);
+   const opt=document.createElement("option"); opt.value=key; opt.textContent=s.title; qService.appendChild(opt);
+ });
 
 function waUrl(){
  const s=services[currentService];
@@ -327,7 +341,9 @@ function updateWhatsAppLinks(){
 }
 
 function selectService(key,scroll=false){
- currentService=key; const s=services[key];
+ const s=services[key];
+ if(!s || s.active===false) return;
+ currentService=key;
  graphic.classList.add("fading");
  setTimeout(()=>{graphic.src=s.image;graphic.alt=s.title+" - BERTI Impianti & Servizi";graphic.onload=()=>graphic.classList.remove("fading");},120);
  document.getElementById("detailLabel").textContent=s.title;
@@ -341,6 +357,7 @@ function selectService(key,scroll=false){
 
 function openQuote(){
  quoteFormStartedAt=Date.now();
+ trackEvent("quote_open",{service:services[currentService]?.title||""});
  document.getElementById("qWebsite").value="";
  qService.value=currentService;
  quoteModal.classList.add("show"); quoteModal.setAttribute("aria-hidden","false");
@@ -379,7 +396,7 @@ quoteForm.addEventListener("submit",async e=>{
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
-   clientVersion:"14.5"
+   clientVersion:"14.6.1"
  };
 
  let finished=false;
@@ -446,6 +463,7 @@ quoteForm.addEventListener("submit",async e=>{
 
    formStatus.className="formStatus success";
    formStatus.textContent="Richiesta inviata correttamente.";
+   trackEvent("quote_sent",{service:s.title});
    quoteForm.reset();
    qService.value=currentService;
    quoteFormStartedAt=Date.now();
@@ -483,4 +501,6 @@ function updateCallState(){
  notice.textContent=open?"Chiamate disponibili ora, fino alle 22:30.":"Chiamate non disponibili in questo orario. Puoi scriverci su WhatsApp o compilare il preventivo: rispondiamo dalle 07:00.";
 }
 document.addEventListener("click",e=>{const link=e.target.closest(".call-link.disabledCall");if(link){e.preventDefault();showToast("Chiamate disponibili dalle 07:00 alle 22:30. Puoi scriverci su WhatsApp.");}});
+document.addEventListener("click",e=>{const call=e.target.closest(".call-link:not(.disabledCall)");if(call)trackEvent("contact_call",{location:"site"});const wa=e.target.closest(".js-wa-link");if(wa)trackEvent("contact_whatsapp",{service:services[currentService]?.title||""});});
+initAnalyticsConsent();
 selectService("elettrico");updateWhatsAppLinks();updateCallState();setInterval(updateCallState,60000);
