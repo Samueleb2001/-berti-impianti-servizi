@@ -98,7 +98,7 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
 }
 
 
-/* V14.6.2 - consenso statistiche compatto */
+/* V14.6.3 - consenso statistiche compatto */
 .analyticsConsent{
   position:fixed;
   left:12px;
@@ -138,8 +138,8 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
   border:0;
   border-radius:8px;
   padding:7px 10px;
-  min-width:42px;
-  font-size:11px;
+  min-width:76px;
+  font-size:10px;
   line-height:1;
   font-weight:900;
   cursor:pointer;
@@ -157,7 +157,7 @@ nav{display:flex;gap:24px}nav a{color:#fff;text-decoration:none;font-weight:800;
   .analyticsConsentText span{font-size:10px}
   .analyticsConsentActions button{
     padding:7px 8px;
-    min-width:38px;
-    font-size:10px;
+    min-width:70px;
+    font-size:9px;
   }
 }
