@@ -152,17 +152,17 @@ audio:{
 
 idraulica:{
  icon:"💧",
- title:"PICCOLI INTERVENTI IDRAULICI",
- short:"Sostituzioni e piccole riparazioni domestiche.",
- headline:"Piccoli interventi idraulici",
- text:"Interventi pratici per le necessità quotidiane della casa quando non serve un'opera idraulica complessa.",
+ title:"PICCOLE MANUTENZIONI IDRAULICHE",
+short:"Piccoli interventi di manutenzione ordinaria su componenti e accessori esistenti.",
+headline:"Piccole manutenzioni idrauliche",
+ text:"Piccoli interventi di manutenzione ordinaria su componenti e accessori esistenti, senza modifiche o ampliamenti dell'impianto idraulico.",
  items:[
-   "Rubinetteria",
-   "Sifoni e scarichi semplici",
-   "Piccole perdite",
-   "Flessibili e accessori",
-   "Accessori bagno",
-   "Piccoli interventi su sanitari"
+  "Sifoni e scarichi semplici",
+  "Flessibili",
+  "Accessori bagno",
+  "Sostituzione di accessori esistenti",
+  "Pulizia e sistemazione componenti",
+  "Piccoli ripristini"
  ],
  image:"images/Idraulica.jpg.PNG"
 },
