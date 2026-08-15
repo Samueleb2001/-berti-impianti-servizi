@@ -4,7 +4,13 @@ const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
 let analyticsLoaded=false;
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
-function trackEvent(name,params={}){if(!analyticsLoaded||typeof window.gtag!=="function")return;window.gtag("event",name,params);}
+function trackEvent(name,params={}){
+  if(!analyticsLoaded||typeof window.gtag!=="function")return;
+  window.gtag("event",name,{
+    ...params,
+    transport_type:"beacon"
+  });
+}
 function loadGoogleAnalytics(){if(analyticsLoaded||!gaIdConfigurato())return;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag("js",new Date());window.gtag("config",GA_MEASUREMENT_ID,{anonymize_ip:true});const tag=document.createElement("script");tag.async=true;tag.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(GA_MEASUREMENT_ID);document.head.appendChild(tag);analyticsLoaded=true;}
 function getAnalyticsConsent(){try{return localStorage.getItem(ANALYTICS_CONSENT_KEY)||"";}catch(_){return "";}}
 function setAnalyticsConsent(value){try{localStorage.setItem(ANALYTICS_CONSENT_KEY,value);}catch(_){}}
@@ -519,6 +525,20 @@ function updateCallState(){
  notice.textContent=open?"Chiamate disponibili ora, fino alle 22:30.":"Chiamate non disponibili in questo orario. Puoi scriverci su WhatsApp o compilare il preventivo: rispondiamo dalle 07:00.";
 }
 document.addEventListener("click",e=>{const link=e.target.closest(".call-link.disabledCall");if(link){e.preventDefault();showToast("Chiamate disponibili dalle 07:00 alle 22:30. Puoi scriverci su WhatsApp.");}});
-document.addEventListener("click",e=>{const call=e.target.closest(".call-link:not(.disabledCall)");if(call)trackEvent("contact_call",{location:"site"});const wa=e.target.closest(".js-wa-link");if(wa)trackEvent("contact_whatsapp",{service:services[currentService]?.title||""});});
+document.addEventListener("click",e=>{
+  const call=e.target.closest(".call-link:not(.disabledCall)");
+  if(call){
+    trackEvent("contact_call",{
+      location:"site"
+    });
+  }
+
+  const wa=e.target.closest(".js-wa-link");
+  if(wa){
+    trackEvent("contact_whatsapp",{
+      service:services[currentService]?.title||""
+    });
+  }
+});
 initAnalyticsConsent();
 selectService("elettrico");updateWhatsAppLinks();updateCallState();setInterval(updateCallState,60000);
