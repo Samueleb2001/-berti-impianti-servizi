@@ -349,7 +349,7 @@ Object.entries(services)
 
 function waUrl(){
  const s=services[currentService];
- const text=`Buongiorno, vorrei richiedere un preventivo a BERTI Impianti & Servizi.
+ const text=`Salve, vorrei richiedere un preventivo a BERTI Impianti & Servizi.
 
 Servizio: ${s.title}
 Nome:
