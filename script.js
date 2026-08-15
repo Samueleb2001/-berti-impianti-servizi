@@ -383,6 +383,7 @@ function openQuote(){
 function closeQuote(){quoteModal.classList.remove("show");quoteModal.setAttribute("aria-hidden","true");}
 document.querySelectorAll(".quote-open").forEach(b=>b.addEventListener("click",openQuote));
 document.getElementById("modalClose").addEventListener("click",closeQuote);
+document.getElementById("cancelQuote").addEventListener("click",closeQuote);
 quoteModal.addEventListener("click",e=>{if(e.target===quoteModal)closeQuote();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeQuote();});
 
