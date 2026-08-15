@@ -4,7 +4,13 @@ const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
 let analyticsLoaded=false;
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
-function trackEvent(name,params={}){if(!analyticsLoaded||typeof window.gtag!=="function")return;window.gtag("event",name,params);}
+function trackEvent(name,params={}){
+  if(typeof window.gtag!=="function")return;
+  window.gtag("event",name,{
+    ...params,
+    transport_type:params.transport_type||"beacon"
+  });
+}
 function loadGoogleAnalytics(){if(analyticsLoaded||!gaIdConfigurato())return;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag("js",new Date());window.gtag("config",GA_MEASUREMENT_ID,{anonymize_ip:true});const tag=document.createElement("script");tag.async=true;tag.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(GA_MEASUREMENT_ID);document.head.appendChild(tag);analyticsLoaded=true;}
 function getAnalyticsConsent(){try{return localStorage.getItem(ANALYTICS_CONSENT_KEY)||"";}catch(_){return "";}}
 function setAnalyticsConsent(value){try{localStorage.setItem(ANALYTICS_CONSENT_KEY,value);}catch(_){}}
@@ -12,7 +18,7 @@ function initAnalyticsConsent(){const box=document.getElementById("analyticsCons
 
 const services={
 elettrico:{
- icon:"⚡",
+ icon:"â¡",
  title:"IMPIANTI ELETTRICI",
  short:"Impianti interni ed esterni, tubazioni, canaline, cavi, quadri e manutenzione.",
  headline:"Impianti elettrici e interventi su misura",
@@ -31,11 +37,11 @@ elettrico:{
 },
 
 illuminazione:{
- icon:"💡",
+ icon:"ð¡",
  title:"ILLUMINAZIONE",
  short:"Lampade, faretti, plafoniere, LED e illuminazione interna ed esterna.",
  headline:"La luce giusta cambia ogni ambiente",
- text:"Installazione e sostituzione di sistemi di illuminazione per interni ed esterni, con attenzione a funzionalità e resa.",
+ text:"Installazione e sostituzione di sistemi di illuminazione per interni ed esterni, con attenzione a funzionalitÃ  e resa.",
  items:[
    "Plafoniere e lampadari",
    "Faretti",
@@ -49,7 +55,7 @@ illuminazione:{
 },
 
 guasti:{
- icon:"🔎",
+ icon:"ð",
  title:"RICERCA E RIPARAZIONE GUASTI",
  short:"Individuazione e risoluzione di anomalie elettriche.",
  headline:"Troviamo il problema, poi lo risolviamo",
@@ -66,7 +72,7 @@ guasti:{
 },
 
 esterni:{
- icon:"🌙",
+ icon:"ð",
  title:"ESTERNI E GIARDINO",
  short:"Luci, prese, sensori e predisposizioni per giardino, portico e garage.",
  headline:"Impianti e illuminazione per gli spazi esterni",
@@ -83,10 +89,10 @@ esterni:{
 },
 
 reti:{
- icon:"🌐",
+ icon:"ð",
  title:"RETI, WI-FI E CABLAGGIO",
  short:"Ethernet, prese dati, switch, access point e sistemazione della rete domestica.",
- headline:"Una rete più ordinata e più stabile",
+ headline:"Una rete piÃ¹ ordinata e piÃ¹ stabile",
  text:"Cablaggio e organizzazione di piccole reti domestiche e locali, con supporto alla distribuzione Ethernet e Wi-Fi.",
  items:[
    "Passaggio cavi Ethernet",
@@ -100,7 +106,7 @@ reti:{
 },
 
 citofonia:{
- icon:"🔔",
+ icon:"ð",
  title:"CITOFONI E CAMPANELLI",
  short:"Installazione, sostituzione e piccoli interventi su citofonia e campanelli.",
  headline:"Citofoni e campanelli per la casa",
@@ -117,7 +123,7 @@ citofonia:{
 },
 
 tv:{
- icon:"📺",
+ icon:"ðº",
  title:"TV, STAFFE E MULTIMEDIA",
  short:"Montaggio TV, staffe a parete, passaggio cavi e sistemazione accessori.",
  headline:"TV e multimedia installati con ordine",
@@ -134,7 +140,7 @@ tv:{
 },
 
 audio:{
- icon:"🔊",
+ icon:"ð",
  title:"IMPIANTI AUDIO E FILODIFFUSIONE",
  short:"Diffusori, cablaggi audio e piccole installazioni per casa e spazi esterni.",
  headline:"Musica dove ti serve",
@@ -151,7 +157,7 @@ audio:{
 },
 
 idraulica:{
- icon:"💧",
+ icon:"ð§",
  title:"PICCOLE MANUTENZIONI IDRAULICHE",
 short:"Piccoli interventi di manutenzione ordinaria su componenti e accessori esistenti.",
 headline:"Piccole manutenzioni idrauliche",
@@ -168,7 +174,7 @@ headline:"Piccole manutenzioni idrauliche",
 },
 
 manutenzioni:{
- icon:"🏠",
+ icon:"ð ",
  title:"MANUTENZIONI DOMESTICHE",
  short:"Interventi e riparazioni per interni ed esterni.",
  headline:"Una soluzione per le manutenzioni di casa",
@@ -185,7 +191,7 @@ manutenzioni:{
 },
 
 montaggi:{
- icon:"🛠️",
+ icon:"ð ï¸",
  title:"MONTAGGI E RIPARAZIONI",
  short:"Mensole, accessori, tende, quadri, specchi e piccoli montaggi.",
  headline:"Montaggi precisi, senza improvvisare",
@@ -202,7 +208,7 @@ montaggi:{
 },
 
 mobili:{
- icon:"🪛",
+ icon:"ðª",
  title:"MONTAGGIO MOBILI",
  short:"Montaggio e assemblaggio di mobili e complementi.",
  headline:"Montaggio mobili a domicilio",
@@ -219,7 +225,7 @@ mobili:{
 },
 
 porte:{
- icon:"🚪",
+ icon:"ðª",
  title:"PORTE, FINESTRE E REGOLAZIONI",
  short:"Maniglie, cerniere e piccole regolazioni su porte e finestre.",
  headline:"Piccole regolazioni che fanno la differenza",
@@ -236,10 +242,10 @@ porte:{
 },
 
 ritocchi:{
- icon:"🎨",
+ icon:"ð¨",
  title:"RITOCCHI E FINITURE",
  short:"Piccoli ritocchi e sistemazioni estetiche dopo lavori e montaggi.",
- headline:"Il lavoro finisce quando è sistemato bene",
+ headline:"Il lavoro finisce quando Ã¨ sistemato bene",
  text:"Piccoli interventi di finitura e ritocco per lasciare ordinata la zona interessata da montaggi o manutenzioni.",
  items:[
    "Ritocchi localizzati",
@@ -253,7 +259,7 @@ ritocchi:{
 },
 
  cartongesso:{
- icon:"▧",
+ icon:"â§",
  title:"CARTONGESSO E PICCOLI RIPRISTINI",
  short:"Piccoli lavori in cartongesso, chiusure, ripristini e finiture.",
  headline:"Soluzioni pratiche in cartongesso",
@@ -271,11 +277,11 @@ ritocchi:{
 
 trasporto:{
  active:false,
- icon:"📦",
+ icon:"ð¦",
  title:"TRASPORTO OGGETTI",
  short:"Supporto per il trasporto di oggetti e piccoli carichi.",
  headline:"Hai qualcosa da spostare?",
- text:"Supporto per trasporto e movimentazione di oggetti, valutando insieme dimensioni, distanza e modalità dell'intervento.",
+ text:"Supporto per trasporto e movimentazione di oggetti, valutando insieme dimensioni, distanza e modalitÃ  dell'intervento.",
  items:[
    "Piccoli trasporti",
    "Movimentazione oggetti",
@@ -288,10 +294,10 @@ trasporto:{
 },
 
 automazioni:{
- icon:"▤",
+ icon:"â¤",
  title:"TAPPARELLE E AUTOMAZIONI",
  short:"Riparazioni, motorizzazioni e piccole automazioni.",
- headline:"Più comodità con le automazioni",
+ headline:"PiÃ¹ comoditÃ  con le automazioni",
  text:"Interventi su tapparelle e piccole automazioni domestiche, dalla manutenzione alla motorizzazione.",
  items:[
    "Tapparelle",
@@ -305,11 +311,11 @@ automazioni:{
 },
 
 altro:{
- icon:"➕",
+ icon:"â",
  title:"ALTRI SERVIZI SU RICHIESTA",
  short:"Hai un lavoro particolare? Descrivici cosa ti serve e valuteremo la soluzione.",
  headline:"Non trovi il servizio che stai cercando?",
- text:"Oltre ai servizi principali possiamo occuparci di numerosi piccoli lavori, installazioni, montaggi e sistemazioni per la casa e gli spazi esterni. Raccontaci cosa devi fare: valuteremo il lavoro, la fattibilità e la soluzione più adatta.",
+ text:"Oltre ai servizi principali possiamo occuparci di numerosi piccoli lavori, installazioni, montaggi e sistemazioni per la casa e gli spazi esterni. Raccontaci cosa devi fare: valuteremo il lavoro, la fattibilitÃ  e la soluzione piÃ¹ adatta.",
  items:[
    "Valutazione intervento",
    "Lavori personalizzati",
@@ -430,7 +436,7 @@ quoteForm.addEventListener("submit",async e=>{
 
  const startProgress=()=>{
    progress.hidden=false;
-   setProgress(6,"Verifica dati…");
+   setProgress(6,"Verifica datiâ¦");
 
    const started=performance.now();
 
@@ -440,22 +446,22 @@ quoteForm.addEventListener("submit",async e=>{
      const elapsed=performance.now()-started;
 
      if(elapsed<900){
-       setProgress(Math.min(35,pct+9),"Invio richiesta…");
+       setProgress(Math.min(35,pct+9),"Invio richiestaâ¦");
      }else if(elapsed<2000){
-       setProgress(Math.min(68,pct+7),"Registrazione richiesta…");
+       setProgress(Math.min(68,pct+7),"Registrazione richiestaâ¦");
      }else if(elapsed<3200){
-       setProgress(Math.min(84,pct+4),"Preparazione pratica…");
+       setProgress(Math.min(84,pct+4),"Preparazione praticaâ¦");
      }else if(elapsed<5000){
-       setProgress(Math.min(93,pct+2),"Quasi fatto…");
+       setProgress(Math.min(93,pct+2),"Quasi fattoâ¦");
      }else{
-       setProgress(Math.min(96,pct+.6),"Completamento in corso…");
+       setProgress(Math.min(96,pct+.6),"Completamento in corsoâ¦");
      }
    },220);
  };
 
  submitBtn.disabled=true;
  submitBtn.classList.add("sending");
- submitBtn.textContent="INVIO IN CORSO…";
+ submitBtn.textContent="INVIO IN CORSOâ¦";
  formStatus.className="formStatus";
  formStatus.textContent="";
  startProgress();
@@ -519,6 +525,11 @@ function updateCallState(){
  notice.textContent=open?"Chiamate disponibili ora, fino alle 22:30.":"Chiamate non disponibili in questo orario. Puoi scriverci su WhatsApp o compilare il preventivo: rispondiamo dalle 07:00.";
 }
 document.addEventListener("click",e=>{const link=e.target.closest(".call-link.disabledCall");if(link){e.preventDefault();showToast("Chiamate disponibili dalle 07:00 alle 22:30. Puoi scriverci su WhatsApp.");}});
-document.addEventListener("click",e=>{const call=e.target.closest(".call-link:not(.disabledCall)");if(call)trackEvent("contact_call",{location:"site"});const wa=e.target.closest(".js-wa-link");if(wa)trackEvent("contact_whatsapp",{service:services[currentService]?.title||""});});
+document.addEventListener("click",e=>{
+ const call=e.target.closest(".call-link:not(.disabledCall)");
+ if(call)trackEvent("contact_call",{location:"site",transport_type:"beacon"});
+ const wa=e.target.closest(".js-wa-link");
+ if(wa)trackEvent("contact_whatsapp",{service:services[currentService]?.title||"",transport_type:"beacon"});
+});
 initAnalyticsConsent();
 selectService("elettrico");updateWhatsAppLinks();updateCallState();setInterval(updateCallState,60000);
