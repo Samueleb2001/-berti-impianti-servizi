@@ -252,6 +252,23 @@ ritocchi:{
  image:"images/Ritocchi.jpg.PNG?v=11-1"
 },
 
+ cartongesso:{
+ icon:"▧",
+ title:"CARTONGESSO E PICCOLI RIPRISTINI",
+ short:"Piccoli lavori in cartongesso, chiusure, ripristini e finiture.",
+ headline:"Soluzioni pratiche in cartongesso",
+ text:"Realizzazione e sistemazione di piccoli elementi in cartongesso per la casa, con particolare attenzione a ripristini, finiture e integrazione con altri interventi.",
+ items:[
+   "Piccole pareti e contropareti",
+   "Velette e piccoli elementi",
+   "Chiusura di vani e aperture",
+   "Ripristini dopo lavori e impianti",
+   "Stuccatura e sistemazione giunti",
+   "Piccole riparazioni su cartongesso"
+ ],
+ image:"images/Cartongesso.jpg.PNG"
+},
+
 trasporto:{
  active:false,
  icon:"📦",
