@@ -176,16 +176,19 @@ headline:"Piccole manutenzioni idrauliche",
 manutenzioni:{
  icon:"🏠",
  title:"MANUTENZIONI DOMESTICHE",
- short:"Interventi e riparazioni per interni ed esterni.",
+ short:"Riparazioni, fissaggi, sigillature, regolazioni e piccole sistemazioni per la casa.",
  headline:"Una soluzione per le manutenzioni di casa",
- text:"Un unico riferimento per tanti piccoli e medi interventi domestici, con valutazione preventiva del lavoro.",
+ text:"Un unico riferimento per tanti piccoli interventi e sistemazioni domestiche, per interni ed esterni, con valutazione preventiva del lavoro.",
  items:[
-   "Riparazioni varie",
-   "Fissaggi e regolazioni",
-   "Manutenzione interni",
-   "Manutenzione esterni",
-   "Sistemazioni dopo montaggi",
-   "Interventi personalizzati"
+   "Riparazioni e sistemazioni varie",
+   "Fissaggi, serraggi e regolazioni",
+   "Siliconature e piccole sigillature",
+   "Sostituzione e montaggio di accessori",
+   "Scaffali, supporti e organizzazione garage o cantine",
+   "Piccoli ripristini dopo lavori e montaggi",
+   "Manutenzione di interni ed esterni",
+   "Sistemazioni estetiche e finiture",
+   "Interventi personalizzati su richiesta"
  ],
  image:"images/Manutenzioni-domestiche.jpg.PNG"
 },
