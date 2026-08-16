@@ -296,6 +296,27 @@ trasporto:{
  image:"images/Trasporto-oggetti.jpg.PNG"
 },
 
+smarthome:{
+ icon:"🏡",
+ title:"SMART HOME",
+ short:"Dispositivi smart, controllo luci, prese, sensori e automazioni per una casa più connessa.",
+ headline:"Rendi la tua casa più intelligente",
+ text:"Installazione, configurazione e integrazione di dispositivi smart per migliorare comfort, controllo e gestione della casa, valutando ogni intervento in base all'impianto esistente.",
+ items:[
+   "Prese e dispositivi smart",
+   "Interruttori e relè smart",
+   "Controllo intelligente dell'illuminazione",
+   "Sensori di movimento e apertura",
+   "Gestione smart di tapparelle e automazioni",
+   "Termostati e dispositivi connessi",
+   "Configurazione app e controllo da smartphone",
+   "Collegamento dei dispositivi alla rete Wi-Fi",
+   "Integrazione con assistenti vocali compatibili",
+   "Configurazione di scenari e automazioni"
+ ],
+ image:"images/Smart-home.jpg.PNG"
+},
+
 automazioni:{
  icon:"▤",
  title:"TAPPARELLE E AUTOMAZIONI",
