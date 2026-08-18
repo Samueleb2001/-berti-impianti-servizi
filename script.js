@@ -1,20 +1,59 @@
-console.log("BERTI frontend V14.6.3 caricato");
+console.log("BERTI frontend V14.6.5 TRACKING COMPLETO caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
 let analyticsLoaded=false;
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
 function trackEvent(name,params={}){
-  if(!analyticsLoaded||typeof window.gtag!=="function")return;
+  if(!analyticsLoaded||typeof window.gtag!=="function")return false;
   window.gtag("event",name,{
     ...params,
     transport_type:"beacon"
   });
+  return true;
+}
+
+function posizioneElemento_(el){
+  if(!el)return "sconosciuta";
+  if(el.closest(".contactbar"))return "barra_fissa";
+  if(el.closest(".quickActions"))return "azioni_home";
+  if(el.closest(".actions"))return "dettaglio_servizio";
+  if(el.closest(".contactCards"))return "sezione_contatti";
+  if(el.closest("nav"))return "menu";
+  return "pagina";
+}
+
+function apriDopoTracking_(eventName,params,href){
+  let aperto=false;
+  const vai=()=>{
+    if(aperto)return;
+    aperto=true;
+    window.location.href=href;
+  };
+
+  if(!analyticsLoaded||typeof window.gtag!=="function"){
+    vai();
+    return;
+  }
+
+  window.gtag("event",eventName,{
+    ...params,
+    transport_type:"beacon",
+    event_callback:vai,
+    event_timeout:140
+  });
+
+  setTimeout(vai,150);
 }
 function loadGoogleAnalytics(){if(analyticsLoaded||!gaIdConfigurato())return;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag("js",new Date());window.gtag("config",GA_MEASUREMENT_ID,{anonymize_ip:true});const tag=document.createElement("script");tag.async=true;tag.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(GA_MEASUREMENT_ID);document.head.appendChild(tag);analyticsLoaded=true;}
 function getAnalyticsConsent(){try{return localStorage.getItem(ANALYTICS_CONSENT_KEY)||"";}catch(_){return "";}}
 function setAnalyticsConsent(value){try{localStorage.setItem(ANALYTICS_CONSENT_KEY,value);}catch(_){}}
-function initAnalyticsConsent(){const box=document.getElementById("analyticsConsent"),accept=document.getElementById("analyticsAccept"),reject=document.getElementById("analyticsReject");if(!box||!accept||!reject)return;const saved=getAnalyticsConsent();if(saved==="granted"){loadGoogleAnalytics();box.hidden=true;return;}if(saved==="denied"){box.hidden=true;return;}if(!gaIdConfigurato()){box.hidden=true;return;}box.hidden=false;accept.addEventListener("click",()=>{setAnalyticsConsent("granted");box.hidden=true;loadGoogleAnalytics();});reject.addEventListener("click",()=>{setAnalyticsConsent("denied");box.hidden=true;});}
+function initAnalyticsConsent(){const box=document.getElementById("analyticsConsent"),accept=document.getElementById("analyticsAccept"),reject=document.getElementById("analyticsReject");if(!box||!accept||!reject)return;const saved=getAnalyticsConsent();if(saved==="granted"){loadGoogleAnalytics();box.hidden=true;return;}if(saved==="denied"){box.hidden=true;return;}if(!gaIdConfigurato()){box.hidden=true;return;}box.hidden=false;accept.addEventListener("click",()=>{
+  setAnalyticsConsent("granted");
+  box.hidden=true;
+  loadGoogleAnalytics();
+  trackEvent("consenso_analytics_accettato",{});
+});reject.addEventListener("click",()=>{setAnalyticsConsent("denied");box.hidden=true;});}
 
 const services={
 elettrico:{
@@ -366,7 +405,10 @@ Object.entries(services)
    const b=document.createElement("button");
    b.className="card"+(i===0?" active":""); b.dataset.key=key;
    b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p>`;
-   b.onclick=()=>{trackEvent("service_select",{service:s.title});selectService(key,true);};
+   b.onclick=()=>{
+     trackEvent("servizio_aperto",{servizio:s.title});
+     selectService(key,true);
+   };
    grid.appendChild(b);
    const opt=document.createElement("option"); opt.value=key; opt.textContent=s.title; qService.appendChild(opt);
  });
@@ -404,18 +446,41 @@ function selectService(key,scroll=false){
 
 function openQuote(){
  quoteFormStartedAt=Date.now();
- trackEvent("quote_open",{service:services[currentService]?.title||""});
+ trackEvent("preventivo_aperto",{servizio:services[currentService]?.title||""});
  document.getElementById("qWebsite").value="";
  qService.value=currentService;
  quoteModal.classList.add("show"); quoteModal.setAttribute("aria-hidden","false");
  setTimeout(()=>document.getElementById("qName").focus(),100);
 }
-function closeQuote(){quoteModal.classList.remove("show");quoteModal.setAttribute("aria-hidden","true");}
+function closeQuote(motivo="chiusura"){
+  const eraAperto=quoteModal.classList.contains("show");
+  quoteModal.classList.remove("show");
+  quoteModal.setAttribute("aria-hidden","true");
+  if(eraAperto){
+    trackEvent("preventivo_chiuso",{motivo});
+  }
+}
 document.querySelectorAll(".quote-open").forEach(b=>b.addEventListener("click",openQuote));
-document.getElementById("modalClose").addEventListener("click",closeQuote);
-document.getElementById("cancelQuote").addEventListener("click",closeQuote);
-quoteModal.addEventListener("click",e=>{if(e.target===quoteModal)closeQuote();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeQuote();});
+document.getElementById("modalClose").addEventListener("click",()=>closeQuote("x"));
+document.getElementById("cancelQuote").addEventListener("click",()=>closeQuote("annulla"));
+quoteModal.addEventListener("click",e=>{if(e.target===quoteModal)closeQuote("sfondo");});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeQuote("escape");});
+
+let preventivoCompilazioneTracciata=false;
+quoteForm.addEventListener("input",()=>{
+  if(preventivoCompilazioneTracciata)return;
+  preventivoCompilazioneTracciata=true;
+  trackEvent("preventivo_compilazione_iniziata",{
+    servizio:qService.value&&services[qService.value]?services[qService.value].title:""
+  });
+});
+
+qService.addEventListener("change",()=>{
+  const servizio=services[qService.value];
+  if(servizio){
+    trackEvent("servizio_preventivo_selezionato",{servizio:servizio.title});
+  }
+});
 
 quoteForm.addEventListener("submit",async e=>{
  e.preventDefault();
@@ -444,7 +509,7 @@ quoteForm.addEventListener("submit",async e=>{
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
-   clientVersion:"14.6.3"
+   clientVersion:"14.6.5"
  };
 
  let finished=false;
@@ -511,12 +576,12 @@ quoteForm.addEventListener("submit",async e=>{
 
    formStatus.className="formStatus success";
    formStatus.textContent="Richiesta inviata correttamente.";
-   trackEvent("quote_sent",{service:s.title});
+   trackEvent("preventivo_inviato",{servizio:s.title});
    quoteForm.reset();
    qService.value=currentService;
    quoteFormStartedAt=Date.now();
 
-   setTimeout(closeQuote,1500);
+   setTimeout(()=>closeQuote("inviato"),1500);
 
  }catch(err){
    finished=true;
@@ -552,17 +617,70 @@ document.addEventListener("click",e=>{const link=e.target.closest(".call-link.di
 document.addEventListener("click",e=>{
   const call=e.target.closest(".call-link:not(.disabledCall)");
   if(call){
-    trackEvent("contact_call",{
-      location:"site"
-    });
+    e.preventDefault();
+    const href=call.dataset.realHref||call.getAttribute("href")||"tel:+393703173136";
+    apriDopoTracking_("chiamata_cliccata",{
+      posizione:posizioneElemento_(call),
+      servizio:services[currentService]?.title||""
+    },href);
+    return;
   }
 
   const wa=e.target.closest(".js-wa-link");
   if(wa){
-    trackEvent("contact_whatsapp",{
-      service:services[currentService]?.title||""
+    e.preventDefault();
+    const href=wa.getAttribute("href")||waUrl();
+    apriDopoTracking_("whatsapp_cliccato",{
+      posizione:posizioneElemento_(wa),
+      servizio:services[currentService]?.title||""
+    },href);
+    return;
+  }
+
+  const email=e.target.closest('a[href^="mailto:"]');
+  if(email){
+    trackEvent("email_cliccata",{
+      posizione:posizioneElemento_(email),
+      tipo:"pec"
+    });
+  }
+
+  const menu=e.target.closest("nav a");
+  if(menu){
+    trackEvent("menu_cliccato",{
+      destinazione:(menu.getAttribute("href")||"").replace("#","")
     });
   }
 });
+
+function inizializzaTrackingSezioni_(){
+  if(!("IntersectionObserver" in window))return;
+
+  const viste=new Set();
+  const sezioni=[
+    ["home",document.getElementById("home")],
+    ["servizi",document.getElementById("servizi")],
+    ["dettaglio",document.getElementById("dettaglio")],
+    ["zone",document.getElementById("zone")],
+    ["contatti",document.getElementById("contatti")]
+  ];
+
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting||entry.intersectionRatio<0.35)return;
+      const voce=sezioni.find(([,el])=>el===entry.target);
+      if(!voce)return;
+      const nome=voce[0];
+      if(viste.has(nome))return;
+      if(!analyticsLoaded)return;
+      viste.add(nome);
+      trackEvent("sezione_visualizzata",{sezione:nome});
+    });
+  },{threshold:[0.35]});
+
+  sezioni.forEach(([,el])=>{if(el)observer.observe(el);});
+}
+
 initAnalyticsConsent();
+inizializzaTrackingSezioni_();
 selectService("elettrico");updateWhatsAppLinks();updateCallState();setInterval(updateCallState,60000);
