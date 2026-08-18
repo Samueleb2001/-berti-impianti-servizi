@@ -175,7 +175,7 @@ tv:{
    "Piccoli accessori multimediali",
    "Riordino collegamenti"
  ],
- image:"images/TV-staffe-multimedia.jpg.PNG?v=11-1"
+ image:"images/Tv-staffe-multimedia.jpg.PNG?v=11-1"
 },
 
 audio:{
