@@ -45,7 +45,18 @@ function apriDopoTracking_(eventName,params,href){
 
   setTimeout(vai,150);
 }
-function loadGoogleAnalytics(){if(analyticsLoaded||!gaIdConfigurato())return;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag("js",new Date());window.gtag("config",GA_MEASUREMENT_ID,{anonymize_ip:true});const tag=document.createElement("script");tag.async=true;tag.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(GA_MEASUREMENT_ID);document.head.appendChild(tag);analyticsLoaded=true;}
+function loadGoogleAnalytics(){
+  if(!gaIdConfigurato() || typeof window.gtag!=="function") return;
+
+  window.gtag("consent","update",{
+    analytics_storage:"granted",
+    ad_storage:"denied",
+    ad_user_data:"denied",
+    ad_personalization:"denied"
+  });
+
+  analyticsLoaded=true;
+}
 function getAnalyticsConsent(){try{return localStorage.getItem(ANALYTICS_CONSENT_KEY)||"";}catch(_){return "";}}
 function setAnalyticsConsent(value){try{localStorage.setItem(ANALYTICS_CONSENT_KEY,value);}catch(_){}}
 function initAnalyticsConsent(){const box=document.getElementById("analyticsConsent"),accept=document.getElementById("analyticsAccept"),reject=document.getElementById("analyticsReject");if(!box||!accept||!reject)return;const saved=getAnalyticsConsent();if(saved==="granted"){loadGoogleAnalytics();box.hidden=true;return;}if(saved==="denied"){box.hidden=true;return;}if(!gaIdConfigurato()){box.hidden=true;return;}box.hidden=false;accept.addEventListener("click",()=>{
