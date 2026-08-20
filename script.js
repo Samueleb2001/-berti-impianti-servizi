@@ -649,9 +649,7 @@ const jobId=
     "Completamento in corso…"
   );
 }
-     }
-   },220);
- };
+},220);
 
  submitBtn.disabled=true;
  submitBtn.classList.add("sending");
