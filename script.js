@@ -642,24 +642,33 @@ if(descrizione.length<5){
 
      const elapsed=performance.now()-started;
 
-     if(elapsed<900){
-  setProgress(Math.min(35,pct+9),"Invio richiesta…");
-
-   }else if(elapsed<2000){
-  setProgress(Math.min(68,pct+7),"Registrazione richiesta…");
-
-   }else if(elapsed<3200){
-  setProgress(Math.min(76,pct+2),"Preparazione pratica…");
-
-   }else if(elapsed<5000){
-  setProgress(Math.min(84,pct+1),"Elaborazione richiesta…");
-
-   }else if(elapsed<8000){
-  setProgress(Math.min(91,pct+.55),"Verifica registrazione…");
-
-    }else{
+    if(elapsed<2000){
   setProgress(
-    Math.min(99,pct+Math.max(.05,(99-pct)*.04)),
+    Math.min(30,pct+3.4),
+    "Invio richiesta…"
+  );
+
+}else if(elapsed<4000){
+  setProgress(
+    Math.min(55,pct+2.8),
+    "Registrazione richiesta…"
+  );
+
+}else if(elapsed<6500){
+  setProgress(
+    Math.min(75,pct+1.8),
+    "Preparazione pratica…"
+  );
+
+}else if(elapsed<9000){
+  setProgress(
+    Math.min(90,pct+1.3),
+    "Verifica registrazione…"
+  );
+
+}else{
+  setProgress(
+    Math.min(98,pct+Math.max(0.08,(98-pct)*0.035)),
     "Completamento in corso…"
   );
 }
