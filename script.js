@@ -668,7 +668,10 @@ if(descrizione.length<5){
 
 }else{
   setProgress(
-    Math.min(98,pct+Math.max(0.08,(98-pct)*0.035)),
+    Math.min(
+      99.4,
+      pct + Math.max(0.12,(99.4-pct)*0.06)
+    ),
     "Completamento in corso…"
   );
 }
