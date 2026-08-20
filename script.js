@@ -589,7 +589,21 @@ const jobId=
   
  if(submitBtn.disabled) return;
  if(!quoteForm.reportValidity()) return;
+  
+const descrizione=document.getElementById("qDescription").value.trim();
 
+if(descrizione.length<5){
+  formStatus.className="formStatus error";
+  formStatus.textContent=
+    "Descrizione troppo breve: inserisci almeno 5 caratteri.";
+  document.getElementById("qDescription").focus();
+
+  trackEvent("preventivo_descrizione_troppo_breve",{
+    servizio:s.title
+  });
+
+  return;
+}
  const payload={
    priority:"Normale",
    name:document.getElementById("qName").value.trim(),
