@@ -493,6 +493,52 @@ qService.addEventListener("change",()=>{
   }
 });
 
+async function attendiConfermaRichiesta_(jobId){
+  const timeoutMs=20000;
+  const intervalloMs=700;
+  const iniziato=Date.now();
+
+  while(Date.now()-iniziato<timeoutMs){
+    try{
+      const response=await fetch(
+        APPS_SCRIPT_URL+
+        "?jobId="+encodeURIComponent(jobId)+
+        "&_="+Date.now(),
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+      if(response.ok){
+        const data=await response.json();
+
+        if(data.status==="confirmed"){
+          return data;
+        }
+
+        if(data.status==="error"){
+          throw new Error(data.error||"Registrazione non riuscita.");
+        }
+      }
+    }catch(err){
+      if(
+        err &&
+        err.message &&
+        err.message!=="Registrazione non riuscita."
+      ){
+        console.warn("Controllo stato richiesta:",err);
+      }else{
+        throw err;
+      }
+    }
+
+    await new Promise(resolve=>setTimeout(resolve,intervalloMs));
+  }
+
+  throw new Error("TIMEOUT_CONFERMA");
+}
+
 quoteForm.addEventListener("submit",async e=>{
  e.preventDefault();
 
@@ -505,6 +551,13 @@ quoteForm.addEventListener("submit",async e=>{
  const s=services[qService.value];
  const now=Date.now();
 
+const jobId=
+  "JOB-"+(
+    window.crypto&&crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${now}-${Math.random().toString(36).slice(2)}`
+  );
+  
  if(submitBtn.disabled) return;
  if(!quoteForm.reportValidity()) return;
 
@@ -520,6 +573,7 @@ quoteForm.addEventListener("submit",async e=>{
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
+   jobId:jobId,
    clientVersion:"14.6.5"
  };
 
@@ -581,30 +635,51 @@ quoteForm.addEventListener("submit",async e=>{
      keepalive:true
    });
 
-   finished=true;
-   if(progressTimer) clearInterval(progressTimer);
-   setProgress(100,"Richiesta registrata");
+   setProgress(75,"Verifica registrazione…");
 
-   formStatus.className="formStatus success";
-   formStatus.textContent="Richiesta inviata correttamente.";
-   trackEvent("preventivo_inviato",{servizio:s.title});
-   quoteForm.reset();
-   qService.value=currentService;
-   quoteFormStartedAt=Date.now();
+const conferma=await attendiConfermaRichiesta_(jobId);
 
-   setTimeout(()=>closeQuote("inviato"),1500);
+finished=true;
+if(progressTimer) clearInterval(progressTimer);
+
+setProgress(100,"Richiesta registrata");
+
+formStatus.className="formStatus success";
+
+formStatus.textContent=
+  conferma.requestId
+    ? "Richiesta registrata correttamente. Codice: "+conferma.requestId
+    : "Richiesta registrata correttamente.";
+
+trackEvent("preventivo_inviato",{
+  servizio:s.title,
+  confermato:true
+});
+
+quoteForm.reset();
+qService.value=currentService;
+quoteFormStartedAt=Date.now();
+
+setTimeout(()=>closeQuote("inviato"),2000);
 
  }catch(err){
-   finished=true;
-   if(progressTimer) clearInterval(progressTimer);
-   console.error(err);
+  finished=true;
+  if(progressTimer) clearInterval(progressTimer);
+  console.error(err);
 
-   progressBar.style.width="100%";
-   progressPct.textContent="!";
-   progressLabel.textContent="Invio non completato";
+  progressBar.style.width="100%";
+  progressPct.textContent="!";
+  progressLabel.textContent="Invio non confermato";
 
-   formStatus.className="formStatus error";
-   formStatus.textContent="Invio non riuscito. Riprova oppure contattaci su WhatsApp.";
+  formStatus.className="formStatus error";
+
+  if(err && err.message==="TIMEOUT_CONFERMA"){
+    formStatus.textContent=
+      "Non siamo riusciti a confermare la ricezione della richiesta. Non reinviarla subito: contattaci su WhatsApp per verificare.";
+  }else{
+    formStatus.textContent=
+      "Invio non riuscito. Riprova oppure contattaci su WhatsApp.";
+  }
  }finally{
    setTimeout(()=>{
      submitBtn.disabled=false;
