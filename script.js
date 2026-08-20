@@ -650,7 +650,7 @@ const jobId=
   );
 }
 },220);
-
+};
  submitBtn.disabled=true;
  submitBtn.classList.add("sending");
  submitBtn.textContent="INVIO IN CORSO…";
