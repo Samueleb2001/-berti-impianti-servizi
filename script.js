@@ -1,4 +1,4 @@
-console.log("BERTI frontend V14.6.5 TRACKING COMPLETO caricato");
+console.log("BERTI frontend V14.6.6 TRACKING COMPLETO caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycbzonGHg5IvXsD1Mz2POPEBhWz6jjYFtc7p6dASn4mBCusEOfFdi58V7QZaqc3lMWcpu/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
@@ -533,7 +533,7 @@ function leggiStatoRichiesta_(jobId){
 }
 
 async function attendiConfermaRichiesta_(jobId){
-  const timeoutMs=25000;
+  const timeoutMs=15000;
   const intervalloMs=800;
   const iniziato=Date.now();
 
@@ -603,7 +603,7 @@ const jobId=
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
    jobId:jobId,
-   clientVersion:"14.6.5"
+   clientVersion:"14.6.6"
  };
 
  let finished=false;
@@ -696,19 +696,39 @@ setTimeout(()=>closeQuote("inviato"),2000);
   if(progressTimer) clearInterval(progressTimer);
   console.error(err);
 
+  if(err && err.message==="TIMEOUT_CONFERMA"){
+  progressBar.style.width="100%";
+  progressPct.textContent="100%";
+  progressLabel.textContent="Richiesta presa in carico";
+
+  formStatus.className="formStatus success";
+  formStatus.textContent=
+    "Richiesta inviata al sistema. La registrazione è in completamento: non è necessario reinviarla.";
+
+  trackEvent("preventivo_preso_in_carico",{
+    servizio:s.title,
+    conferma_immediata:false
+  });
+
+  quoteForm.reset();
+  qService.value=currentService;
+  quoteFormStartedAt=Date.now();
+
+  setTimeout(()=>closeQuote("presa_in_carico"),2500);
+
+}else{
   progressBar.style.width="100%";
   progressPct.textContent="!";
-  progressLabel.textContent="Invio non confermato";
+  progressLabel.textContent="Invio non completato";
 
   formStatus.className="formStatus error";
+  formStatus.textContent=
+    "Invio non riuscito. Riprova oppure contattaci su WhatsApp.";
 
-  if(err && err.message==="TIMEOUT_CONFERMA"){
-    formStatus.textContent=
-      "Non siamo riusciti a confermare la ricezione della richiesta. Non reinviarla subito: contattaci su WhatsApp per verificare.";
-  }else{
-    formStatus.textContent=
-      "Invio non riuscito. Riprova oppure contattaci su WhatsApp.";
-  }
+  trackEvent("preventivo_errore",{
+    servizio:s.title
+  });
+}
  }finally{
    setTimeout(()=>{
      submitBtn.disabled=false;
