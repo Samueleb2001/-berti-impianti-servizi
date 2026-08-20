@@ -493,44 +493,73 @@ qService.addEventListener("change",()=>{
   }
 });
 
+function leggiStatoRichiesta_(jobId){
+  return new Promise((resolve,reject)=>{
+    const callbackName=
+      "bertiStatus_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+
+    const script=document.createElement("script");
+
+    const cleanup=()=>{
+      try{ delete window[callbackName]; }catch(_){}
+      try{ script.remove(); }catch(_){}
+    };
+
+    const timer=setTimeout(()=>{
+      cleanup();
+      reject(new Error("TIMEOUT_JSONP"));
+    },5000);
+
+    window[callbackName]=(data)=>{
+      clearTimeout(timer);
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror=()=>{
+      clearTimeout(timer);
+      cleanup();
+      reject(new Error("ERRORE_JSONP"));
+    };
+
+    script.src=
+      APPS_SCRIPT_URL+
+      "?jobId="+encodeURIComponent(jobId)+
+      "&callback="+encodeURIComponent(callbackName)+
+      "&_="+Date.now();
+
+    document.head.appendChild(script);
+  });
+}
+
 async function attendiConfermaRichiesta_(jobId){
-  const timeoutMs=20000;
-  const intervalloMs=700;
+  const timeoutMs=25000;
+  const intervalloMs=800;
   const iniziato=Date.now();
 
   while(Date.now()-iniziato<timeoutMs){
     try{
-      const response=await fetch(
-        APPS_SCRIPT_URL+
-        "?jobId="+encodeURIComponent(jobId)+
-        "&_="+Date.now(),
-        {
-          method:"GET",
-          cache:"no-store"
-        }
-      );
+      const data=await leggiStatoRichiesta_(jobId);
 
-      if(response.ok){
-        const data=await response.json();
-
-        if(data.status==="confirmed"){
-          return data;
-        }
-
-        if(data.status==="error"){
-          throw new Error(data.error||"Registrazione non riuscita.");
-        }
+      if(data && data.status==="confirmed"){
+        return data;
       }
+
+      if(data && data.status==="error"){
+        throw new Error(
+          data.error || "Registrazione non riuscita."
+        );
+      }
+
     }catch(err){
       if(
         err &&
-        err.message &&
-        err.message!=="Registrazione non riuscita."
+        err.message==="Registrazione non riuscita."
       ){
-        console.warn("Controllo stato richiesta:",err);
-      }else{
         throw err;
       }
+
+      console.warn("Controllo stato richiesta:",err);
     }
 
     await new Promise(resolve=>setTimeout(resolve,intervalloMs));
