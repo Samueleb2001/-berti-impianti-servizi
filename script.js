@@ -546,21 +546,21 @@ async function attendiConfermaRichiesta_(jobId){
       }
 
       if(data && data.status==="error"){
-        throw new Error(
-          data.error || "Registrazione non riuscita."
-        );
-      }
+  const backendError=new Error(
+    data.error || "Registrazione non riuscita."
+  );
 
-    }catch(err){
-      if(
-        err &&
-        err.message==="Registrazione non riuscita."
-      ){
-        throw err;
-      }
+  backendError.isBackendError=true;
+  throw backendError;
+}
 
-      console.warn("Controllo stato richiesta:",err);
-    }
+}catch(err){
+  if(err && err.isBackendError){
+    throw err;
+  }
+
+  console.warn("Controllo stato richiesta:",err);
+}
 
     await new Promise(resolve=>setTimeout(resolve,intervalloMs));
   }
@@ -745,8 +745,15 @@ setTimeout(()=>closeQuote("inviato"),2000);
   progressLabel.textContent="Invio non completato";
 
   formStatus.className="formStatus error";
-  formStatus.textContent=
-    "Invio non riuscito. Riprova oppure contattaci su WhatsApp.";
+
+  if(err && err.isBackendError &&
+     String(err.message||"").toLowerCase().includes("descrizione troppo breve")){
+    formStatus.textContent=
+      "Descrizione troppo breve: inserisci almeno 5 caratteri.";
+  }else{
+    formStatus.textContent=
+      "Non è stato possibile registrare la richiesta. Riprova oppure contattaci tramite WhatsApp o telefono.";
+  }
 
   trackEvent("preventivo_errore",{
     servizio:s.title
