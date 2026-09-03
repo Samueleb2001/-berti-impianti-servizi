@@ -533,8 +533,8 @@ function leggiStatoRichiesta_(jobId){
 }
 
 async function attendiConfermaRichiesta_(jobId){
-  const timeoutMs=15000;
-  const intervalloMs=800;
+  const timeoutMs=5000;
+  const intervalloMs=700;
   const iniziato=Date.now();
 
   while(Date.now()-iniziato<timeoutMs){
@@ -667,13 +667,13 @@ if(descrizione.length<5){
   );
 
 }else{
-  setProgress(
-    Math.min(
-      99.4,
-      pct + Math.max(0.12,(99.4-pct)*0.06)
-    ),
-    "Completamento in corso…"
-  );
+setProgress(
+  Math.min(
+    94,
+    pct + Math.max(0.12,(94-pct)*0.06)
+  ),
+  "Richiesta inviata, completamento…"
+);
 }
 },220);
 };
