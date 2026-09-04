@@ -208,6 +208,7 @@ audio:{
 
 idraulica:{
  icon:"💧",
+  active:false,
  title:"PICCOLE MANUTENZIONI IDRAULICHE",
 short:"Piccoli interventi di manutenzione ordinaria su componenti e accessori esistenti.",
 headline:"Piccole manutenzioni idrauliche",
@@ -296,36 +297,59 @@ porte:{
 
 ritocchi:{
  icon:"🎨",
- title:"RITOCCHI E FINITURE",
- short:"Piccoli ritocchi e sistemazioni estetiche dopo lavori e montaggi.",
- headline:"Il lavoro finisce quando è sistemato bene",
- text:"Piccoli interventi di finitura e ritocco per lasciare ordinata la zona interessata da montaggi o manutenzioni.",
+ title:"TINTEGGIATURA E FINITURE",
+ short:"Tinteggiatura, stuccature, rasature, ripristini e finiture per interni.",
+ headline:"Tinteggiatura e finiture per rinnovare gli ambienti",
+ text:"Interventi di tinteggiatura, preparazione delle superfici e finitura, dal semplice ripristino alla sistemazione completa delle pareti.",
  items:[
-   "Ritocchi localizzati",
-   "Piccole tinteggiature",
-   "Sistemazione fori e segni superficiali",
-   "Finiture dopo montaggi",
-   "Piccole sigillature",
-   "Sistemazioni estetiche"
+   "Tinteggiatura di pareti e soffitti",
+   "Preparazione delle superfici",
+   "Stuccature",
+   "Rasature e finiture",
+   "Ripristino di fori, crepe e segni",
+   "Ripristini dopo lavori e impianti",
+   "Finiture dopo opere in cartongesso",
+   "Ritocchi localizzati"
  ],
  image:"images/Ritocchi.jpg.PNG?v=11-1"
 },
 
  cartongesso:{
  icon:"▧",
- title:"CARTONGESSO E PICCOLI RIPRISTINI",
- short:"Piccoli lavori in cartongesso, chiusure, ripristini e finiture.",
- headline:"Soluzioni pratiche in cartongesso",
- text:"Realizzazione e sistemazione di piccoli elementi in cartongesso per la casa, con particolare attenzione a ripristini, finiture e integrazione con altri interventi.",
+ title:"CARTONGESSO E RIPRISTINI",
+ short:"Pareti, contropareti, velette, chiusure, ripristini e finiture in cartongesso.",
+ headline:"Soluzioni in cartongesso per modificare e rifinire gli spazi",
+ text:"Realizzazione e sistemazione di opere in cartongesso per interni, dalla costruzione della struttura alla stuccatura e finitura.",
  items:[
-   "Piccole pareti e contropareti",
-   "Velette e piccoli elementi",
+   "Pareti e contropareti",
+   "Velette e ribassamenti",
    "Chiusura di vani e aperture",
+   "Rivestimenti in cartongesso",
+   "Strutture e lastre",
+   "Stuccatura di giunti e viti",
    "Ripristini dopo lavori e impianti",
-   "Stuccatura e sistemazione giunti",
-   "Piccole riparazioni su cartongesso"
+   "Riparazioni e finiture"
  ],
  image:"images/Cartongesso.jpg.PNG"
+},
+
+  muratura:{
+ icon:"🧱",
+ title:"MURATURA E RIPRISTINI EDILI",
+ short:"Opere murarie, tracce, chiusure, ripristini e sistemazioni edili.",
+ headline:"Lavori di muratura e ripristini per la casa",
+ text:"Interventi di muratura e ripristino per modifiche, manutenzioni e sistemazioni degli ambienti, anche in abbinamento a lavori impiantistici.",
+ items:[
+   "Opere murarie e ripristini",
+   "Apertura e chiusura di tracce",
+   "Chiusura di fori e aperture",
+   "Ripristini dopo lavori impiantistici",
+   "Posa e sistemazione di elementi murari",
+   "Ripristino di intonaci",
+   "Stuccature e finiture",
+   "Sistemazioni edili localizzate"
+ ],
+ image:"images/Muratura.jpg.PNG"
 },
 
 trasporto:{
