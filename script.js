@@ -3,6 +3,28 @@ const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycby9tdAFRfDirspF3I
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
 let analyticsLoaded=false;
+/* =========================
+   PORTFOLIO LAVORI
+   ========================= */
+
+const PORTFOLIO_ATTIVO=false;
+
+/*
+  I lavori verranno aggiunti qui quando il portfolio sarà pubblicato.
+
+  Struttura esempio:
+
+  muratura:[
+    {
+      titolo:"Rivestimento pareti scale esterne",
+      luogo:"Imola (BO)",
+      descrizione:"Rivestimento delle pareti laterali con pietra ricostruita.",
+      prima:"images/lavori/muratura/rivestimento-scale-01/prima.jpg",
+      dopo:"images/lavori/muratura/rivestimento-scale-01/dopo.jpg"
+    }
+  ]
+*/
+const lavori={};
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
 function trackEvent(name,params={}){
   if(!analyticsLoaded||typeof window.gtag!=="function")return false;
@@ -434,6 +456,13 @@ const quoteForm=document.getElementById("quoteForm");
 const qService=document.getElementById("qService");
 let quoteFormStartedAt=Date.now();
 
+const portfolioSection=document.getElementById("portfolioSection");
+const portfolioOpen=document.getElementById("portfolioOpen");
+const portfolioModal=document.getElementById("portfolioModal");
+const portfolioClose=document.getElementById("portfolioClose");
+const portfolioTitle=document.getElementById("portfolioTitle");
+const portfolioWorks=document.getElementById("portfolioWorks");
+
 Object.entries(services)
  .filter(([,s])=>s.active!==false)
  .forEach(([key,s],i)=>{
@@ -463,7 +492,230 @@ Giorno/orario preferito per essere ricontattato:`;
 function updateWhatsAppLinks(){
  document.querySelectorAll(".js-wa-link").forEach(a=>a.href=waUrl());
 }
+/* =========================
+   PORTFOLIO
+   ========================= */
 
+function lavoriServizio_(key){
+  const elenco=lavori[key];
+  return Array.isArray(elenco) ? elenco : [];
+}
+
+function aggiornaPortfolioButton_(){
+  if(!portfolioSection)return;
+
+  const elenco=lavoriServizio_(currentService);
+
+  portfolioSection.hidden=
+    !PORTFOLIO_ATTIVO ||
+    elenco.length===0;
+}
+
+function escapeHtml_(value){
+  return String(value??"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function creaLavoroPortfolio_(lavoro,index){
+  const article=document.createElement("article");
+  article.className="portfolioWork";
+
+  article.innerHTML=`
+    <div class="beforeAfter" style="--pos:50%">
+
+      <img
+        class="beforeImage"
+        src="${escapeHtml_(lavoro.prima)}"
+        alt="Prima - ${escapeHtml_(lavoro.titolo)}"
+        loading="lazy">
+
+      <img
+        class="afterImage"
+        src="${escapeHtml_(lavoro.dopo)}"
+        alt="Dopo - ${escapeHtml_(lavoro.titolo)}"
+        loading="lazy">
+
+      <span class="beforeAfterLabel before">PRIMA</span>
+      <span class="beforeAfterLabel after">DOPO</span>
+
+      <div class="beforeAfterDivider"></div>
+
+      <div class="beforeAfterHandle" aria-hidden="true">
+        ↔
+      </div>
+
+    </div>
+
+    <div class="portfolioWorkInfo">
+
+      <h3>${escapeHtml_(lavoro.titolo)}</h3>
+
+      ${
+        lavoro.luogo
+          ? `<p class="portfolioWorkLocation">${escapeHtml_(lavoro.luogo)}</p>`
+          : ""
+      }
+
+      ${
+        lavoro.descrizione
+          ? `<p class="portfolioWorkDescription">${escapeHtml_(lavoro.descrizione)}</p>`
+          : ""
+      }
+
+      <div class="portfolioWorkBrand" aria-hidden="true">
+        <strong>BERTI</strong>
+        <span>IMPIANTI &amp; SERVIZI</span>
+      </div>
+
+    </div>
+  `;
+
+  const slider=article.querySelector(".beforeAfter");
+
+  if(slider){
+    inizializzaBeforeAfter_(slider,index);
+  }
+
+  return article;
+}
+
+function inizializzaBeforeAfter_(slider,index){
+  let dragging=false;
+
+  const aggiorna=(clientX)=>{
+    const rect=slider.getBoundingClientRect();
+
+    if(!rect.width)return;
+
+    let percent=
+      ((clientX-rect.left)/rect.width)*100;
+
+    percent=Math.max(0,Math.min(100,percent));
+
+    slider.style.setProperty(
+      "--pos",
+      percent.toFixed(2)+"%"
+    );
+  };
+
+  slider.addEventListener("pointerdown",e=>{
+    dragging=true;
+
+    try{
+      slider.setPointerCapture(e.pointerId);
+    }catch(_){}
+
+    aggiorna(e.clientX);
+  });
+
+  slider.addEventListener("pointermove",e=>{
+    if(!dragging)return;
+    aggiorna(e.clientX);
+  });
+
+  const fineDrag=()=>{
+    dragging=false;
+  };
+
+  slider.addEventListener("pointerup",fineDrag);
+  slider.addEventListener("pointercancel",fineDrag);
+  slider.addEventListener("lostpointercapture",fineDrag);
+
+  slider.addEventListener("click",e=>{
+    aggiorna(e.clientX);
+  });
+}
+
+function renderPortfolio_(key){
+  if(!portfolioWorks)return;
+
+  const servizio=services[key];
+  const elenco=lavoriServizio_(key);
+
+  portfolioWorks.innerHTML="";
+
+  if(portfolioTitle){
+    portfolioTitle.textContent=
+      servizio
+        ? servizio.title
+        : "Lavori realizzati";
+  }
+
+  elenco.forEach((lavoro,index)=>{
+    portfolioWorks.appendChild(
+      creaLavoroPortfolio_(lavoro,index)
+    );
+  });
+}
+
+function apriPortfolio_(){
+  if(!PORTFOLIO_ATTIVO)return;
+
+  const elenco=lavoriServizio_(currentService);
+
+  if(!elenco.length || !portfolioModal)return;
+
+  renderPortfolio_(currentService);
+
+  portfolioModal.hidden=false;
+  portfolioModal.setAttribute("aria-hidden","false");
+
+  document.body.style.overflow="hidden";
+
+  trackEvent("galleria_aperta",{
+    servizio:services[currentService]?.title||""
+  });
+}
+
+function chiudiPortfolio_(motivo="chiusura"){
+  if(!portfolioModal || portfolioModal.hidden)return;
+
+  portfolioModal.hidden=true;
+  portfolioModal.setAttribute("aria-hidden","true");
+
+  document.body.style.overflow="";
+
+  trackEvent("galleria_chiusa",{
+    servizio:services[currentService]?.title||"",
+    motivo
+  });
+}
+
+if(portfolioOpen){
+  portfolioOpen.addEventListener(
+    "click",
+    apriPortfolio_
+  );
+}
+
+if(portfolioClose){
+  portfolioClose.addEventListener(
+    "click",
+    ()=>chiudiPortfolio_("x")
+  );
+}
+
+if(portfolioModal){
+  portfolioModal.addEventListener("click",e=>{
+    if(e.target===portfolioModal){
+      chiudiPortfolio_("sfondo");
+    }
+  });
+}
+
+document.addEventListener("keydown",e=>{
+  if(
+    e.key==="Escape" &&
+    portfolioModal &&
+    !portfolioModal.hidden
+  ){
+    chiudiPortfolio_("escape");
+  }
+});
 function selectService(key,scroll=false){
  const s=services[key];
  if(!s || s.active===false) return;
@@ -475,8 +727,17 @@ function selectService(key,scroll=false){
  document.getElementById("detailText").textContent=s.text;
  document.getElementById("detailList").innerHTML=s.items.map(x=>`<li>${x}</li>`).join("");
  document.querySelectorAll(".card").forEach(x=>x.classList.toggle("active",x.dataset.key===key));
- qService.value=key; updateWhatsAppLinks();
- if(scroll)document.getElementById("dettaglio").scrollIntoView({behavior:"smooth",block:"start"});
+ qService.value=key;
+updateWhatsAppLinks();
+aggiornaPortfolioButton_();
+
+if(scroll){
+  document
+    .getElementById("dettaglio")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
 }
 
 function openQuote(){
