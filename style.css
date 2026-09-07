@@ -295,6 +295,40 @@ nav a{
 }
 
 /* =========================
+   PORTFOLIO LAVORI
+   ========================= */
+
+.portfolioSection{
+  margin-top:28px
+}
+
+.portfolioSection[hidden]{
+  display:none!important
+}
+
+.portfolioOpen{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:17px 20px;
+  background:#0b1118;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  transition:.2s;
+  box-shadow:0 6px 20px rgba(0,0,0,.12)
+}
+
+.portfolioOpen:hover{
+  background:#18222e;
+  transform:translateY(-2px)
+}
+
+.portfolioOpen:active{
+  transform:translateY(0)
+}
+
+/* =========================
    FIDUCIA
    ========================= */
 
