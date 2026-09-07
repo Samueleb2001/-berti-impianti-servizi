@@ -329,6 +329,222 @@ nav a{
 }
 
 /* =========================
+   POPUP PORTFOLIO
+   ========================= */
+
+.portfolioBackdrop{
+  position:fixed;
+  inset:0;
+  z-index:160;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(7px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px
+}
+
+.portfolioBackdrop[hidden]{
+  display:none!important
+}
+
+.portfolioModal{
+  position:relative;
+  width:min(1000px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#f3f5f7;
+  border-radius:22px;
+  box-shadow:0 30px 90px rgba(0,0,0,.5)
+}
+
+.portfolioClose{
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:10;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:#0b1118;
+  color:#fff;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer
+}
+
+.portfolioHeader{
+  padding:30px 70px 22px 30px
+}
+
+.portfolioHeader h2{
+  margin:7px 0 0;
+  font-size:clamp(28px,4vw,42px)
+}
+
+.portfolioWorks{
+  display:grid;
+  gap:24px;
+  padding:0 30px 30px
+}
+
+/* =========================
+   SINGOLO LAVORO
+   ========================= */
+
+.portfolioWork{
+  overflow:hidden;
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12)
+}
+
+/* =========================
+   SLIDER PRIMA / DOPO
+   ========================= */
+
+.beforeAfter{
+  --pos:50%;
+  position:relative;
+  width:100%;
+  aspect-ratio:4 / 3;
+  overflow:hidden;
+  background:#0b1118;
+  touch-action:none;
+  user-select:none
+}
+
+.beforeAfter img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  pointer-events:none
+}
+
+.beforeAfter .beforeImage{
+  z-index:1
+}
+
+.beforeAfter .afterImage{
+  z-index:2;
+  clip-path:inset(0 calc(100% - var(--pos)) 0 0)
+}
+
+.beforeAfterDivider{
+  position:absolute;
+  z-index:4;
+  top:0;
+  bottom:0;
+  left:var(--pos);
+  width:3px;
+  background:#fff;
+  transform:translateX(-50%);
+  box-shadow:0 0 8px rgba(0,0,0,.55);
+  pointer-events:none
+}
+
+.beforeAfterHandle{
+  position:absolute;
+  z-index:5;
+  top:50%;
+  left:var(--pos);
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#ffc400;
+  color:#101722;
+  border:3px solid #fff;
+  transform:translate(-50%,-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  font-weight:900;
+  box-shadow:0 5px 18px rgba(0,0,0,.35);
+  pointer-events:none
+}
+
+.beforeAfterLabel{
+  position:absolute;
+  z-index:6;
+  top:14px;
+  padding:8px 11px;
+  border-radius:8px;
+  background:rgba(11,17,24,.82);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.5px;
+  pointer-events:none
+}
+
+.beforeAfterLabel.before{
+  left:14px
+}
+
+.beforeAfterLabel.after{
+  right:14px
+}
+
+/* =========================
+   INFORMAZIONI LAVORO
+   ========================= */
+
+.portfolioWorkInfo{
+  position:relative;
+  padding:22px 180px 24px 24px;
+  min-height:120px
+}
+
+.portfolioWorkInfo h3{
+  margin:0 0 6px;
+  font-size:20px;
+  line-height:1.25
+}
+
+.portfolioWorkLocation{
+  margin:0 0 10px;
+  color:#f0b500;
+  font-size:13px;
+  font-weight:900
+}
+
+.portfolioWorkDescription{
+  margin:0;
+  color:#59636e;
+  line-height:1.55;
+  font-size:14px
+}
+
+.portfolioWorkBrand{
+  position:absolute;
+  right:24px;
+  bottom:24px;
+  text-align:right;
+  font-weight:900;
+  line-height:1
+}
+
+.portfolioWorkBrand strong{
+  display:block;
+  color:#101722;
+  font-size:22px;
+  letter-spacing:1px
+}
+
+.portfolioWorkBrand span{
+  display:block;
+  margin-top:5px;
+  color:#b68700;
+  font-size:9px;
+  letter-spacing:1.1px
+}
+
+/* =========================
    FIDUCIA
    ========================= */
 
@@ -1004,5 +1220,51 @@ footer{
 
   .grid{
     grid-template-columns:1fr
+  }
+    .portfolioBackdrop{
+    padding:0;
+    align-items:flex-end
+  }
+
+  .portfolioModal{
+    width:100%;
+    max-height:94vh;
+    border-radius:22px 22px 0 0
+  }
+
+  .portfolioHeader{
+    padding:25px 62px 18px 18px
+  }
+
+  .portfolioWorks{
+    padding:0 14px 24px;
+    gap:18px
+  }
+
+  .portfolioWork{
+    border-radius:14px
+  }
+
+  .beforeAfter{
+    aspect-ratio:3 / 4
+  }
+
+  .beforeAfterHandle{
+    width:46px;
+    height:46px;
+    font-size:20px
+  }
+
+  .portfolioWorkInfo{
+    padding:18px 18px 82px
+  }
+
+  .portfolioWorkInfo h3{
+    font-size:17px
+  }
+
+  .portfolioWorkBrand{
+    right:18px;
+    bottom:18px
   }
 }
