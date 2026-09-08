@@ -7,24 +7,25 @@ let analyticsLoaded=false;
    PORTFOLIO LAVORI
    ========================= */
 
-const PORTFOLIO_ATTIVO=false;
+const PORTFOLIO_ATTIVO=true;
 
-/*
-  I lavori verranno aggiunti qui quando il portfolio sarà pubblicato.
 
-  Struttura esempio:
 
+const lavori={
   muratura:[
     {
-      titolo:"Rivestimento pareti scale esterne",
-      luogo:"Imola (BO)",
-      descrizione:"Rivestimento delle pareti laterali con pietra ricostruita.",
-      prima:"images/lavori/muratura/rivestimento-scale-01/prima.jpg",
-      dopo:"images/lavori/muratura/rivestimento-scale-01/dopo.jpg"
+      titolo:"Rivestimento pareti scale ingresso esterno",
+      luogo:"Castel San Pietro Terme (BO)",
+      descrizione:"Rivestimento delle pareti laterali della scala d'ingresso esterna con pietra ricostruita, per rinnovare e valorizzare l'accesso all'abitazione.",
+      prima:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-prima.jpeg",
+      dopo:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-dopo.jpeg"
     }
   ]
-*/
-const lavori={};
+};
+
+
+
+
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
 function trackEvent(name,params={}){
   if(!analyticsLoaded||typeof window.gtag!=="function")return false;
