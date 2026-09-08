@@ -27,9 +27,140 @@
 </script>
   <title>BERTI | Impianti & Servizi</title>
   <meta name="description" content="BERTI Impianti & Servizi: impianti elettrici, illuminazione, ricerca guasti, manutenzioni, piccoli interventi idraulici, montaggi e automazioni.">
-  <link rel="stylesheet" href="style.css?v=14.6.3">
+  <link rel="stylesheet" href="style.css?v=14.6.4">
 </head>
 <body>
+
+
+/* ==================================================
+   MODALITÀ MANUTENZIONE TEMPORANEA
+   Rimuovere questo blocco quando il sito torna attivo
+   ================================================== */
+
+.maintenancePage {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  width: 100%;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at top, #18222d 0%, #0b1118 48%, #070b10 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.maintenanceBox {
+  width: 100%;
+  max-width: 620px;
+  text-align: center;
+  color: #ffffff;
+  margin: auto;
+}
+
+.maintenanceLogo {
+  width: min(280px, 75vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 30px;
+}
+
+.maintenanceLabel {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #f5c518;
+}
+
+.maintenanceBox h1 {
+  margin: 0;
+  font-size: clamp(30px, 7vw, 52px);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.maintenanceText {
+  margin: 25px auto 30px;
+  max-width: 520px;
+  color: #cbd3dc;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.maintenanceText strong {
+  color: #ffffff;
+}
+
+.maintenanceActions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.maintenanceActions a {
+  min-height: 68px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: transform 0.15s ease;
+}
+
+.maintenanceActions a:active {
+  transform: scale(0.98);
+}
+
+.maintenanceActions span {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.maintenanceCall {
+  background: #f5c518;
+  color: #0b1118;
+}
+
+.maintenanceWhatsapp {
+  background: #25d366;
+  color: #07150c;
+}
+
+.maintenanceHours {
+  margin: 24px 0 0;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.maintenanceZone {
+  margin: 10px 0 0;
+  color: #8693a0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (min-width: 600px) {
+  .maintenanceActions {
+    grid-template-columns: 1fr 1fr;
+    max-width: 560px;
+  }
+}
+
+
+  
 
 <header>
   <a class="brand" href="#home" aria-label="BERTI Impianti e Servizi">
