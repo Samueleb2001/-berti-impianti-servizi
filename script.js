@@ -740,6 +740,9 @@ if(scroll){
       block:"start"
     });
 }
+  
+}
+
 
 function openQuote(){
  quoteFormStartedAt=Date.now();
