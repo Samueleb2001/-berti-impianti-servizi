@@ -32,10 +32,16 @@
 <body>
 
 
-<!-- =========================
-     MANUTENZIONE TEMPORANEA
-     RIMUOVERE QUESTO BLOCCO QUANDO IL SITO TORNA OPERATIVO
-     ========================= -->
+<script>
+  const SITO_IN_MANUTENZIONE = false;
+</script>
+
+  
+
+/* ==================================================
+   MODALITÀ MANUTENZIONE
+   Attivazione gestita da SITO_IN_MANUTENZIONE
+   ================================================== */
 
 <div class="maintenancePage">
   <div class="maintenanceBox">
@@ -90,7 +96,12 @@
 </div>
 
   
-
+<script>
+  if (!SITO_IN_MANUTENZIONE) {
+    document.getElementById("maintenancePage")?.remove();
+  }
+</script>
+  
   
 <header>
   <a class="brand" href="#home" aria-label="BERTI Impianti e Servizi">
