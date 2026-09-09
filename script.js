@@ -12,6 +12,7 @@ const PORTFOLIO_ATTIVO=true;
 
 
 const lavori={
+   
   muratura:[
     {
       titolo:"Rivestimento pareti scale ingresso esterno",
@@ -20,10 +21,19 @@ const lavori={
       prima:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-prima.jpeg",
       dopo:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-dopo.jpeg"
     }
+  ],
+
+ tv:[
+    {
+      titolo:"Installazione TV con staffa a soffitto",
+      luogo:"Castel San Pietro Terme (BO)",
+      descrizione:"Installazione e fissaggio di TV mediante supporto a soffitto, con posizionamento e regolazione della staffa in base alle caratteristiche dell'ambiente.",
+      prima:"images/lavori/installazione-tv-staffa-soffitto-prima.jpeg",
+      dopo:"images/lavori/installazione-tv-staffa-soffitto-dopo.jpeg"
+    }
   ]
+
 };
-
-
 
 
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
