@@ -1389,6 +1389,14 @@ footer{
   line-height: 1.5;
 }
 
+.maintenanceVat{
+  margin:8px 0 0;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.3px;
+  opacity:.65;
+}
+
 @media (min-width: 600px) {
   .maintenanceActions {
     grid-template-columns: 1fr 1fr;
