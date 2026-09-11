@@ -2,6 +2,47 @@ console.log("BERTI frontend V14.6.6 TRACKING COMPLETO caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycby9tdAFRfDirspF3Il5Zs2VMd1bh-rKJaS1wkqhr3QA7JsVzg1Sgmob1QKL2ZTOpM105g/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
+
+/* Quando il Profilo Google è verificato, inserire i due URL e impostare enabled:true. */
+const GOOGLE_BUSINESS={
+  enabled:false,
+  profileUrl:"",
+  reviewUrl:""
+};
+
+function initGoogleBusiness(){
+  const section=document.getElementById("recensioni");
+  const profileLink=document.getElementById("googleProfileLink");
+  const reviewLink=document.getElementById("googleReviewLink");
+  const ready=GOOGLE_BUSINESS.enabled&&/^https:\/\//.test(GOOGLE_BUSINESS.profileUrl)&&/^https:\/\//.test(GOOGLE_BUSINESS.reviewUrl);
+  if(!section||!profileLink||!reviewLink||!ready){if(section)section.hidden=true;return;}
+  profileLink.href=GOOGLE_BUSINESS.profileUrl;
+  reviewLink.href=GOOGLE_BUSINESS.reviewUrl;
+  section.hidden=false;
+
+  const schema={
+    "@context":"https://schema.org",
+    "@type":["LocalBusiness","Electrician"],
+    "@id":"https://bertiservizi.bo.it/#business",
+    "name":"BERTI | Impianti & Servizi",
+    "url":"https://bertiservizi.bo.it/",
+    "logo":"https://bertiservizi.bo.it/images/logo-berti.png",
+    "image":"https://bertiservizi.bo.it/images/Home.jpg.jpg",
+    "telephone":"+39 370 317 3136",
+    "vatID":"IT04406131203",
+    "priceRange":"€€",
+    "areaServed":[
+      {"@type":"AdministrativeArea","name":"Bologna e provincia"},
+      {"@type":"AdministrativeArea","name":"Rimini e provincia"},
+      {"@type":"AdministrativeArea","name":"Ravenna e provincia"}
+    ],
+    "sameAs":[GOOGLE_BUSINESS.profileUrl]
+  };
+  const node=document.createElement("script");
+  node.type="application/ld+json";
+  node.textContent=JSON.stringify(schema);
+  document.head.appendChild(node);
+}
 let analyticsLoaded=false;
 /* =========================
    PORTFOLIO LAVORI
@@ -1157,6 +1198,7 @@ function inizializzaTrackingSezioni_(){
   sezioni.forEach(([,el])=>{if(el)observer.observe(el);});
 }
 
+initGoogleBusiness();
 initAnalyticsConsent();
 inizializzaTrackingSezioni_();
 selectService("elettrico");updateWhatsAppLinks();updateCallState();setInterval(updateCallState,60000);
