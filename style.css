@@ -664,6 +664,58 @@ nav a{
   color:#101722
 }
 
+/* =========================
+   GOOGLE BUSINESS / RECENSIONI
+   ========================= */
+
+.googleReviews{
+  padding:70px 5%;
+  text-align:center;
+  background:#f4f6f8
+}
+
+.googleReviews[hidden]{display:none!important}
+
+.reviewsIntro{
+  max-width:680px;
+  margin:0 auto 26px;
+  color:#56616d
+}
+
+.googleActions{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:14px
+}
+
+.googleProfileBtn,
+.googleReviewBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:14px 22px;
+  border-radius:10px;
+  font-weight:900;
+  text-decoration:none
+}
+
+.googleProfileBtn{
+  color:#101722;
+  background:#fff;
+  border:2px solid #d8dde3
+}
+
+.googleReviewBtn{
+  color:#101722;
+  background:#ffc400;
+  border:2px solid #ffc400
+}
+
+.googleProfileBtn:hover,
+.googleReviewBtn:hover{transform:translateY(-1px)}
+
 .disabledCall{
   opacity:.45!important;
   pointer-events:auto!important;
@@ -1403,4 +1455,3 @@ footer{
     max-width: 560px;
   }
 }
-
