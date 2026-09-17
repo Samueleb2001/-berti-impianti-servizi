@@ -23,11 +23,11 @@ function initGoogleBusiness(){
   const schema={
     "@context":"https://schema.org",
     "@type":["LocalBusiness","Electrician"],
-    "@id":"https://bertiservizi.bo.it/#business",
+    "@id":"https://bertimpianti.it/#business",
     "name":"BERTI | Impianti & Servizi",
-    "url":"https://bertiservizi.bo.it/",
-    "logo":"https://bertiservizi.bo.it/images/logo-berti.png",
-    "image":"https://bertiservizi.bo.it/images/Home.jpg.jpg",
+    "url":"https://bertimpianti.it/",
+    "logo":"https://bertimpianti.it/images/logo-berti.png",
+    "image":"https://bertimpianti.it/images/Home.jpg.jpg",
     "telephone":"+39 370 317 3136",
     "vatID":"IT04406131203",
     "priceRange":"€€",
@@ -44,6 +44,7 @@ function initGoogleBusiness(){
   document.head.appendChild(node);
 }
 let analyticsLoaded=false;
+let analyticsLoading=false;
 /* =========================
    PORTFOLIO LAVORI
    ========================= */
@@ -120,25 +121,54 @@ function apriDopoTracking_(eventName,params,href){
   setTimeout(vai,150);
 }
 function loadGoogleAnalytics(){
-  if(!gaIdConfigurato() || typeof window.gtag!=="function") return;
-
-  window.gtag("consent","update",{
+  if(!gaIdConfigurato()||analyticsLoaded||analyticsLoading)return;
+  analyticsLoading=true;
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=window.gtag||function(){window.dataLayer.push(arguments);};
+  window.gtag("consent","default",{
     analytics_storage:"granted",
     ad_storage:"denied",
     ad_user_data:"denied",
     ad_personalization:"denied"
   });
-
+  window.gtag("js",new Date());
+  window.gtag("config",GA_MEASUREMENT_ID,{anonymize_ip:true});
+  const tag=document.createElement("script");
+  tag.async=true;
+  tag.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(GA_MEASUREMENT_ID);
+  tag.onload=()=>{analyticsLoading=false;};
+  tag.onerror=()=>{analyticsLoading=false;analyticsLoaded=false;};
+  document.head.appendChild(tag);
   analyticsLoaded=true;
+}
+function deleteAnalyticsCookies(){
+  document.cookie.split(";").forEach(cookie=>{
+    const name=cookie.split("=")[0].trim();
+    if(name==="_ga"||name.startsWith("_ga_")){
+      document.cookie=name+"=; Max-Age=0; path=/; SameSite=Lax";
+    }
+  });
+}
+function denyGoogleAnalytics(){
+  if(typeof window.gtag==="function"){
+    window.gtag("consent","update",{
+      analytics_storage:"denied",
+      ad_storage:"denied",
+      ad_user_data:"denied",
+      ad_personalization:"denied"
+    });
+  }
+  analyticsLoaded=false;
+  deleteAnalyticsCookies();
 }
 function getAnalyticsConsent(){try{return localStorage.getItem(ANALYTICS_CONSENT_KEY)||"";}catch(_){return "";}}
 function setAnalyticsConsent(value){try{localStorage.setItem(ANALYTICS_CONSENT_KEY,value);}catch(_){}}
-function initAnalyticsConsent(){const box=document.getElementById("analyticsConsent"),accept=document.getElementById("analyticsAccept"),reject=document.getElementById("analyticsReject");if(!box||!accept||!reject)return;const saved=getAnalyticsConsent();if(saved==="granted"){loadGoogleAnalytics();box.hidden=true;return;}if(saved==="denied"){box.hidden=true;return;}if(!gaIdConfigurato()){box.hidden=true;return;}box.hidden=false;accept.addEventListener("click",()=>{
+function initAnalyticsConsent(){const box=document.getElementById("analyticsConsent"),accept=document.getElementById("analyticsAccept"),reject=document.getElementById("analyticsReject"),preferences=document.getElementById("openPrivacyPreferences");if(!box||!accept||!reject)return;const saved=getAnalyticsConsent();if(saved==="granted"){loadGoogleAnalytics();box.hidden=true;}else if(saved==="denied"||!gaIdConfigurato()){box.hidden=true;}else{box.hidden=false;}accept.addEventListener("click",()=>{
   setAnalyticsConsent("granted");
   box.hidden=true;
   loadGoogleAnalytics();
   trackEvent("consenso_analytics_accettato",{});
-});reject.addEventListener("click",()=>{setAnalyticsConsent("denied");box.hidden=true;});}
+});reject.addEventListener("click",()=>{setAnalyticsConsent("denied");denyGoogleAnalytics();box.hidden=true;});if(preferences){preferences.addEventListener("click",()=>{box.hidden=false;accept.focus();});}}
 
 const services={
 elettrico:{
