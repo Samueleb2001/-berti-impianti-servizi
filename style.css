@@ -749,6 +749,26 @@ footer{
   color:#aab3bd
 }
 
+.footerLegalLinks{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px 18px;
+  margin-top:14px
+}
+
+.footerLegalLinks a,
+.footerLegalLinks button{
+  padding:0;
+  border:0;
+  background:none;
+  color:#dbe4ed;
+  font:inherit;
+  font-size:13px;
+  text-decoration:underline;
+  cursor:pointer
+}
+
 /* =========================
    BARRA FISSA IN BASSO
    ========================= */
@@ -1117,6 +1137,67 @@ footer{
   font-size:13px;
   line-height:1.45;
   color:#dbe4ed
+}
+
+.analyticsConsentText a{
+  color:#69a9ff;
+  font-weight:800;
+  text-underline-offset:2px
+}
+
+.formNote a{
+  color:#164f9b;
+  font-weight:800
+}
+
+/* =========================
+   PAGINA PRIVACY
+   ========================= */
+
+.privacyBody{background:#f4f6f8;color:#101722}
+.privacyHeader{
+  position:static;
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 5%;
+  background:#0b1118
+}
+.privacyHeader .brand{height:58px}
+.privacyBack{
+  color:#0b1118;
+  background:#ffc400;
+  border-radius:10px;
+  padding:11px 15px;
+  font-weight:900;
+  text-decoration:none
+}
+.privacyMain{
+  width:min(920px,90%);
+  margin:38px auto 70px;
+  padding:42px;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 12px 35px rgba(11,17,24,.1)
+}
+.privacyMain h1{margin:0 0 10px;font-size:clamp(32px,5vw,48px)}
+.privacyUpdated{margin:0 0 34px;color:#65707b}
+.privacyMain section{padding:8px 0 14px}
+.privacyMain h2{margin:22px 0 10px;font-size:23px}
+.privacyMain h3{margin:18px 0 8px;font-size:18px}
+.privacyMain p,.privacyMain li{line-height:1.65}
+.privacyMain a{color:#164f9b}
+.privacyMain ul{padding-left:22px}
+.privacyContact{
+  padding:18px;
+  border-left:5px solid #ffc400;
+  background:#f4f6f8
+}
+@media(max-width:650px){
+  .privacyHeader{align-items:center;gap:12px}
+  .privacyBack{font-size:12px;padding:10px}
+  .privacyMain{width:94%;margin:18px auto 40px;padding:24px 18px}
 }
 
 .analyticsConsentActions{
