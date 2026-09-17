@@ -6,29 +6,9 @@
   <meta name="theme-color" content="#0b1118">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; style-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://script.google.com https://script.googleusercontent.com; connect-src https://script.google.com https://script.googleusercontent.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; object-src 'none'; base-uri 'self';">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1SSYRJTNKB"></script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-
-  gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    wait_for_update: 500
-  });
-
-  gtag('js', new Date());
-  gtag('config', 'G-1SSYRJTNKB', {
-    anonymize_ip: true
-  });
-</script>
   <title>BERTI | Impianti & Servizi</title>
   <meta name="description" content="BERTI Impianti & Servizi: impianti elettrici, illuminazione, ricerca guasti, manutenzioni, piccoli interventi idraulici, montaggi e automazioni.">
-  <link rel="canonical" href="https://bertiservizi.bo.it/">
-  <link rel="stylesheet" href="style.css?v=14.7.0">
+  <link rel="stylesheet" href="style.css?v=14.8.0">
 </head>
 <body>
 
@@ -224,6 +204,10 @@
   <div class="footerBrand">BERTI <span>IMPIANTI & SERVIZI</span></div>
   <p>Impianti, manutenzioni e servizi per la casa.</p>
   <p class="legalNote">Partita IVA: 04406131203 </p>
+  <div class="footerLegalLinks">
+    <a href="privacy.html">Privacy Policy</a>
+    <button type="button" id="openPrivacyPreferences">Preferenze statistiche</button>
+  </div>
 </footer>
 
 <div class="contactbar">
@@ -253,7 +237,7 @@
       </div>
       <button class="sendQuote" type="submit">INVIA RICHIESTA</button>
       <button type="button" class="cancelQuote" id="cancelQuote">ANNULLA</button>
-      <p class="formNote">La richiesta verrà registrata automaticamente nel sistema BERTI.</p>
+      <p class="formNote">La richiesta verrà registrata automaticamente nel sistema BERTI. <a href="privacy.html#richieste">Informativa privacy</a>.</p>
       <div class="sendProgress" id="sendProgress" hidden aria-live="polite">
         <div class="sendProgressTop">
           <span id="sendProgressLabel">Preparazione richiesta…</span>
@@ -299,7 +283,7 @@
 
 <div class="analyticsConsent" id="analyticsConsent" hidden role="dialog" aria-live="polite" aria-label="Preferenze statistiche">
   <div class="analyticsConsentText">
-    <span>Usiamo statistiche anonime per migliorare il sito.</span>
+    <span>Utilizziamo <a href="privacy.html#statistiche">strumenti statistici</a> per capire come viene utilizzato il sito.</span>
   </div>
   <div class="analyticsConsentActions">
     <button id="analyticsReject" type="button">NON ACCETTO</button>
@@ -308,6 +292,6 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=14.7.0"></script>
+<script src="script.js?v=14.8.0"></script>
 </body>
 </html>
