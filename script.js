@@ -1015,14 +1015,15 @@ if(descrizione.length<5){
   );
 
 }else{
-setProgress(
-  Math.min(
-    94,
-    pct + Math.max(0.12,(94-pct)*0.06)
-  ),
-  "Richiesta inviata, completamento…"
-);
+  setProgress(
+    Math.min(
+      99,
+      pct + Math.max(0.10,(99-pct)*0.045)
+    ),
+    "Richiesta inviata, completamento…"
+  );
 }
+     
 },220);
 };
  submitBtn.disabled=true;
