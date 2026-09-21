@@ -38,8 +38,8 @@ const lavori={
       titolo:"Rivestimento pareti scale ingresso esterno",
       luogo:"Castel San Pietro Terme (BO)",
       descrizione:"Rivestimento delle pareti laterali della scala d'ingresso esterna con pietra ricostruita, per rinnovare e valorizzare l'accesso all'abitazione.",
-      prima:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-prima.jpeg",
-      dopo:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-dopo.jpeg"
+      prima:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-prima.webp",
+      dopo:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-dopo.webp"
     }
   ],
 
@@ -48,8 +48,8 @@ const lavori={
       titolo:"Installazione TV con staffa a soffitto",
       luogo:"Castel San Pietro Terme (BO)",
       descrizione:"Installazione e fissaggio di TV mediante supporto a soffitto, con posizionamento e regolazione della staffa in base alle caratteristiche dell'ambiente.",
-      prima:"images/lavori/installazione-tv-staffa-soffitto-prima.jpeg",
-      dopo:"images/lavori/installazione-tv-staffa-soffitto-dopo.jpeg"
+      prima:"images/lavori/installazione-tv-staffa-soffitto-prima.webp",
+      dopo:"images/lavori/installazione-tv-staffa-soffitto-dopo.webp"
     }
   ]
 
