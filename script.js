@@ -20,28 +20,6 @@ function initGoogleBusiness(){
   reviewLink.href=GOOGLE_BUSINESS.reviewUrl;
   section.hidden=false;
 
-  const schema={
-    "@context":"https://schema.org",
-    "@type":["LocalBusiness","Electrician"],
-    "@id":"https://bertimpianti.it/#business",
-    "name":"BERTI | Impianti & Servizi",
-    "url":"https://bertimpianti.it/",
-    "logo":"https://bertimpianti.it/images/logo-berti.png",
-    "image":"https://bertimpianti.it/images/Home.jpg.jpg",
-    "telephone":"+39 370 317 3136",
-    "vatID":"IT04406131203",
-    "priceRange":"€€",
-    "areaServed":[
-      {"@type":"AdministrativeArea","name":"Bologna e provincia"},
-      {"@type":"AdministrativeArea","name":"Rimini e provincia"},
-      {"@type":"AdministrativeArea","name":"Ravenna e provincia"}
-    ],
-    "sameAs":[GOOGLE_BUSINESS.profileUrl]
-  };
-  const node=document.createElement("script");
-  node.type="application/ld+json";
-  node.textContent=JSON.stringify(schema);
-  document.head.appendChild(node);
 }
 let analyticsLoaded=false;
 let analyticsLoading=false;
