@@ -508,7 +508,7 @@ altro:{
 }
 };
 
-let currentService="elettrico";
+let currentService=null;
 const grid=document.getElementById("serviceGrid");
 const graphic=document.getElementById("serviceGraphic");
 const quoteModal=document.getElementById("quoteModal");
@@ -527,7 +527,7 @@ Object.entries(services)
  .filter(([,s])=>s.active!==false)
  .forEach(([key,s],i)=>{
    const b=document.createElement("button");
-   b.className="card"+(i===0?" active":""); b.dataset.key=key;
+   b.className="card"; b.dataset.key=key;
    b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p>`;
    b.onclick=()=>{
      trackEvent("servizio_aperto",{servizio:s.title});
@@ -538,10 +538,11 @@ Object.entries(services)
  });
 
 function waUrl(){
- const s=services[currentService];
+ const s=currentService ? services[currentService] : null;
+ const servizio=s ? s.title : "";
  const text=`Salve, vorrei richiedere un preventivo a BERTI Impianti & Servizi.
 
-Servizio: ${s.title}
+Servizio: ${servizio}
 Nome:
 Comune dell'intervento:
 Descrizione del lavoro:
@@ -807,7 +808,7 @@ function openQuote(){
  quoteFormStartedAt=Date.now();
  trackEvent("preventivo_aperto",{servizio:services[currentService]?.title||""});
  document.getElementById("qWebsite").value="";
- qService.value=currentService;
+ qService.value=currentService||"";
  quoteModal.classList.add("show"); quoteModal.setAttribute("aria-hidden","false");
  setTimeout(()=>document.getElementById("qName").focus(),100);
 }
@@ -1210,4 +1211,13 @@ function inizializzaTrackingSezioni_(){
 initGoogleBusiness();
 initAnalyticsConsent();
 inizializzaTrackingSezioni_();
-selectService("elettrico");updateWhatsAppLinks();updateCallState();setInterval(updateCallState,60000);
+const dettaglioIniziale=document.getElementById("dettaglio");
+if(dettaglioIniziale)dettaglioIniziale.hidden=true;
+if(portfolioSection)portfolioSection.hidden=true;
+if(graphic){
+  graphic.removeAttribute("src");
+  graphic.alt="";
+}
+updateWhatsAppLinks();
+updateCallState();
+setInterval(updateCallState,60000);
