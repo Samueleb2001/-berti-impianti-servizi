@@ -165,7 +165,7 @@ elettrico:{
    "Sensori, crepuscolari e temporizzatori",
    "Manutenzione e verifiche"
  ],
- image:"images/Impianti-elettrici.webp"
+ image:"images/Impianti-elettrici.jpg.PNG"
 },
 
 illuminazione:{
@@ -780,29 +780,42 @@ document.addEventListener("keydown",e=>{
 function selectService(key,scroll=false){
  const s=services[key];
  if(!s || s.active===false) return;
+
+ const dettaglio=document.getElementById("dettaglio");
  currentService=key;
- graphic.classList.add("fading");
- setTimeout(()=>{graphic.src=s.image;graphic.alt=s.title+" - BERTI Impianti & Servizi";graphic.onload=()=>graphic.classList.remove("fading");},120);
+
+ if(dettaglio){
+   dettaglio.hidden=false;
+   dettaglio.style.display="block";
+ }
+
  document.getElementById("detailLabel").textContent=s.title;
  document.getElementById("detailTitle").textContent=s.headline;
  document.getElementById("detailText").textContent=s.text;
  document.getElementById("detailList").innerHTML=s.items.map(x=>`<li>${x}</li>`).join("");
  document.querySelectorAll(".card").forEach(x=>x.classList.toggle("active",x.dataset.key===key));
  qService.value=key;
-updateWhatsAppLinks();
-aggiornaPortfolioButton_();
 
-if(scroll){
-  document
-    .getElementById("dettaglio")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-}
-  
-}
+ if(graphic){
+   graphic.classList.add("fading");
+   graphic.onload=()=>graphic.classList.remove("fading");
+   graphic.onerror=()=>graphic.classList.remove("fading");
+   graphic.alt=s.title+" - BERTI Impianti & Servizi";
+   graphic.src=s.image;
+ }
 
+ updateWhatsAppLinks();
+ aggiornaPortfolioButton_();
+
+ if(scroll && dettaglio){
+   requestAnimationFrame(()=>{
+     dettaglio.scrollIntoView({
+       behavior:"smooth",
+       block:"start"
+     });
+   });
+ }
+}
 
 function openQuote(){
  quoteFormStartedAt=Date.now();
@@ -1212,7 +1225,10 @@ initGoogleBusiness();
 initAnalyticsConsent();
 inizializzaTrackingSezioni_();
 const dettaglioIniziale=document.getElementById("dettaglio");
-if(dettaglioIniziale)dettaglioIniziale.hidden=true;
+if(dettaglioIniziale){
+  dettaglioIniziale.hidden=true;
+  dettaglioIniziale.style.display="none";
+}
 if(portfolioSection)portfolioSection.hidden=true;
 if(graphic){
   graphic.removeAttribute("src");
