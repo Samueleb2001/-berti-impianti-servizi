@@ -165,7 +165,7 @@ elettrico:{
    "Sensori, crepuscolari e temporizzatori",
    "Manutenzione e verifiche"
  ],
- image:"images/Impianti-elettrici.jpg.PNG"
+ image:"images/Impianti-elettrici.webp"
 },
 
 illuminazione:{
