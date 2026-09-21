@@ -1553,3 +1553,13 @@ footer{
   white-space:nowrap!important;
   border:0!important
 }
+
+/* =========================
+   STABILITÀ LAYOUT / PAGESPEED
+   ========================= */
+
+/* Finché JS non ha creato le card, la sezione servizi non occupa spazio.
+   Viene resa visibile nello stesso ciclo di rendering in cui la griglia è pronta. */
+.services.servicesLoading{
+  display:none
+}
