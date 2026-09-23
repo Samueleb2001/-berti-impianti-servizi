@@ -43,15 +43,10 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="style.css?v=14.9.0">
+  <link rel="stylesheet" href="style.css?v=14.10.0">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png?v=1">
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png?v=1">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=1">
-<style>
-.faqSection{padding:72px 24px;max-width:1100px;margin:0 auto;scroll-margin-top:90px}.faqIntro{max-width:720px;margin:0 0 28px;color:#66717c;line-height:1.65}.faqList{display:grid;gap:12px}.faqItem{border:1px solid rgba(11,17,24,.14);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 5px 18px rgba(11,17,24,.045)}.faqItem summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 22px;font-weight:800;color:#0b1118;user-select:none}.faqItem summary::-webkit-details-marker{display:none}.faqToggle{position:relative;flex:0 0 22px;width:22px;height:22px}.faqToggle:before,.faqToggle:after{content:"";position:absolute;left:50%;top:50%;width:18px;height:2px;background:#0b1118;border-radius:2px;transform:translate(-50%,-50%);transition:transform .2s}.faqToggle:after{transform:translate(-50%,-50%) rotate(90deg)}.faqItem[open] .faqToggle:after{transform:translate(-50%,-50%)}.faqItem[open] summary{border-bottom:1px solid rgba(11,17,24,.09)}.faqAnswer{padding:0 22px}.faqAnswer p{margin:0;padding:18px 0 21px;line-height:1.7;color:#4d5965}.faqItem summary:focus-visible{outline:3px solid #f5c400;outline-offset:-3px}@media(hover:hover){.faqItem summary:hover{background:rgba(245,196,0,.08)}}@media(max-width:700px){.faqSection{padding:54px 18px}.faqItem summary{padding:18px;font-size:.98rem}.faqAnswer{padding:0 18px}}
-
-
-</style>
 </head>
 <body>
 
@@ -401,9 +396,6 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>
-document.querySelectorAll('.faqItem').forEach(function(item){item.addEventListener('toggle',function(){if(!item.open)return;document.querySelectorAll('.faqItem[open]').forEach(function(other){if(other!==item)other.removeAttribute('open');});});});
-</script>
-<script src="script.js?v=14.9.0"></script>
+<script src="script.js?v=14.10.0"></script>
 </body>
 </html>
