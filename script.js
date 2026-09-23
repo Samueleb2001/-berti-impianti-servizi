@@ -1243,3 +1243,43 @@ if(graphic){
 updateWhatsAppLinks();
 updateCallState();
 setInterval(updateCallState,60000);
+
+/* =========================
+   COMING SOON INTERATTIVO
+   ========================= */
+(function initComingSoon(){
+  const page=document.getElementById("comingSoonPage");
+  const wall=document.getElementById("comingWall");
+  const left=document.getElementById("comingSwitchLeft");
+  const right=document.getElementById("comingSwitchRight");
+  if(!page||!wall||!left||!right)return;
+
+  function switchClickSound(){
+    try{
+      const AudioCtx=window.AudioContext||window.webkitAudioContext;
+      if(!AudioCtx)return;
+      const ctx=new AudioCtx();
+      const osc=ctx.createOscillator();
+      const gain=ctx.createGain();
+      osc.type="square";
+      osc.frequency.setValueAtTime(115,ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(72,ctx.currentTime+.035);
+      gain.gain.setValueAtTime(.028,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.045);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime+.05);
+      setTimeout(()=>ctx.close().catch(()=>{}),100);
+    }catch(_){}
+  }
+
+  function toggle(button,className,labelOn,labelOff){
+    const on=button.getAttribute("aria-pressed")!=="true";
+    button.setAttribute("aria-pressed",String(on));
+    button.setAttribute("aria-label",on?labelOff:labelOn);
+    wall.classList.toggle(className,on);
+    switchClickSound();
+  }
+
+  left.addEventListener("click",()=>toggle(left,"leftOn","Accendi luce sinistra","Spegni luce sinistra"));
+  right.addEventListener("click",()=>toggle(right,"rightOn","Accendi luce destra","Spegni luce destra"));
+})();
