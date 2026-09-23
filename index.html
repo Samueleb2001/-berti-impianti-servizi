@@ -43,10 +43,13 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="style.css?v=14.8.2">
+  <link rel="stylesheet" href="style.css?v=14.8.3">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png?v=1">
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png?v=1">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=1">
+<style>
+.faqSection{padding:72px 24px;max-width:1100px;margin:0 auto;scroll-margin-top:90px}.faqIntro{max-width:720px;margin:0 0 28px;color:#66717c;line-height:1.65}.faqList{display:grid;gap:12px}.faqItem{border:1px solid rgba(11,17,24,.14);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 5px 18px rgba(11,17,24,.045)}.faqItem summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 22px;font-weight:800;color:#0b1118;user-select:none}.faqItem summary::-webkit-details-marker{display:none}.faqToggle{position:relative;flex:0 0 22px;width:22px;height:22px}.faqToggle:before,.faqToggle:after{content:"";position:absolute;left:50%;top:50%;width:18px;height:2px;background:#0b1118;border-radius:2px;transform:translate(-50%,-50%);transition:transform .2s}.faqToggle:after{transform:translate(-50%,-50%) rotate(90deg)}.faqItem[open] .faqToggle:after{transform:translate(-50%,-50%)}.faqItem[open] summary{border-bottom:1px solid rgba(11,17,24,.09)}.faqAnswer{padding:0 22px}.faqAnswer p{margin:0;padding:18px 0 21px;line-height:1.7;color:#4d5965}.faqItem summary:focus-visible{outline:3px solid #f5c400;outline-offset:-3px}@media(hover:hover){.faqItem summary:hover{background:rgba(245,196,0,.08)}}@media(max-width:700px){.faqSection{padding:54px 18px}.faqItem summary{padding:18px;font-size:.98rem}.faqAnswer{padding:0 18px}}
+</style>
 </head>
 <body>
 
@@ -135,6 +138,7 @@
     <a href="#servizi">Servizi</a>
     <a href="#dettaglio">Dettagli</a>
     <a href="#zone">Zone</a>
+    <a href="#faq">FAQ</a>
     <a href="#contatti">Contatti</a>
   </nav>
 </header>
@@ -221,6 +225,24 @@
     <div class="googleActions">
       <a class="googleProfileBtn" id="googleProfileLink" href="#" target="_blank" rel="noopener noreferrer">VEDI IL PROFILO SU GOOGLE</a>
       <a class="googleReviewBtn" id="googleReviewLink" href="#" target="_blank" rel="noopener noreferrer">★ LASCIA UNA RECENSIONE</a>
+    </div>
+  </section>
+
+  <section class="faqSection" id="faq" aria-labelledby="faqTitle">
+    <p class="sectionLabel">FAQ</p>
+    <h2 id="faqTitle">DOMANDE FREQUENTI</h2>
+    <p class="faqIntro">Le risposte alle domande più comuni su interventi, preventivi e servizi.</p>
+    <div class="faqList">
+      <details class="faqItem"><summary><span>Il preventivo è gratuito?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì. Puoi richiedere un <strong>preventivo gratuito e senza impegno</strong>. Per alcuni interventi può essere necessario un sopralluogo per valutare correttamente il lavoro.</p></div></details>
+      <details class="faqItem"><summary><span>In quali zone effettuate gli interventi?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Operiamo principalmente a <strong>Bologna e provincia, Rimini e provincia e Ravenna e provincia</strong>, comprese le zone di Castel San Pietro Terme, Imola e Misano Adriatico. Per interventi fuori zona contattaci: valuteremo disponibilità e trasferta.</p></div></details>
+      <details class="faqItem"><summary><span>Effettuate ricerca e riparazione di guasti elettrici?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì. Effettuiamo <strong>ricerca guasti e interventi su impianti elettrici</strong> per individuare anomalie e ripristinare il corretto funzionamento dell'impianto.</p></div></details>
+      <details class="faqItem"><summary><span>Installate illuminazione e LED?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì. Realizziamo e modifichiamo punti luce e installiamo soluzioni di <strong>illuminazione e LED</strong> per interni ed esterni, in base alle esigenze dell'ambiente.</p></div></details>
+      <details class="faqItem"><summary><span>Rilasciate la Dichiarazione di Conformità (DiCo)?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì. Per gli interventi per i quali è prevista dalla normativa vigente viene rilasciata la <strong>Dichiarazione di Conformità (DiCo)</strong> dell'impianto con la documentazione prevista per la tipologia di lavoro eseguito.</p></div></details>
+      <details class="faqItem"><summary><span>La Dichiarazione di Conformità viene rilasciata per qualsiasi intervento?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Non necessariamente. La documentazione da rilasciare dipende dalla <strong>tipologia e dall'entità dell'intervento</strong>. Al termine del lavoro viene fornita la documentazione prevista dalla normativa applicabile all'intervento eseguito.</p></div></details>
+      <details class="faqItem"><summary><span>Devo acquistare io il materiale?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>No, non è necessario. In base al lavoro possiamo occuparci anche della <strong>fornitura del materiale necessario</strong>. Se hai già acquistato alcuni componenti, possiamo valutarli prima dell'intervento.</p></div></details>
+      <details class="faqItem"><summary><span>Posso inviare foto o video del lavoro tramite WhatsApp?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì. Foto e video possono aiutarci a comprendere meglio il lavoro prima del sopralluogo o dell'intervento e a preparare una prima valutazione.</p></div></details>
+      <details class="faqItem"><summary><span>Posso richiedere più lavori nello stesso intervento?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì. BERTI | Impianti &amp; Servizi offre diversi <strong>servizi per la casa</strong>: puoi indicare più lavorazioni nella stessa richiesta e le valuteremo insieme.</p></div></details>
+      <details class="faqItem"><summary><span>È possibile concordare un intervento o un sopralluogo in fascia serale?</span><span class="faqToggle" aria-hidden="true"></span></summary><div class="faqAnswer"><p>Sì, in base alla disponibilità è possibile concordare <strong>interventi o sopralluoghi anche in fascia serale</strong>.</p></div></details>
     </div>
   </section>
 
@@ -331,6 +353,9 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=14.8.2"></script>
+<script>
+document.querySelectorAll('.faqItem').forEach(function(item){item.addEventListener('toggle',function(){if(!item.open)return;document.querySelectorAll('.faqItem[open]').forEach(function(other){if(other!==item)other.removeAttribute('open');});});});
+</script>
+<script src="script.js?v=14.8.3"></script>
 </body>
 </html>
