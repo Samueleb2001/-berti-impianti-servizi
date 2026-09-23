@@ -49,16 +49,41 @@
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=1">
 <style>
 .faqSection{padding:72px 24px;max-width:1100px;margin:0 auto;scroll-margin-top:90px}.faqIntro{max-width:720px;margin:0 0 28px;color:#66717c;line-height:1.65}.faqList{display:grid;gap:12px}.faqItem{border:1px solid rgba(11,17,24,.14);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 5px 18px rgba(11,17,24,.045)}.faqItem summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 22px;font-weight:800;color:#0b1118;user-select:none}.faqItem summary::-webkit-details-marker{display:none}.faqToggle{position:relative;flex:0 0 22px;width:22px;height:22px}.faqToggle:before,.faqToggle:after{content:"";position:absolute;left:50%;top:50%;width:18px;height:2px;background:#0b1118;border-radius:2px;transform:translate(-50%,-50%);transition:transform .2s}.faqToggle:after{transform:translate(-50%,-50%) rotate(90deg)}.faqItem[open] .faqToggle:after{transform:translate(-50%,-50%)}.faqItem[open] summary{border-bottom:1px solid rgba(11,17,24,.09)}.faqAnswer{padding:0 22px}.faqAnswer p{margin:0;padding:18px 0 21px;line-height:1.7;color:#4d5965}.faqItem summary:focus-visible{outline:3px solid #f5c400;outline-offset:-3px}@media(hover:hover){.faqItem summary:hover{background:rgba(245,196,0,.08)}}@media(max-width:700px){.faqSection{padding:54px 18px}.faqItem summary{padding:18px;font-size:.98rem}.faqAnswer{padding:0 18px}}
+
+
+/* ===== COMING SOON - INIZIO (TEMPORANEO, ELIMINABILE) ===== */
+.comingSoonPage{position:fixed;inset:0;z-index:999998;width:100%;min-height:100dvh;background:radial-gradient(circle at top,#18222d 0%,#0b1118 48%,#070b10 100%);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;overflow-y:auto}.comingSoonBox{width:100%;max-width:650px;margin:auto;text-align:center;color:#fff}.comingSoonLogo{display:block;width:320px;max-width:80%;height:auto;margin:0 auto 24px;object-fit:contain}.comingSoonLabel{margin:0 0 12px;font-size:13px;font-weight:800;letter-spacing:2px;color:#f5c518}.comingSoonBox h1{margin:0;font-size:clamp(34px,7vw,58px);line-height:1.02;font-weight:900;letter-spacing:-1px}.comingSoonText{margin:24px auto 30px;max-width:540px;color:#cbd3dc;font-size:16px;line-height:1.6}.comingSoonText strong{color:#fff}.comingSoonActions{display:grid;grid-template-columns:1fr;gap:12px;max-width:440px;margin:0 auto}.comingSoonActions a{min-height:64px;border-radius:14px;text-decoration:none;font-size:16px;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box}.comingSoonCall{background:#f5c518;color:#0b1118}.comingSoonWhatsapp{background:#25d366;color:#07150c}.comingSoonMeta{margin:24px 0 0;color:#8e9aa6;font-size:12px;line-height:1.55}@media(min-width:600px){.comingSoonActions{grid-template-columns:1fr 1fr;max-width:560px}}
+/* ===== COMING SOON - FINE ===== */
 </style>
 </head>
 <body>
 
 
 <script>
-  const SITO_IN_MANUTENZIONE =true;
+  const SITO_IN_MANUTENZIONE = false;
+  const SITO_COMING_SOON = true;
 </script>
 
   
+
+<!-- ===== COMING SOON - INIZIO (TEMPORANEO, ELIMINABILE) ===== -->
+<div class="comingSoonPage" id="comingSoonPage">
+  <div class="comingSoonBox">
+    <img class="comingSoonLogo" src="images/logo-b-trasparente-v2.png" alt="BERTI Impianti &amp; Servizi">
+    <p class="comingSoonLabel">BERTI | IMPIANTI &amp; SERVIZI</p>
+    <h1>STIAMO ARRIVANDO</h1>
+    <p class="comingSoonText">
+      Il nuovo sito di <strong>BERTI | Impianti &amp; Servizi</strong> sarà presto online.
+      <br><br>Nel frattempo puoi contattarci direttamente per informazioni e richieste.
+    </p>
+    <div class="comingSoonActions">
+      <a class="comingSoonCall" href="tel:+393703173136">☎ CHIAMA ORA<span>370 317 3136</span></a>
+      <a class="comingSoonWhatsapp" href="https://wa.me/393703173136?text=Buongiorno%2C%20vorrei%20richiedere%20informazioni." target="_blank" rel="noopener">WHATSAPP<span>Scrivici un messaggio</span></a>
+    </div>
+    <p class="comingSoonMeta">Bologna e provincia • Rimini e provincia • Ravenna e provincia<br>Partita IVA 04406131203</p>
+  </div>
+</div>
+<!-- ===== COMING SOON - FINE ===== -->
 
 <!-- ==================================================
      MODALITÀ MANUTENZIONE
@@ -123,8 +148,14 @@
 
   
 <script>
-  if (!SITO_IN_MANUTENZIONE) {
+  // Priorità: MANUTENZIONE > COMING SOON > SITO NORMALE
+  if (SITO_IN_MANUTENZIONE) {
+    document.getElementById("comingSoonPage")?.remove();
+  } else if (SITO_COMING_SOON) {
     document.getElementById("maintenancePage")?.remove();
+  } else {
+    document.getElementById("maintenancePage")?.remove();
+    document.getElementById("comingSoonPage")?.remove();
   }
 </script>
   
