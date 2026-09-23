@@ -1283,3 +1283,20 @@ setInterval(updateCallState,60000);
   left.addEventListener("click",()=>toggle(left,"leftOn","Accendi luce sinistra","Spegni luce sinistra"));
   right.addEventListener("click",()=>toggle(right,"rightOn","Accendi luce destra","Spegni luce destra"));
 })();
+
+/* =========================
+   FAQ ACCORDION — BERTI v14.10.0
+   ========================= */
+function initFaqAccordion(){
+  const items=[...document.querySelectorAll(".faqItem")];
+  items.forEach(item=>{
+    item.addEventListener("toggle",()=>{
+      if(!item.open)return;
+      items.forEach(other=>{
+        if(other!==item&&other.open)other.removeAttribute("open");
+      });
+    });
+  });
+}
+initFaqAccordion();
+
