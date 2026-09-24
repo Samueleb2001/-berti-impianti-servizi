@@ -2817,3 +2817,101 @@ body.bertNavOpen{overflow:hidden}
 .megaNavPrimary a.navFlash b{
   color:#ffc515;
 }
+
+
+/* =========================================================
+   BERTI v14.13.3 — CHI SONO
+   Navbar uniforme + hero più personale e compatto
+   ========================================================= */
+
+.aboutPage .siteHeader{
+  position:sticky;
+  top:0;
+  z-index:1200;
+}
+
+.aboutPage .navQuote,
+.aboutPage .megaQuote{
+  text-decoration:none;
+}
+
+.aboutPage .aboutHero{
+  min-height:auto;
+  padding:92px 0 82px;
+  display:block;
+}
+
+.aboutPage .aboutHeroInner{
+  width:min(100% - 48px, 995px);
+  margin:0 auto;
+  padding:0;
+}
+
+.aboutPage .aboutHero h1{
+  max-width:820px;
+  margin:14px 0 22px;
+  font-size:clamp(46px,5.1vw,76px);
+  line-height:.98;
+  letter-spacing:-.045em;
+}
+
+.aboutPage .aboutLead{
+  max-width:780px;
+  margin:0;
+  font-size:19px;
+  line-height:1.62;
+  color:rgba(255,255,255,.84);
+}
+
+.aboutPage .aboutLead strong{
+  color:#fff;
+  font-weight:800;
+}
+
+.aboutPage .aboutLeadSecondary{
+  margin-top:14px;
+  color:rgba(255,255,255,.68);
+}
+
+@media(max-width:900px){
+  .aboutPage .aboutHero{
+    padding:72px 0 64px;
+  }
+
+  .aboutPage .aboutHeroInner{
+    width:min(100% - 36px, 760px);
+  }
+
+  .aboutPage .aboutHero h1{
+    font-size:clamp(40px,8vw,58px);
+  }
+
+  .aboutPage .aboutLead{
+    font-size:17px;
+  }
+}
+
+@media(max-width:700px){
+  .aboutPage .aboutHero{
+    padding:54px 0 50px;
+  }
+
+  .aboutPage .aboutHeroInner{
+    width:calc(100% - 32px);
+  }
+
+  .aboutPage .aboutHero h1{
+    margin:10px 0 18px;
+    font-size:clamp(36px,11vw,48px);
+    line-height:1.02;
+  }
+
+  .aboutPage .aboutLead{
+    font-size:16px;
+    line-height:1.55;
+  }
+
+  .aboutPage .navQuickCall{
+    display:none;
+  }
+}
