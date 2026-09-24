@@ -1231,7 +1231,8 @@ if(dettaglioIniziale){
   dettaglioIniziale.hidden=true;
   dettaglioIniziale.style.display="none";
 }
-if(portfolioSection)portfolioSection.hidden=true;
+// La visibilità del portfolio viene gestita in base al servizio e a lavori.json.
+aggiornaPortfolioButton_();
 if(graphic){
   graphic.removeAttribute("src");
   graphic.alt="";
@@ -1394,4 +1395,4 @@ initFaqAccordion();
 
 /* v14.13.2 — evidenza gialla del mega-menu solo hover + feedback click temporaneo. */
 
-/* v14.14.0 — portfolio caricato automaticamente da lavori.json; rimossi i lavori hardcoded. */
+/* v14.14.1 — fix visibilità pulsante portfolio dopo caricamento lavori.json. */
