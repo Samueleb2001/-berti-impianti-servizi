@@ -31,29 +31,24 @@ const PORTFOLIO_ATTIVO=true;
 
 
 
-const lavori={
-   
-  muratura:[
-    {
-      titolo:"Rivestimento pareti scale ingresso esterno",
-      luogo:"Castel San Pietro Terme (BO)",
-      descrizione:"Rivestimento delle pareti laterali della scala d'ingresso esterna con pietra ricostruita, per rinnovare e valorizzare l'accesso all'abitazione.",
-      prima:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-prima.webp",
-      dopo:"images/lavori/rivestimento-scale-ingresso-castel-san-pietro-dopo.webp"
-    }
-  ],
+let lavori={};
+let portfolioCaricato=false;
 
- tv:[
-    {
-      titolo:"Installazione TV con staffa a soffitto",
-      luogo:"Castel San Pietro Terme (BO)",
-      descrizione:"Installazione e fissaggio di TV mediante supporto a soffitto, con posizionamento e regolazione della staffa in base alle caratteristiche dell'ambiente.",
-      prima:"images/lavori/installazione-tv-staffa-soffitto-prima.webp",
-      dopo:"images/lavori/installazione-tv-staffa-soffitto-dopo.webp"
-    }
-  ]
-
-};
+async function caricaPortfolio_(){
+  try{
+    const response=await fetch("lavori.json?v="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    lavori=(data && typeof data==="object") ? data : {};
+    portfolioCaricato=true;
+    aggiornaPortfolioButton_();
+  }catch(err){
+    console.error("Impossibile caricare lavori.json:",err);
+    lavori={};
+    portfolioCaricato=false;
+    aggiornaPortfolioButton_();
+  }
+}
 
 
 function gaIdConfigurato(){return /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID)&&GA_MEASUREMENT_ID!=="G-XXXXXXXXXX";}
@@ -1187,7 +1182,7 @@ document.addEventListener("click",e=>{
   if(email){
     trackEvent("email_cliccata",{
       posizione:posizioneElemento_(email),
-      tipo:"pec"
+      tipo:"email"
     });
   }
 
@@ -1228,6 +1223,7 @@ function inizializzaTrackingSezioni_(){
 }
 
 initGoogleBusiness();
+caricaPortfolio_();
 initAnalyticsConsent();
 inizializzaTrackingSezioni_();
 const dettaglioIniziale=document.getElementById("dettaglio");
@@ -1397,3 +1393,5 @@ initFaqAccordion();
 /* v14.13.1 — nessuna modifica funzionale JS. */
 
 /* v14.13.2 — evidenza gialla del mega-menu solo hover + feedback click temporaneo. */
+
+/* v14.14.0 — portfolio caricato automaticamente da lavori.json; rimossi i lavori hardcoded. */
