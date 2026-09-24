@@ -1,4 +1,4 @@
-console.log("BERTI frontend V14.14.2 FIX WHATSAPP + PORTFOLIO caricato");
+console.log("BERTI frontend V14.14.3 PORTFOLIO INFO caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycby9tdAFRfDirspF3Il5Zs2VMd1bh-rKJaS1wkqhr3QA7JsVzg1Sgmob1QKL2ZTOpM105g/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
@@ -56,15 +56,44 @@ const PORTFOLIO_FALLBACK={
 };
 
 let lavori={...PORTFOLIO_FALLBACK};
+let lavoriInfo={};
 let portfolioCaricato=false;
 let portfolioPromise=null;
+
+function applicaInfoLavori_(){
+  Object.values(lavori).forEach(elenco=>{
+    if(!Array.isArray(elenco))return;
+
+    elenco.forEach(lavoro=>{
+      const info=lavoriInfo[lavoro.id];
+      if(!info || typeof info!=="object")return;
+
+      if(typeof info.titolo==="string" && info.titolo.trim()){
+        lavoro.titolo=info.titolo.trim();
+      }
+      if(typeof info.luogo==="string"){
+        lavoro.luogo=info.luogo.trim();
+      }
+      if(typeof info.descrizione==="string"){
+        lavoro.descrizione=info.descrizione.trim();
+      }
+    });
+  });
+}
 
 function caricaPortfolio_(){
   if(portfolioPromise)return portfolioPromise;
 
   portfolioPromise=(async()=>{
     try{
-      const response=await fetch("lavori.json?v="+Date.now(),{cache:"no-store"});
+      const cacheBust=Date.now();
+
+      const [response,infoResponse]=await Promise.all([
+        fetch("lavori.json?v="+cacheBust,{cache:"no-store"}),
+        fetch("lavori-info.json?v="+cacheBust,{cache:"no-store"})
+          .catch(()=>null)
+      ]);
+
       if(!response.ok)throw new Error("HTTP "+response.status);
 
       const data=await response.json();
@@ -75,6 +104,14 @@ function caricaPortfolio_(){
         lavori={...PORTFOLIO_FALLBACK};
       }
 
+      if(infoResponse && infoResponse.ok){
+        const infoData=await infoResponse.json();
+        lavoriInfo=(infoData && typeof infoData==="object") ? infoData : {};
+      }else{
+        lavoriInfo={};
+      }
+
+      applicaInfoLavori_();
       portfolioCaricato=true;
     }catch(err){
       console.error("Impossibile caricare lavori.json, uso fallback locale:",err);
@@ -1446,3 +1483,5 @@ initFaqAccordion();
 
 /* v14.14.1 — fix visibilità pulsante portfolio dopo caricamento lavori.json. */
 /* v14.14.2 — fix definitivo visibilità portfolio + fallback lavori + WhatsApp mobile. */
+
+/* v14.14.3 — metadati portfolio da lavori-info.json: titolo, luogo e descrizione. */
