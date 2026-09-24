@@ -1300,3 +1300,56 @@ function initFaqAccordion(){
 }
 initFaqAccordion();
 
+
+
+/* =========================
+   NAVBAR PREMIUM v14.11
+   ========================= */
+(function initPremiumNav(){
+  const header=document.getElementById("siteHeader");
+  const nav=document.getElementById("mainNav");
+  const toggle=document.querySelector(".menuToggle");
+  if(!header||!nav)return;
+
+  const syncHeader=()=>{
+    header.classList.toggle("headerScrolled",window.scrollY>16);
+  };
+  syncHeader();
+  window.addEventListener("scroll",syncHeader,{passive:true});
+
+  const closeMenu=()=>{
+    nav.classList.remove("menuOpen");
+    if(toggle){
+      toggle.setAttribute("aria-expanded","false");
+      toggle.setAttribute("aria-label","Apri menu");
+    }
+  };
+
+  if(toggle){
+    toggle.addEventListener("click",()=>{
+      const open=!nav.classList.contains("menuOpen");
+      nav.classList.toggle("menuOpen",open);
+      toggle.setAttribute("aria-expanded",String(open));
+      toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
+    });
+  }
+
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",closeMenu));
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
+
+  const sectionLinks=[...nav.querySelectorAll("a[data-section]")];
+  const sections=sectionLinks
+    .map(link=>[link,document.getElementById(link.dataset.section)])
+    .filter(([,section])=>section);
+
+  if("IntersectionObserver" in window && sections.length){
+    const observer=new IntersectionObserver(entries=>{
+      const visible=entries
+        .filter(e=>e.isIntersecting)
+        .sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+      if(!visible)return;
+      sectionLinks.forEach(link=>link.classList.toggle("isActive",link.dataset.section===visible.target.id));
+    },{rootMargin:"-28% 0px -58% 0px",threshold:[0,.15,.35]});
+    sections.forEach(([,section])=>observer.observe(section));
+  }
+})();
