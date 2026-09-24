@@ -181,7 +181,9 @@ jobs:
 
       - name: Salva lavori.json
         run: |
-          if git diff --quiet -- lavori.json; then
+          git add lavori.json
+
+          if git diff --cached --quiet; then
             echo "lavori.json è già aggiornato."
             exit 0
           fi
@@ -189,6 +191,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add lavori.json
           git commit -m "Aggiorna portfolio lavori [skip ci]"
           git push
