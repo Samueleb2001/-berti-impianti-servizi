@@ -1,0 +1,194 @@
+name: Aggiorna portfolio lavori
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "images/lavori/**"
+      - "!lavori.json"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  genera-portfolio:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Scarica repository
+        uses: actions/checkout@v4
+
+      - name: Genera elenco lavori
+        shell: python
+        run: |
+          import json
+          import re
+          from pathlib import Path
+
+          CARTELLA = Path("images/lavori")
+          OUTPUT = Path("lavori.json")
+
+          # Le chiavi corrispondono ai servizi usati dal sito.
+          CATEGORIE = [
+              "illuminazione",
+              "manutenzioni",
+              "automazioni",
+              "cartongesso",
+              "citofonia",
+              "elettrico",
+              "smarthome",
+              "montaggi",
+              "muratura",
+              "ritocchi",
+              "esterni",
+              "mobili",
+              "porte",
+              "guasti",
+              "audio",
+              "reti",
+              "altro",
+              "tv",
+          ]
+
+          ESTENSIONI = {".webp", ".jpg", ".jpeg", ".png", ".avif"}
+
+          lavori = {}
+
+          def titolo_da_nome(nome):
+              # v2 / v3 / v4 servono solo internamente:
+              # non vengono mostrati nel titolo al cliente.
+              pulito = re.sub(r"-v\d+$", "", nome, flags=re.IGNORECASE)
+              return pulito.replace("-", " ").strip().capitalize()
+
+          if CARTELLA.exists():
+              for file in sorted(CARTELLA.iterdir()):
+                  if not file.is_file():
+                      continue
+
+                  if file.suffix.lower() not in ESTENSIONI:
+                      continue
+
+                  nome = file.stem.lower()
+
+                  categoria = None
+                  resto = None
+
+                  # Riconosce la categoria dall'inizio del filename.
+                  # Esempio:
+                  # tv-installazione-tv-staffa-soffitto-prima.webp
+                  for cat in sorted(CATEGORIE, key=len, reverse=True):
+                      prefisso = cat + "-"
+                      if nome.startswith(prefisso):
+                          categoria = cat
+                          resto = nome[len(prefisso):]
+                          break
+
+                  if not categoria or not resto:
+                      print(f"Ignorato: {file.name} - categoria non riconosciuta")
+                      continue
+
+                  tipo = None
+                  base = None
+                  numero_extra = None
+
+                  if resto.endswith("-prima"):
+                      tipo = "prima"
+                      base = resto[:-6]
+
+                  elif resto.endswith("-dopo"):
+                      tipo = "dopo"
+                      base = resto[:-5]
+
+                  else:
+                      extra = re.match(r"^(.*)-(\d+)$", resto)
+                      if extra:
+                          tipo = "extra"
+                          base = extra.group(1)
+                          numero_extra = int(extra.group(2))
+
+                  if not tipo or not base:
+                      print(f"Ignorato: {file.name} - tipo foto non riconosciuto")
+                      continue
+
+                  # IMPORTANTE:
+                  # "nome" e "nome-v2" sono due lavori differenti.
+                  id_lavoro = base
+
+                  if categoria not in lavori:
+                      lavori[categoria] = {}
+
+                  if id_lavoro not in lavori[categoria]:
+                      lavori[categoria][id_lavoro] = {
+                          "id": id_lavoro,
+                          "titolo": titolo_da_nome(id_lavoro),
+                          "prima": None,
+                          "dopo": None,
+                          "extra": []
+                      }
+
+                  lavoro = lavori[categoria][id_lavoro]
+                  percorso = file.as_posix()
+
+                  if tipo == "prima":
+                      lavoro["prima"] = percorso
+
+                  elif tipo == "dopo":
+                      lavoro["dopo"] = percorso
+
+                  elif tipo == "extra":
+                      lavoro["extra"].append({
+                          "ordine": numero_extra,
+                          "src": percorso
+                      })
+
+          risultato = {}
+
+          for categoria, gruppi in lavori.items():
+              elenco = []
+
+              for _, lavoro in gruppi.items():
+                  lavoro["extra"].sort(key=lambda x: x["ordine"])
+                  lavoro["extra"] = [x["src"] for x in lavoro["extra"]]
+
+                  # Il lavoro viene pubblicato se possiede almeno una
+                  # foto principale. Prima+dopo abiliteranno il confronto.
+                  if lavoro["prima"] or lavoro["dopo"]:
+                      elenco.append(lavoro)
+
+              # lavoro base prima, poi v2, v3, v4...
+              def ordine_versione(lavoro):
+                  match = re.search(r"-v(\d+)$", lavoro["id"])
+                  if match:
+                      base = re.sub(r"-v\d+$", "", lavoro["id"])
+                      return (base, int(match.group(1)))
+                  return (lavoro["id"], 1)
+
+              elenco.sort(key=ordine_versione)
+
+              if elenco:
+                  risultato[categoria] = elenco
+
+          OUTPUT.write_text(
+              json.dumps(risultato, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8"
+          )
+
+          totale = sum(len(x) for x in risultato.values())
+          print(f"Creato {OUTPUT}: {totale} lavori trovati.")
+
+      - name: Salva lavori.json
+        run: |
+          if git diff --quiet -- lavori.json; then
+            echo "lavori.json è già aggiornato."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add lavori.json
+          git commit -m "Aggiorna portfolio lavori [skip ci]"
+          git push
