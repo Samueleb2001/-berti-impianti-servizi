@@ -776,12 +776,24 @@ function creaLavoroPortfolio_(lavoro,index){
   });
 
   if(track && prev && next){
-    const scorri=(direzione)=>{
-      const passo=Math.max(220,Math.round(track.clientWidth*.78));
-      track.scrollBy({left:direzione*passo,behavior:"smooth"});
-    };
-    prev.addEventListener("click",()=>scorri(-1));
-    next.addEventListener("click",()=>scorri(1));
+    const carousel=article.querySelector(".portfolioDetailsCarousel");
+    const haPiuFoto=extra.length>1;
+
+    prev.hidden=!haPiuFoto;
+    next.hidden=!haPiuFoto;
+
+    if(carousel){
+      carousel.classList.toggle("single",!haPiuFoto);
+    }
+
+    if(haPiuFoto){
+      const scorri=(direzione)=>{
+        const passo=Math.max(220,Math.round(track.clientWidth*.78));
+        track.scrollBy({left:direzione*passo,behavior:"smooth"});
+      };
+      prev.addEventListener("click",()=>scorri(-1));
+      next.addEventListener("click",()=>scorri(1));
+    }
   }
 
   return article;
