@@ -1377,3 +1377,9 @@ initFaqAccordion();
     sections.forEach(([,section])=>observer.observe(section));
   }
 })();
+
+/* v14.12.1 — nessuna modifica funzionale JS; contactbar rimossa dal markup. */
+
+/* v14.12.2 — mega-menu semplificato; logica invariata. */
+
+/* v14.12.3 — nessuna modifica JS; regolato solo l'ancoraggio CSS di #zone. */
