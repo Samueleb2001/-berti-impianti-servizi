@@ -1317,6 +1317,8 @@ initFaqAccordion();
     document.body.classList.toggle("bertNavOpen",open);
     toggle.setAttribute("aria-expanded",String(open));
     toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
+    const menuLabel=toggle.querySelector(".menuLabel");
+    if(menuLabel)menuLabel.textContent=open?"CHIUDI":"MENU";
     nav.setAttribute("aria-hidden",String(!open));
   };
 
@@ -1333,7 +1335,11 @@ initFaqAccordion();
   });
 
   nav.querySelectorAll("a").forEach(link=>{
-    link.addEventListener("click",closeMenu);
+    link.addEventListener("click",()=>{
+      link.classList.add("navFlash");
+      window.setTimeout(()=>link.classList.remove("navFlash"),900);
+      closeMenu();
+    });
   });
 
   nav.querySelectorAll(".quote-open").forEach(button=>{
@@ -1385,3 +1391,9 @@ initFaqAccordion();
 /* v14.12.3 — nessuna modifica JS; regolato solo l'ancoraggio CSS di #zone. */
 
 /* v14.12.4 — CTA navbar PREVENTIVO esplicita anche su mobile; logica invariata. */
+
+/* v14.13.0 — polish navbar e CTA Home; nessuna funzione rimossa. */
+
+/* v14.13.1 — nessuna modifica funzionale JS. */
+
+/* v14.13.2 — evidenza gialla del mega-menu solo hover + feedback click temporaneo. */
