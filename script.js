@@ -1,4 +1,4 @@
-console.log("BERTI frontend V14.14.4 PORTFOLIO INFO FIX caricato");
+console.log("BERTI frontend V14.15.0 PORTFOLIO GALLERY caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycby9tdAFRfDirspF3Il5Zs2VMd1bh-rKJaS1wkqhr3QA7JsVzg1Sgmob1QKL2ZTOpM105g/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
@@ -726,6 +726,29 @@ function creaLavoroPortfolio_(lavoro,index){
           : ""
       }
 
+      ${
+        Array.isArray(lavoro.extra) && lavoro.extra.length
+          ? `<div class="portfolioDetails" aria-label="Dettagli fotografici">
+              <div class="portfolioDetailsHead">
+                <strong>DETTAGLI</strong>
+                <span>${lavoro.extra.length} ${lavoro.extra.length===1 ? "foto" : "foto"}</span>
+              </div>
+              <div class="portfolioDetailsCarousel">
+                <button class="portfolioDetailsArrow prev" type="button" aria-label="Dettagli precedenti">‹</button>
+                <div class="portfolioDetailsTrack">
+                  ${lavoro.extra.map((src,i)=>`
+                    <button class="portfolioDetailThumb" type="button" data-extra-index="${i}" aria-label="Apri dettaglio ${i+1}">
+                      <img src="${escapeHtml_(src)}" alt="Dettaglio ${i+1} - ${escapeHtml_(lavoro.titolo)}" loading="lazy">
+                      <span>+ ZOOM</span>
+                    </button>
+                  `).join("")}
+                </div>
+                <button class="portfolioDetailsArrow next" type="button" aria-label="Dettagli successivi">›</button>
+              </div>
+            </div>`
+          : ""
+      }
+
       <div class="portfolioWorkBrand" aria-hidden="true">
         <strong>BERTI</strong>
         <span>IMPIANTI &amp; SERVIZI</span>
@@ -738,6 +761,27 @@ function creaLavoroPortfolio_(lavoro,index){
 
   if(slider){
     inizializzaBeforeAfter_(slider,index);
+  }
+
+  const extra=Array.isArray(lavoro.extra) ? lavoro.extra : [];
+  const track=article.querySelector(".portfolioDetailsTrack");
+  const prev=article.querySelector(".portfolioDetailsArrow.prev");
+  const next=article.querySelector(".portfolioDetailsArrow.next");
+
+  article.querySelectorAll(".portfolioDetailThumb").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const extraIndex=Number(button.dataset.extraIndex||0);
+      apriPortfolioLightbox_(extra,extraIndex,lavoro.titolo);
+    });
+  });
+
+  if(track && prev && next){
+    const scorri=(direzione)=>{
+      const passo=Math.max(220,Math.round(track.clientWidth*.78));
+      track.scrollBy({left:direzione*passo,behavior:"smooth"});
+    };
+    prev.addEventListener("click",()=>scorri(-1));
+    next.addEventListener("click",()=>scorri(1));
   }
 
   return article;
@@ -788,6 +832,102 @@ function inizializzaBeforeAfter_(slider,index){
   slider.addEventListener("click",e=>{
     aggiorna(e.clientX);
   });
+}
+
+let portfolioLightboxState=null;
+
+function assicuraPortfolioLightbox_(){
+  let box=document.getElementById("portfolioLightbox");
+  if(box)return box;
+
+  box=document.createElement("div");
+  box.id="portfolioLightbox";
+  box.className="portfolioLightbox";
+  box.hidden=true;
+  box.setAttribute("aria-hidden","true");
+  box.innerHTML=`
+    <button class="portfolioLightboxClose" type="button" aria-label="Chiudi immagine">×</button>
+    <button class="portfolioLightboxArrow prev" type="button" aria-label="Foto precedente">‹</button>
+    <figure class="portfolioLightboxFigure">
+      <img class="portfolioLightboxImage" alt="">
+      <figcaption class="portfolioLightboxCaption"></figcaption>
+    </figure>
+    <button class="portfolioLightboxArrow next" type="button" aria-label="Foto successiva">›</button>
+    <div class="portfolioLightboxCounter" aria-live="polite"></div>
+  `;
+  document.body.appendChild(box);
+
+  box.querySelector(".portfolioLightboxClose").addEventListener("click",chiudiPortfolioLightbox_);
+  box.querySelector(".portfolioLightboxArrow.prev").addEventListener("click",()=>cambiaPortfolioLightbox_(-1));
+  box.querySelector(".portfolioLightboxArrow.next").addEventListener("click",()=>cambiaPortfolioLightbox_(1));
+  box.addEventListener("click",e=>{if(e.target===box)chiudiPortfolioLightbox_();});
+
+  let touchStartX=0;
+  let touchStartY=0;
+  box.addEventListener("touchstart",e=>{
+    const t=e.changedTouches[0];
+    touchStartX=t.clientX;
+    touchStartY=t.clientY;
+  },{passive:true});
+  box.addEventListener("touchend",e=>{
+    const t=e.changedTouches[0];
+    const dx=t.clientX-touchStartX;
+    const dy=t.clientY-touchStartY;
+    if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.2){
+      cambiaPortfolioLightbox_(dx<0 ? 1 : -1);
+    }
+  },{passive:true});
+
+  return box;
+}
+
+function aggiornaPortfolioLightbox_(){
+  const box=document.getElementById("portfolioLightbox");
+  if(!box || !portfolioLightboxState)return;
+
+  const {foto,titolo}=portfolioLightboxState;
+  const totale=foto.length;
+  if(!totale)return;
+  const i=((portfolioLightboxState.index%totale)+totale)%totale;
+  portfolioLightboxState.index=i;
+
+  const img=box.querySelector(".portfolioLightboxImage");
+  const caption=box.querySelector(".portfolioLightboxCaption");
+  const counter=box.querySelector(".portfolioLightboxCounter");
+  const prev=box.querySelector(".portfolioLightboxArrow.prev");
+  const next=box.querySelector(".portfolioLightboxArrow.next");
+
+  img.src=foto[i];
+  img.alt=`Dettaglio ${i+1} - ${titolo||"Lavoro realizzato"}`;
+  caption.textContent=titolo||"Lavoro realizzato";
+  counter.textContent=`${i+1} / ${totale}`;
+  prev.hidden=totale<2;
+  next.hidden=totale<2;
+}
+
+function apriPortfolioLightbox_(foto,index=0,titolo=""){
+  if(!Array.isArray(foto) || !foto.length)return;
+  const box=assicuraPortfolioLightbox_();
+  portfolioLightboxState={foto:[...foto],index,titolo};
+  aggiornaPortfolioLightbox_();
+  box.hidden=false;
+  box.setAttribute("aria-hidden","false");
+  box.querySelector(".portfolioLightboxClose").focus();
+  trackEvent("dettaglio_portfolio_aperto",{servizio:services[currentService]?.title||"",lavoro:titolo||""});
+}
+
+function cambiaPortfolioLightbox_(direzione){
+  if(!portfolioLightboxState || portfolioLightboxState.foto.length<2)return;
+  portfolioLightboxState.index+=direzione;
+  aggiornaPortfolioLightbox_();
+}
+
+function chiudiPortfolioLightbox_(){
+  const box=document.getElementById("portfolioLightbox");
+  if(!box || box.hidden)return;
+  box.hidden=true;
+  box.setAttribute("aria-hidden","true");
+  portfolioLightboxState=null;
 }
 
 function renderPortfolio_(key){
@@ -868,6 +1008,16 @@ if(portfolioModal){
 }
 
 document.addEventListener("keydown",e=>{
+  const lightbox=document.getElementById("portfolioLightbox");
+  const lightboxAperta=Boolean(lightbox && !lightbox.hidden);
+
+  if(lightboxAperta){
+    if(e.key==="Escape")chiudiPortfolioLightbox_();
+    if(e.key==="ArrowLeft")cambiaPortfolioLightbox_(-1);
+    if(e.key==="ArrowRight")cambiaPortfolioLightbox_(1);
+    return;
+  }
+
   if(
     e.key==="Escape" &&
     portfolioModal &&
@@ -1504,3 +1654,4 @@ initFaqAccordion();
 
 /* v14.14.3 — metadati portfolio da lavori-info.json: titolo, luogo e descrizione. */
 /* v14.14.4 — merge deterministico dei metadati nel caricamento portfolio. */
+/* v14.15.0 — dettagli portfolio automatici: carosello, zoom lightbox, frecce, tastiera e swipe mobile. */
