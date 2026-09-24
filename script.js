@@ -1,4 +1,4 @@
-console.log("BERTI frontend V14.6.7 PAGESPEED CLS/LCP caricato");
+console.log("BERTI frontend V14.14.2 FIX WHATSAPP + PORTFOLIO caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycby9tdAFRfDirspF3Il5Zs2VMd1bh-rKJaS1wkqhr3QA7JsVzg1Sgmob1QKL2ZTOpM105g/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
@@ -29,25 +29,64 @@ let analyticsLoading=false;
 
 const PORTFOLIO_ATTIVO=true;
 
+/*
+  Fallback locale: garantisce che i due lavori già presenti compaiano
+  anche se lavori.json tarda a caricarsi o viene temporaneamente bloccato.
+  lavori.json resta comunque la fonte automatica principale.
+*/
+const PORTFOLIO_FALLBACK={
+  muratura:[
+    {
+      id:"rivestimento-scale-ingresso-castel-san-pietro",
+      titolo:"Rivestimento scale ingresso Castel San Pietro",
+      prima:"images/lavori/muratura-rivestimento-scale-ingresso-castel-san-pietro-prima.webp",
+      dopo:"images/lavori/muratura-rivestimento-scale-ingresso-castel-san-pietro-dopo.webp",
+      extra:[]
+    }
+  ],
+  tv:[
+    {
+      id:"installazione-tv-staffa-soffitto",
+      titolo:"Installazione TV staffa soffitto",
+      prima:"images/lavori/tv-installazione-tv-staffa-soffitto-prima.webp",
+      dopo:"images/lavori/tv-installazione-tv-staffa-soffitto-dopo.webp",
+      extra:[]
+    }
+  ]
+};
 
-
-let lavori={};
+let lavori={...PORTFOLIO_FALLBACK};
 let portfolioCaricato=false;
+let portfolioPromise=null;
 
-async function caricaPortfolio_(){
-  try{
-    const response=await fetch("lavori.json?v="+Date.now(),{cache:"no-store"});
-    if(!response.ok)throw new Error("HTTP "+response.status);
-    const data=await response.json();
-    lavori=(data && typeof data==="object") ? data : {};
-    portfolioCaricato=true;
+function caricaPortfolio_(){
+  if(portfolioPromise)return portfolioPromise;
+
+  portfolioPromise=(async()=>{
+    try{
+      const response=await fetch("lavori.json?v="+Date.now(),{cache:"no-store"});
+      if(!response.ok)throw new Error("HTTP "+response.status);
+
+      const data=await response.json();
+
+      if(data && typeof data==="object"){
+        lavori={...PORTFOLIO_FALLBACK,...data};
+      }else{
+        lavori={...PORTFOLIO_FALLBACK};
+      }
+
+      portfolioCaricato=true;
+    }catch(err){
+      console.error("Impossibile caricare lavori.json, uso fallback locale:",err);
+      lavori={...PORTFOLIO_FALLBACK};
+      portfolioCaricato=true;
+    }
+
     aggiornaPortfolioButton_();
-  }catch(err){
-    console.error("Impossibile caricare lavori.json:",err);
-    lavori={};
-    portfolioCaricato=false;
-    aggiornaPortfolioButton_();
-  }
+    return lavori;
+  })();
+
+  return portfolioPromise;
 }
 
 
@@ -567,10 +606,14 @@ function aggiornaPortfolioButton_(){
   if(!portfolioSection)return;
 
   const elenco=lavoriServizio_(currentService);
+  const visibile=Boolean(
+    PORTFOLIO_ATTIVO &&
+    currentService &&
+    elenco.length>0
+  );
 
-  portfolioSection.hidden=
-    !PORTFOLIO_ATTIVO ||
-    elenco.length===0;
+  portfolioSection.hidden=!visibile;
+  portfolioSection.style.display=visibile ? "block" : "none";
 }
 
 function escapeHtml_(value){
@@ -806,7 +849,13 @@ function selectService(key,scroll=false){
  }
 
  updateWhatsAppLinks();
+
+ // Mostra subito il portfolio se già disponibile; poi risincronizza
+ // appena lavori.json termina il caricamento.
  aggiornaPortfolioButton_();
+ caricaPortfolio_().then(()=>{
+   if(currentService===key)aggiornaPortfolioButton_();
+ });
 
  if(scroll && dettaglio){
    requestAnimationFrame(()=>{
@@ -1396,3 +1445,4 @@ initFaqAccordion();
 /* v14.13.2 — evidenza gialla del mega-menu solo hover + feedback click temporaneo. */
 
 /* v14.14.1 — fix visibilità pulsante portfolio dopo caricamento lavori.json. */
+/* v14.14.2 — fix definitivo visibilità portfolio + fallback lavori + WhatsApp mobile. */
