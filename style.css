@@ -2530,3 +2530,290 @@ body.bertNavOpen{overflow:hidden}
     height:44px;
   }
 }
+
+
+/* =========================================================
+   BERTI v14.13.0 — POLISH UI
+   Navbar più raffinata + CTA Home più pulite
+   ========================================================= */
+
+/* Navbar: ombra più morbida e transizione compatta allo scroll */
+.siteHeader{
+  transition:
+    height .24s ease,
+    background .24s ease,
+    box-shadow .24s ease,
+    backdrop-filter .24s ease;
+}
+
+.siteHeader.headerScrolled{
+  box-shadow:0 8px 24px rgba(0,0,0,.14);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.navBarShell,
+.siteHeader .brandLogo,
+.menuToggle,
+.navQuickCall,
+.navQuote{
+  transition:
+    height .24s ease,
+    min-height .24s ease,
+    padding .24s ease,
+    transform .24s ease,
+    font-size .24s ease;
+}
+
+@media(min-width:901px){
+  .siteHeader.headerScrolled,
+  .siteHeader.headerScrolled .navBarShell{
+    height:76px;
+  }
+
+  .siteHeader.headerScrolled .brandLogo{
+    height:51px;
+  }
+
+  .siteHeader.headerScrolled .menuToggle,
+  .siteHeader.headerScrolled .navQuickCall,
+  .siteHeader.headerScrolled .navQuote{
+    min-height:38px;
+    height:38px;
+  }
+}
+
+/* Logo appena più presente, senza aumentare la navbar */
+@media(min-width:901px){
+  .siteHeader:not(.headerScrolled) .brandLogo{
+    height:62px;
+  }
+}
+
+/* Menu: chiusura/apertura più morbida */
+.mainNav{
+  transform-origin:top center;
+  transition:
+    opacity .24s ease,
+    transform .28s cubic-bezier(.22,.61,.36,1),
+    visibility .24s ease;
+}
+
+.mainNav.menuOpen{
+  transform:translateY(0);
+}
+
+/* CTA navbar: micro-feedback più elegante */
+.navQuote{
+  box-shadow:0 8px 20px rgba(255,197,21,.12);
+}
+
+.navQuote:hover{
+  box-shadow:0 10px 24px rgba(255,197,21,.20);
+}
+
+.menuToggle:focus-visible,
+.navQuote:focus-visible,
+.navQuickCall:focus-visible{
+  outline:2px solid #ffc515;
+  outline-offset:3px;
+}
+
+/* CTA HOME — desktop: tre azioni ordinate e meno "cartellone" */
+.quickActions{
+  max-width:none;
+  margin:0;
+  padding:22px 5% 24px;
+  display:grid;
+  grid-template-columns:minmax(170px,220px) minmax(170px,220px) minmax(220px,270px);
+  justify-content:center;
+  align-items:stretch;
+  gap:12px;
+  background:#0b1118;
+}
+
+.quickActions a,
+.quickActions button{
+  min-height:58px;
+  width:100%;
+  padding:0 18px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  font-size:13px;
+  letter-spacing:.01em;
+  box-shadow:none;
+}
+
+.quickActions .primary{
+  background:#ffc515;
+  color:#101722;
+}
+
+.quickActions .whatsappBtn{
+  background:transparent;
+  color:#25d366;
+  border:1px solid rgba(37,211,102,.52);
+}
+
+.quickActions .mailBtn{
+  background:#fff;
+  color:#101722;
+  border:1px solid rgba(255,255,255,.88);
+}
+
+.quickActions a:hover,
+.quickActions button:hover{
+  transform:translateY(-2px);
+}
+
+.quickActions .whatsappBtn:hover{
+  background:rgba(37,211,102,.08);
+  border-color:#25d366;
+}
+
+.quickActions .hoursNotice{
+  grid-column:1 / -1;
+  margin:2px 0 0;
+  color:rgba(255,255,255,.66);
+  font-size:12px;
+  font-weight:700;
+}
+
+/* Mobile: Chiama + WhatsApp affiancati, Preventivo principale sotto */
+@media(max-width:700px){
+  .siteHeader,
+  .navBarShell{
+    height:74px;
+  }
+
+  .siteHeader .brandLogo{
+    height:46px;
+  }
+
+  .menuToggle{
+    width:44px;
+    height:42px;
+  }
+
+  .navQuote{
+    min-width:96px;
+    height:42px;
+    min-height:42px;
+    padding:0 10px;
+    font-size:10px;
+  }
+
+  .quickActions{
+    padding:16px 4% 20px;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .quickActions a,
+  .quickActions button{
+    min-height:54px;
+    padding:0 10px;
+    border-radius:9px;
+    font-size:12px;
+  }
+
+  .quickActions .mailBtn{
+    grid-column:1 / -1;
+    min-height:60px;
+    background:#ffc515;
+    border-color:#ffc515;
+    color:#101722;
+    font-size:13px;
+  }
+
+  .quickActions .primary{
+    background:transparent;
+    color:#ffc515;
+    border:1px solid rgba(255,197,21,.58);
+  }
+
+  .quickActions .hoursNotice{
+    grid-column:1 / -1;
+    font-size:11px;
+    line-height:1.45;
+    padding-top:2px;
+  }
+}
+
+@media(max-width:380px){
+  .siteHeader .brandLogo{
+    height:41px;
+  }
+
+  .navQuote{
+    min-width:88px;
+    padding:0 8px;
+    font-size:9.5px;
+  }
+
+  .quickActions a,
+  .quickActions button{
+    font-size:11px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .siteHeader,
+  .navBarShell,
+  .siteHeader .brandLogo,
+  .menuToggle,
+  .navQuickCall,
+  .navQuote,
+  .mainNav,
+  .quickActions a,
+  .quickActions button{
+    transition:none!important;
+  }
+}
+
+/* v14.13.1 — contatto pubblico: email info@bertimpianti.it al posto della PEC. */
+
+
+/* v14.13.2 — mega-menu: giallo solo su hover o breve feedback al click. */
+.megaNavPrimary a.isActive{
+  color:#fff;
+  border-color:rgba(255,255,255,.28);
+}
+
+.megaNavPrimary a.isActive::after{
+  transform:scaleX(0);
+}
+
+.megaNavPrimary a.isActive b{
+  color:rgba(255,255,255,.72);
+}
+
+.megaNavPrimary a:hover{
+  color:#ffc515;
+  border-color:rgba(255,197,21,.32);
+}
+
+.megaNavPrimary a:hover::after{
+  transform:scaleX(1);
+}
+
+.megaNavPrimary a:hover b{
+  color:#ffc515;
+}
+
+/* Feedback temporaneo dopo il click */
+.megaNavPrimary a.navFlash{
+  color:#ffc515;
+  border-color:rgba(255,197,21,.32);
+}
+
+.megaNavPrimary a.navFlash::after{
+  transform:scaleX(1);
+}
+
+.megaNavPrimary a.navFlash b{
+  color:#ffc515;
+}
