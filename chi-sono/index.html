@@ -10,33 +10,59 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=1">
   <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png?v=1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
-  <link rel="stylesheet" href="/style.css?v=14.11.0">
+  <link rel="stylesheet" href="/style.css?v=14.13.3">
 </head>
 <body class="aboutPage">
-<header class="siteHeader headerScrolled" id="siteHeader">
-  <a class="brand" href="/" aria-label="BERTI Impianti e Servizi">
-    <img class="brandLogo" src="/images/logo-b-trasparente-v2.png" alt="BERTI Impianti & Servizi" width="2047" height="780" decoding="async">
-  </a>
-  <button class="menuToggle" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="mainNav">
-    <span></span><span></span><span></span>
-  </button>
-  <nav id="mainNav" class="mainNav" aria-label="Navigazione principale">
-    <a href="/">Home</a>
-    <a href="/chi-sono/" class="isActive">Chi sono</a>
-    <a href="/#servizi">Servizi</a>
-    <a href="/#zone">Zone</a>
-    <a href="/#faq">FAQ</a>
-    <a href="/#contatti">Contatti</a>
-    <a class="navQuote" href="/#contatti">Preventivo</a>
+<header class="siteHeader" id="siteHeader">
+  <div class="navBarShell">
+    <button class="menuToggle" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="mainNav">
+      <span class="menuIcon" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="menuLabel">MENU</span>
+    </button>
+
+    <a class="brand" href="/" aria-label="BERTI Impianti e Servizi">
+      <img class="brandLogo" src="/images/logo-b-trasparente-v2.png" alt="BERTI Impianti &amp; Servizi" width="2047" height="780" decoding="async">
+    </a>
+
+    <div class="navBarActions" aria-label="Contatti rapidi">
+      <a class="navQuickCall call-link" href="tel:+393703173136" aria-label="Chiama BERTI">
+        <span class="navActionIcon" aria-hidden="true">☎</span>
+        <span>Chiama</span>
+      </a>
+      <a class="navQuote" href="/#contatti"><span>Preventivo</span></a>
+    </div>
+  </div>
+
+  <nav id="mainNav" class="mainNav" aria-label="Navigazione principale" aria-hidden="true">
+    <div class="megaNavInner">
+      <div class="megaNavPrimary">
+        <a href="/"><span>Home</span><b aria-hidden="true">→</b></a>
+        <a href="/chi-sono/"><span>Chi sono</span><b aria-hidden="true">→</b></a>
+        <a href="/#servizi"><span>Servizi</span><b aria-hidden="true">→</b></a>
+        <a href="/#zone"><span>Zone</span><b aria-hidden="true">→</b></a>
+        <a href="/#faq"><span>FAQ</span><b aria-hidden="true">→</b></a>
+        <a href="/#contatti"><span>Contatti</span><b aria-hidden="true">→</b></a>
+      </div>
+
+      <div class="megaNavDivider" aria-hidden="true"></div>
+
+      <div class="megaNavBottom">
+        <p>Castel San Pietro Terme · Imola · Bologna e provincia · Misano Adriatico e zone limitrofe</p>
+        <div class="megaNavContacts">
+          <a class="megaQuote" href="/#contatti">Richiedi preventivo <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
   </nav>
 </header>
 
 <main>
   <section class="aboutHero">
     <div class="aboutHeroInner">
-      <p class="aboutEyebrow">Dietro BERTI</p>
-      <h1>Un modo nuovo di pensare il servizio.</h1>
-      <p class="aboutLead">Sono Samuele Berti. BERTI | Impianti &amp; Servizi nasce con una visione semplice: unire competenza tecnica, attenzione per il cliente e una mentalità giovane, aperta alle nuove soluzioni.</p>
+      <p class="aboutEyebrow">DIETRO BERTI</p>
+      <h1>Un referente diretto,<br>dall'inizio alla fine.</h1>
+      <p class="aboutLead"><strong>Sono Samuele Berti, titolare di BERTI | Impianti &amp; Servizi.</strong> Ho creato questa attività con l'idea di offrire un servizio diretto, moderno e attento alle esigenze di ogni cliente.</p>
+      <p class="aboutLead aboutLeadSecondary">Il mio lavoro parte dagli impianti elettrici e si estende a diversi interventi e servizi per la casa, con un obiettivo preciso: capire ciò che serve davvero e trovare la soluzione più adatta, senza complicazioni inutili.</p>
     </div>
   </section>
 
@@ -117,18 +143,39 @@
 
 <script>
 (function(){
+  const header=document.getElementById("siteHeader");
   const nav=document.getElementById("mainNav");
   const toggle=document.querySelector(".menuToggle");
   if(!nav||!toggle)return;
-  const close=()=>{nav.classList.remove("menuOpen");toggle.setAttribute("aria-expanded","false");toggle.setAttribute("aria-label","Apri menu")};
-  toggle.addEventListener("click",()=>{
-    const open=!nav.classList.contains("menuOpen");
+
+  const label=toggle.querySelector(".menuLabel");
+
+  function setMenu(open){
     nav.classList.toggle("menuOpen",open);
+    toggle.classList.toggle("isOpen",open);
     toggle.setAttribute("aria-expanded",String(open));
     toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
+    nav.setAttribute("aria-hidden",String(!open));
+    if(label)label.textContent=open?"CHIUDI":"MENU";
+  }
+
+  toggle.addEventListener("click",()=>setMenu(!nav.classList.contains("menuOpen")));
+
+  nav.querySelectorAll("a").forEach(link=>{
+    link.addEventListener("click",()=>{
+      link.classList.add("navFlash");
+      window.setTimeout(()=>link.classList.remove("navFlash"),900);
+      setMenu(false);
+    });
   });
-  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
+
+  function updateHeader(){
+    header?.classList.toggle("headerScrolled",window.scrollY>16);
+  }
+  updateHeader();
+  window.addEventListener("scroll",updateHeader,{passive:true});
 })();
 </script>
 </body>
