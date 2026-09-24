@@ -1,0 +1,20 @@
+{
+  "muratura": [
+    {
+      "id": "rivestimento-scale-ingresso-castel-san-pietro",
+      "titolo": "Rivestimento scale ingresso castel san pietro",
+      "prima": "images/lavori/muratura-rivestimento-scale-ingresso-castel-san-pietro-prima.webp",
+      "dopo": "images/lavori/muratura-rivestimento-scale-ingresso-castel-san-pietro-dopo.webp",
+      "extra": []
+    }
+  ],
+  "tv": [
+    {
+      "id": "installazione-tv-staffa-soffitto",
+      "titolo": "Installazione tv staffa soffitto",
+      "prima": "images/lavori/tv-installazione-tv-staffa-soffitto-prima.webp",
+      "dopo": "images/lavori/tv-installazione-tv-staffa-soffitto-dopo.webp",
+      "extra": []
+    }
+  ]
+}
