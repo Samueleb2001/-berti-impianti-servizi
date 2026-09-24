@@ -11,7 +11,7 @@ body{
   font-family:Arial,Helvetica,sans-serif;
   color:#101722;
   background:#fff;
-  padding-bottom:74px
+  padding-bottom:0
 }
 
 a{
@@ -1061,7 +1061,7 @@ footer{
 .toast{
   position:fixed;
   left:50%;
-  bottom:88px;
+  bottom:18px;
   transform:translateX(-50%) translateY(20px);
   background:#101722;
   color:#fff;
@@ -1104,7 +1104,7 @@ footer{
   position:fixed;
   left:18px;
   right:18px;
-  bottom:88px;
+  bottom:18px;
   z-index:140;
   max-width:900px;
   margin:0 auto;
@@ -1332,7 +1332,7 @@ footer{
   .analyticsConsent{
     flex-direction:column;
     align-items:stretch;
-    bottom:82px
+    bottom:18px
   }
 
   .analyticsConsentActions{
@@ -2459,4 +2459,39 @@ body.bertNavOpen{overflow:hidden}
   .aboutValueGrid{grid-template-columns:1fr}
   .aboutCta{padding:0 5% 48px}
   .aboutCtaInner{align-items:flex-start;flex-direction:column}
+}
+
+/* v14.12.1 — rimossa esclusivamente la barra fissa inferiore Chiama / WhatsApp / Preventivo. */
+
+
+/* v14.12.2 — mega-menu alleggerito: rimossi servizi duplicati, telefono e WhatsApp. */
+.megaNavDivider{
+  margin:34px 0 0;
+}
+.megaNavBottom{
+  padding-top:24px;
+}
+.megaNavContacts{
+  margin-left:auto;
+}
+@media(max-width:900px){
+  .megaNavDivider{margin:22px 0 0}
+  .megaNavBottom{padding-top:20px}
+  .megaNavContacts{
+    width:auto;
+    margin-left:0;
+    display:block
+  }
+}
+
+
+/* v14.12.3 — ancoraggio Zone: arresto leggermente più in alto sotto la navbar sticky. */
+#zone{
+  scroll-margin-top:145px;
+}
+
+@media(max-width:900px){
+  #zone{
+    scroll-margin-top:125px;
+  }
 }
