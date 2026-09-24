@@ -1383,3 +1383,5 @@ initFaqAccordion();
 /* v14.12.2 — mega-menu semplificato; logica invariata. */
 
 /* v14.12.3 — nessuna modifica JS; regolato solo l'ancoraggio CSS di #zone. */
+
+/* v14.12.4 — CTA navbar PREVENTIVO esplicita anche su mobile; logica invariata. */
