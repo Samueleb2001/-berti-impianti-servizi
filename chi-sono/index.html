@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Conosci Samuele Berti e BERTI | Impianti & Servizi: contatto diretto, impianti elettrici, manutenzioni e servizi per la casa.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://bertimpianti.it/chi-sono/">
+  <title>Chi sono | BERTI | Impianti &amp; Servizi</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png?v=1">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png?v=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=1">
+  <link rel="stylesheet" href="/style.css?v=14.11.0">
+</head>
+<body class="aboutPage">
+<header class="siteHeader headerScrolled" id="siteHeader">
+  <a class="brand" href="/" aria-label="BERTI Impianti e Servizi">
+    <img class="brandLogo" src="/images/logo-b-trasparente-v2.png" alt="BERTI Impianti & Servizi" width="2047" height="780" decoding="async">
+  </a>
+  <button class="menuToggle" type="button" aria-label="Apri menu" aria-expanded="false" aria-controls="mainNav">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="mainNav" class="mainNav" aria-label="Navigazione principale">
+    <a href="/">Home</a>
+    <a href="/chi-sono/" class="isActive">Chi sono</a>
+    <a href="/#servizi">Servizi</a>
+    <a href="/#zone">Zone</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/#contatti">Contatti</a>
+    <a class="navQuote" href="/#contatti">Preventivo</a>
+  </nav>
+</header>
+
+<main>
+  <section class="aboutHero">
+    <div class="aboutHeroInner">
+      <p class="aboutEyebrow">Dietro BERTI</p>
+      <h1>Un referente diretto, dall'inizio alla fine.</h1>
+      <p class="aboutLead">Sono Samuele Berti. Ho creato BERTI | Impianti &amp; Servizi per offrire un rapporto semplice e diretto: capire il problema, trovare una soluzione concreta e seguire personalmente il lavoro.</p>
+    </div>
+  </section>
+
+  <section class="aboutContent">
+    <div class="aboutIntroGrid">
+      <article class="aboutTextCard">
+        <h2>Chi sono</h2>
+        <p>Il mio percorso nasce nel settore tecnico e nell'impiantistica. Ho conseguito il diploma professionale in <strong>Manutenzione e Assistenza Tecnica</strong>, con indirizzo dedicato ad apparati, impianti e servizi tecnici industriali e civili.</p>
+        <p>Con BERTI mi occupo principalmente di <strong>impianti elettrici, illuminazione, ricerca guasti</strong> e di diversi interventi di manutenzione e servizio per la casa.</p>
+        <p>Il punto per me è semplice: quando mi contatti, parli direttamente con chi seguirà la richiesta. Niente passaggi inutili, risposte poco chiare o rimbalzi tra persone diverse.</p>
+      </article>
+
+      <aside class="aboutFactCard" aria-label="BERTI in breve">
+        <div class="aboutFact"><small>Attività</small><strong>BERTI | Impianti &amp; Servizi</strong></div>
+        <div class="aboutFact"><small>Referente</small><strong>Samuele Berti</strong></div>
+        <div class="aboutFact"><small>Servizi principali</small><strong>Impianti elettrici · Guasti · Illuminazione · Manutenzioni</strong></div>
+        <div class="aboutFact"><small>Zone</small><strong>Bologna e provincia · area Imola/Castel San Pietro · Riviera romagnola</strong></div>
+        <div class="aboutFact"><small>Contatto</small><strong>Diretto, anche via WhatsApp</strong></div>
+      </aside>
+    </div>
+
+    <div class="aboutValues">
+      <p class="aboutEyebrow">Come lavoro</p>
+      <h2>Poche promesse. Tre punti concreti.</h2>
+      <div class="aboutValueGrid">
+        <article class="aboutValue"><span class="aboutValueNumber">1</span><h3>Contatto diretto</h3><p>Dalla prima richiesta al lavoro, hai un unico referente con cui confrontarti.</p></article>
+        <article class="aboutValue"><span class="aboutValueNumber">2</span><h3>Soluzione chiara</h3><p>Prima di intervenire definiamo cosa serve, quali sono le alternative e come procedere.</p></article>
+        <article class="aboutValue"><span class="aboutValueNumber">3</span><h3>Lavoro seguito</h3><p>L'obiettivo è lasciare un intervento ordinato, comprensibile e coerente con quanto concordato.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="aboutCta">
+    <div class="aboutCtaInner">
+      <div>
+        <h2>Hai un lavoro da valutare?</h2>
+        <p>Raccontami cosa ti serve: il preventivo è gratuito e senza impegno.</p>
+      </div>
+      <div class="aboutCtaActions">
+        <a class="aboutCtaLink" href="/#contatti">Richiedi un preventivo</a>
+        <a class="aboutCtaLink secondary" href="tel:+393703173136">Chiama</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="aboutFooter">
+  © 2026 BERTI | Impianti &amp; Servizi di Samuele Berti · P. IVA 04406131203 · <a href="/privacy-policy/">Privacy Policy</a>
+</footer>
+
+<script>
+(function(){
+  const nav=document.getElementById("mainNav");
+  const toggle=document.querySelector(".menuToggle");
+  if(!nav||!toggle)return;
+  const close=()=>{nav.classList.remove("menuOpen");toggle.setAttribute("aria-expanded","false");toggle.setAttribute("aria-label","Apri menu")};
+  toggle.addEventListener("click",()=>{
+    const open=!nav.classList.contains("menuOpen");
+    nav.classList.toggle("menuOpen",open);
+    toggle.setAttribute("aria-expanded",String(open));
+    toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
+  });
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",close));
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+})();
+</script>
+</body>
+</html>
