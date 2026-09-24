@@ -2943,7 +2943,7 @@ body.bertNavOpen{overflow:hidden}
 }
 
 /* ==================================================
-   PORTFOLIO DETTAGLI + LIGHTBOX — BERTI v14.15.0
+   PORTFOLIO DETTAGLI + LIGHTBOX — BERTI v14.15.1
    ================================================== */
 .portfolioDetails{
   margin-top:20px;
@@ -3030,6 +3030,16 @@ body.bertNavOpen{overflow:hidden}
   justify-content:center
 }
 .portfolioDetailsArrow:hover{background:#ffc400;color:#101722}
+.portfolioDetailsArrow[hidden]{display:none!important}
+.portfolioDetailsCarousel.single{
+  display:block
+}
+.portfolioDetailsCarousel.single .portfolioDetailsTrack{
+  overflow:visible
+}
+.portfolioDetailsCarousel.single .portfolioDetailThumb{
+  flex:0 0 clamp(150px,28vw,220px)
+}
 
 .portfolioLightbox{
   position:fixed;
