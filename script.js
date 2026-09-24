@@ -1,4 +1,4 @@
-console.log("BERTI frontend V14.14.3 PORTFOLIO INFO caricato");
+console.log("BERTI frontend V14.14.4 PORTFOLIO INFO FIX caricato");
 const APPS_SCRIPT_URL="https://script.google.com/macros/s/AKfycby9tdAFRfDirspF3Il5Zs2VMd1bh-rKJaS1wkqhr3QA7JsVzg1Sgmob1QKL2ZTOpM105g/exec";
 const GA_MEASUREMENT_ID="G-1SSYRJTNKB";
 const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
@@ -98,12 +98,6 @@ function caricaPortfolio_(){
 
       const data=await response.json();
 
-      if(data && typeof data==="object"){
-        lavori={...PORTFOLIO_FALLBACK,...data};
-      }else{
-        lavori={...PORTFOLIO_FALLBACK};
-      }
-
       if(infoResponse && infoResponse.ok){
         const infoData=await infoResponse.json();
         lavoriInfo=(infoData && typeof infoData==="object") ? infoData : {};
@@ -111,7 +105,31 @@ function caricaPortfolio_(){
         lavoriInfo={};
       }
 
-      applicaInfoLavori_();
+      const sorgente=(data && typeof data==="object")
+        ? {...PORTFOLIO_FALLBACK,...data}
+        : {...PORTFOLIO_FALLBACK};
+
+      lavori={};
+      Object.entries(sorgente).forEach(([categoria,elenco])=>{
+        lavori[categoria]=Array.isArray(elenco)
+          ? elenco.map(lavoro=>{
+              const info=lavoriInfo[String(lavoro.id||"")]||{};
+              return {
+                ...lavoro,
+                titolo:(typeof info.titolo==="string" && info.titolo.trim())
+                  ? info.titolo.trim()
+                  : lavoro.titolo,
+                luogo:(typeof info.luogo==="string")
+                  ? info.luogo.trim()
+                  : (lavoro.luogo||""),
+                descrizione:(typeof info.descrizione==="string")
+                  ? info.descrizione.trim()
+                  : (lavoro.descrizione||"")
+              };
+            })
+          : [];
+      });
+
       portfolioCaricato=true;
     }catch(err){
       console.error("Impossibile caricare lavori.json, uso fallback locale:",err);
@@ -1485,3 +1503,4 @@ initFaqAccordion();
 /* v14.14.2 — fix definitivo visibilità portfolio + fallback lavori + WhatsApp mobile. */
 
 /* v14.14.3 — metadati portfolio da lavori-info.json: titolo, luogo e descrizione. */
+/* v14.14.4 — merge deterministico dei metadati nel caricamento portfolio. */
