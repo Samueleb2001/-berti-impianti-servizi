@@ -1303,13 +1303,24 @@ initFaqAccordion();
 
 
 /* =========================
-   NAVBAR PREMIUM v14.11
+   BERTI MEGA NAV v14.12
    ========================= */
-(function initPremiumNav(){
+(function initBertiMegaNav(){
   const header=document.getElementById("siteHeader");
   const nav=document.getElementById("mainNav");
   const toggle=document.querySelector(".menuToggle");
-  if(!header||!nav)return;
+  if(!header||!nav||!toggle)return;
+
+  const setOpen=(open)=>{
+    nav.classList.toggle("menuOpen",open);
+    header.classList.toggle("menuIsOpen",open);
+    document.body.classList.toggle("bertNavOpen",open);
+    toggle.setAttribute("aria-expanded",String(open));
+    toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
+    nav.setAttribute("aria-hidden",String(!open));
+  };
+
+  const closeMenu=()=>setOpen(false);
 
   const syncHeader=()=>{
     header.classList.toggle("headerScrolled",window.scrollY>16);
@@ -1317,25 +1328,36 @@ initFaqAccordion();
   syncHeader();
   window.addEventListener("scroll",syncHeader,{passive:true});
 
-  const closeMenu=()=>{
-    nav.classList.remove("menuOpen");
-    if(toggle){
-      toggle.setAttribute("aria-expanded","false");
-      toggle.setAttribute("aria-label","Apri menu");
+  toggle.addEventListener("click",()=>{
+    setOpen(!nav.classList.contains("menuOpen"));
+  });
+
+  nav.querySelectorAll("a").forEach(link=>{
+    link.addEventListener("click",closeMenu);
+  });
+
+  nav.querySelectorAll(".quote-open").forEach(button=>{
+    button.addEventListener("click",closeMenu);
+  });
+
+  document.addEventListener("keydown",e=>{
+    if(e.key==="Escape"&&nav.classList.contains("menuOpen")){
+      closeMenu();
+      toggle.focus();
     }
-  };
+  });
 
-  if(toggle){
-    toggle.addEventListener("click",()=>{
-      const open=!nav.classList.contains("menuOpen");
-      nav.classList.toggle("menuOpen",open);
-      toggle.setAttribute("aria-expanded",String(open));
-      toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
-    });
-  }
+  document.addEventListener("click",e=>{
+    if(!nav.classList.contains("menuOpen"))return;
+    if(header.contains(e.target))return;
+    closeMenu();
+  });
 
-  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",closeMenu));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
+  window.addEventListener("resize",()=>{
+    if(window.innerWidth>1200 && !nav.classList.contains("menuOpen")){
+      document.body.classList.remove("bertNavOpen");
+    }
+  });
 
   const sectionLinks=[...nav.querySelectorAll("a[data-section]")];
   const sections=sectionLinks
@@ -1348,7 +1370,9 @@ initFaqAccordion();
         .filter(e=>e.isIntersecting)
         .sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
       if(!visible)return;
-      sectionLinks.forEach(link=>link.classList.toggle("isActive",link.dataset.section===visible.target.id));
+      sectionLinks.forEach(link=>{
+        link.classList.toggle("isActive",link.dataset.section===visible.target.id);
+      });
     },{rootMargin:"-28% 0px -58% 0px",threshold:[0,.15,.35]});
     sections.forEach(([,section])=>observer.observe(section));
   }
