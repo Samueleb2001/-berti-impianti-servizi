@@ -2915,3 +2915,29 @@ body.bertNavOpen{overflow:hidden}
     display:none;
   }
 }
+
+/* ==================================================
+   BERTI v14.14.2 — FIX WHATSAPP MOBILE
+   L'icona deve restare verde e leggibile sul fondo scuro.
+   ================================================== */
+.quickActions .whatsappBtn .waIcon{
+  color:#25d366 !important;
+  fill:currentColor;
+  opacity:1;
+}
+
+@media(max-width:700px){
+  .quickActions .whatsappBtn{
+    color:#25d366;
+    border-color:rgba(37,211,102,.72);
+  }
+
+  .quickActions .whatsappBtn .waIcon{
+    width:24px;
+    height:24px;
+    color:#25d366 !important;
+    fill:currentColor;
+    opacity:1;
+    flex:0 0 24px;
+  }
+}
