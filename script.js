@@ -1250,7 +1250,7 @@ if(descrizione.length<5){
    name:document.getElementById("qName").value.trim(),
    surname:document.getElementById("qSurname").value.trim(),
    email:document.getElementById("qEmail").value.trim(),
-   phone:document.getElementById("qPhone").value.trim(),
+   phone:telefono,
    address:document.getElementById("qAddress").value.trim(),
    service:s.title,
    message:document.getElementById("qDescription").value.trim(),
