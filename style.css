@@ -3153,6 +3153,13 @@ body.bertNavOpen{overflow:hidden}
     width:42px;
     height:42px
   }
+  /* Nota campi obbligatori nel modulo preventivo */
+  .requiredFieldsNote{
+    margin:10px 0 16px;
+    color:#69717c;
+    font-size:13px;
+    line-height:1.4;
+  }
   .portfolioLightboxArrow{
     top:auto;
     bottom:12px;
