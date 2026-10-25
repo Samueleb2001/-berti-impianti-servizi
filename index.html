@@ -361,8 +361,22 @@
       <div class="formGrid">
         <label>Nome *<input id="qName" type="text" autocomplete="given-name" required></label>
         <label>Cognome *<input id="qSurname" type="text" autocomplete="family-name" required></label>
-        <label>La tua email *<input id="qEmail" type="email" autocomplete="email" required></label>
-        <label>Telefono<input id="qPhone" type="tel" autocomplete="tel"></label>
+<label>
+  La tua email (facoltativa)
+  <input id="qEmail" type="email" autocomplete="email">
+</label>
+
+<label>
+  Telefono *
+  <input
+    id="qPhone"
+    type="tel"
+    autocomplete="tel"
+    inputmode="tel"
+    maxlength="25"
+    required
+  >
+</label>
         <label class="full">Indirizzo / Comune dell'intervento *<input id="qAddress" type="text" autocomplete="street-address" required></label>
         <label class="full">Servizio richiesto *<select id="qService" required></select></label>
         <label class="full">Descrizione del lavoro *<textarea id="qDescription" rows="6" placeholder="Esempio: devo montare un armadio a 3 ante, il mobile è già in casa..." required></textarea></label>
