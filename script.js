@@ -1218,7 +1218,19 @@ const jobId=
   
  if(submitBtn.disabled) return;
  if(!quoteForm.reportValidity()) return;
-  
+ const telefono =
+  document.getElementById("qPhone").value.trim();
+
+const cifreTelefono =
+  telefono.replace(/\D/g,"");
+
+if(cifreTelefono.length<6 || cifreTelefono.length>15){
+  formStatus.className="formStatus error";
+  formStatus.textContent=
+    "Inserisci un numero di telefono valido.";
+  document.getElementById("qPhone").focus();
+  return;
+} 
 const descrizione=document.getElementById("qDescription").value.trim();
 
 if(descrizione.length<5){
