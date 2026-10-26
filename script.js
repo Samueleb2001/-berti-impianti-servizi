@@ -469,6 +469,7 @@ porte:{
 ritocchi:{
  icon:"🎨",
  title:"TINTEGGIATURA E FINITURE",
+  active:false,
  short:"Tinteggiatura, stuccature, rasature, ripristini e finiture per interni.",
  headline:"Tinteggiatura e finiture per rinnovare gli ambienti",
  text:"Interventi di tinteggiatura, preparazione delle superfici e finitura, dal semplice ripristino alla sistemazione completa delle pareti.",
@@ -486,6 +487,7 @@ ritocchi:{
 },
 
  cartongesso:{
+   active:false,
  icon:"▧",
  title:"CARTONGESSO E RIPRISTINI",
  short:"Pareti, contropareti, velette, chiusure, ripristini e finiture in cartongesso.",
@@ -505,6 +507,7 @@ ritocchi:{
 },
 
   muratura:{
+    active:false,
  icon:"🧱",
  title:"MURATURA E RIPRISTINI EDILI",
  short:"Opere murarie, tracce, chiusure, ripristini e sistemazioni edili.",
