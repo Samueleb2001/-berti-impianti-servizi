@@ -556,7 +556,7 @@ smarthome:{
    "Controllo intelligente dell'illuminazione",
    "Sensori di movimento e apertura",
    "Gestione smart di tapparelle e automazioni",
-   "Termostati e dispositivi connessi",
+   "Termostati smart e dispositivi connessi (senza interventi sulla caldaia)",
    "Configurazione app e controllo da smartphone",
    "Collegamento dei dispositivi alla rete Wi-Fi",
    "Integrazione con assistenti vocali compatibili",
@@ -645,7 +645,7 @@ Nome:
 Comune dell'intervento:
 Descrizione del lavoro:
 Giorno/orario preferito per essere ricontattato:`;
- return "https://wa.me/393703173136?text="+encodeURIComponent(text);
+ return "https://wa.me/393522971348?text="+encodeURIComponent(text);
 }
 
 function updateWhatsAppLinks(){
@@ -1424,23 +1424,23 @@ setTimeout(()=>closeQuote("inviato"),2000);
    },700);
  }
 });
-function isCallOpen(){const now=new Date();const mins=now.getHours()*60+now.getMinutes();return mins>=420&&mins<1350;}
+function isCallOpen(){const now=new Date();const mins=now.getHours()*60+now.getMinutes();return mins>=480&&mins<1350;}
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
 function updateCallState(){
  const open=isCallOpen(),notice=document.getElementById("hoursNotice");
  document.querySelectorAll(".call-link").forEach(link=>{
   link.classList.toggle("disabledCall",!open);link.setAttribute("aria-disabled",String(!open));
-  if(!open){if(!link.dataset.realHref)link.dataset.realHref=link.getAttribute("href")||"tel:+393703173136";link.setAttribute("href","#");}
-  else link.setAttribute("href",link.dataset.realHref||"tel:+393703173136");
+  if(!open){if(!link.dataset.realHref)link.dataset.realHref=link.getAttribute("href")||"tel:+393522971348";link.setAttribute("href","#");}
+  else link.setAttribute("href",link.dataset.realHref||"tel:+393522971348");
  });
- notice.textContent=open?"Chiamate disponibili ora, fino alle 22:30.":"Chiamate non disponibili in questo orario. Puoi scriverci su WhatsApp o compilare il preventivo: rispondiamo dalle 07:00.";
+ notice.textContent=open?"Chiamate disponibili ora, fino alle 22:30.":"Chiamate non disponibili in questo orario. Puoi scriverci su WhatsApp o compilare il preventivo: rispondiamo dalle 08:00.";
 }
-document.addEventListener("click",e=>{const link=e.target.closest(".call-link.disabledCall");if(link){e.preventDefault();showToast("Chiamate disponibili dalle 07:00 alle 22:30. Puoi scriverci su WhatsApp.");}});
+document.addEventListener("click",e=>{const link=e.target.closest(".call-link.disabledCall");if(link){e.preventDefault();showToast("Chiamate disponibili dalle 08:00 alle 22:30. Puoi scriverci su WhatsApp.");}});
 document.addEventListener("click",e=>{
   const call=e.target.closest(".call-link:not(.disabledCall)");
   if(call){
     e.preventDefault();
-    const href=call.dataset.realHref||call.getAttribute("href")||"tel:+393703173136";
+    const href=call.dataset.realHref||call.getAttribute("href")||"tel:+393522971348";
     apriDopoTracking_("chiamata_cliccata",{
       posizione:posizioneElemento_(call),
       servizio:services[currentService]?.title||""
