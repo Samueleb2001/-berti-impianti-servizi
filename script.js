@@ -1092,6 +1092,7 @@ function openQuote(){
  trackEvent("preventivo_aperto",{servizio:services[currentService]?.title||""});
  document.getElementById("qWebsite").value="";
  qService.value=currentService||"";
+ qqRender_();
  quoteModal.classList.add("show"); quoteModal.setAttribute("aria-hidden","false");
  setTimeout(()=>document.getElementById("qName").focus(),100);
 }
@@ -1249,19 +1250,20 @@ if(descrizione.length<5){
   return;
 }
  const payload={
-   priority:"Normale",
+   priority:qqPriorita_(),
    name:document.getElementById("qName").value.trim(),
    surname:document.getElementById("qSurname").value.trim(),
    email:document.getElementById("qEmail").value.trim(),
    phone:telefono,
-   address:document.getElementById("qAddress").value.trim(),
+   address:qqIndirizzo_(),
    service:s.title,
    message:document.getElementById("qDescription").value.trim(),
+   details:qqTestoRisposte_(),
    website:document.getElementById("qWebsite").value.trim(),
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
    jobId:jobId,
-   clientVersion:"14.6.6"
+   clientVersion:"14.17.0"
  };
 
  let finished=false;
@@ -1682,3 +1684,365 @@ initFaqAccordion();
 /* v14.14.3 — metadati portfolio da lavori-info.json: titolo, luogo e descrizione. */
 /* v14.14.4 — merge deterministico dei metadati nel caricamento portfolio. */
 /* v14.15.0 — dettagli portfolio automatici: carosello, zoom lightbox, frecce, tastiera e swipe mobile. */
+
+/* =========================
+   DOMANDE RAPIDE PREVENTIVO (facoltative)
+   Ogni risposta può aprire domande dedicate (showIf).
+   Le risposte vanno nel campo "details" -> colonna "Dettagli richiesta".
+   La descrizione del cliente resta separata.
+   ========================= */
+
+const QQ_AVVISO_BRUCIATO="<strong>⚠️ Per sicurezza:</strong> non toccare prese o apparecchi. Se puoi farlo in sicurezza, stacca l'interruttore generale. In caso di fumo o fiamme chiama subito il <strong>112</strong>.";
+const QQ_AVVISO_CONTATORE="<strong>Prima controlla il contatore:</strong> se è staccato prova a riarmarlo una volta. Se la corrente manca anche ai vicini, il guasto è sulla rete: chiama il numero guasti indicato sulla bolletta.";
+
+const QQ_COMUNI=[
+  {id:"cliente",label:"Il lavoro è per",options:["Privato","Azienda","Condominio","Altro"]},
+  {id:"titolo",label:"Sei",options:["Proprietario","Inquilino","Amministratore / incaricato"]},
+  {id:"urgenza",label:"Quando ti serve?",options:["Urgente","Entro la settimana","Da programmare"]},
+  {id:"contatto",label:"Come preferisci essere ricontattato?",options:["WhatsApp","Telefonata","Email"]}
+];
+
+const se=(id,...any)=>({id,any});
+
+const QQ_PARETE={label:"Su che tipo di parete?",options:["Muratura","Cartongesso","Piastrelle","Non lo so"]};
+const QQ_MATERIALE=["Sì, ce l'ho già","No, da fornire","Mi serve un consiglio"];
+
+const QQ_SERVIZI={
+  elettrico:{
+    esempio:"Esempio: vorrei aggiungere due prese in camera e un punto luce in corridoio...",
+    domande:[
+      {id:"tipo",label:"Che tipo di lavoro?",multi:true,options:["Nuovo impianto","Rifacimento","Aggiunta prese / punti luce","Spostamento o modifica","Quadro elettrico","Sensori e temporizzatori","Controllo / manutenzione","Altro"]},
+      {id:"immobile",label:"Che tipo di immobile?",options:["Appartamento","Casa indipendente","Negozio / ufficio"]},
+      /* Nuovo impianto / Rifacimento */
+      {id:"superficie",label:"Superficie indicativa?",showIf:se("tipo","Nuovo impianto","Rifacimento"),options:["Fino a 60 m²","60–100 m²","100–150 m²","Oltre 150 m²"]},
+      {id:"statoimmobile",label:"L'immobile è…",showIf:se("tipo","Nuovo impianto","Rifacimento"),options:["Abitato","Vuoto / in ristrutturazione"]},
+      {id:"murarie",label:"Tracce e ripristini murari",showIf:se("tipo","Nuovo impianto","Rifacimento"),options:["Da includere","Li fa un'altra impresa","Da valutare insieme"]},
+      {id:"contatore",label:"Potenza del contatore?",showIf:se("tipo","Nuovo impianto","Rifacimento"),options:["3 kW","4,5 kW","6 kW","Oltre 6 kW","Non lo so"]},
+      {id:"progetto",label:"Hai una planimetria o un progetto?",showIf:se("tipo","Nuovo impianto","Rifacimento"),options:["Sì","No"]},
+      /* Aggiunta / spostamento */
+      {id:"puntiquanti",label:"Quanti punti?",showIf:se("tipo","Aggiunta prese / punti luce","Spostamento o modifica"),options:["1–2","3–5","Più di 5"]},
+      {id:"puntidove",label:"In quali ambienti?",multi:true,showIf:se("tipo","Aggiunta prese / punti luce","Spostamento o modifica"),options:["Cucina","Bagno","Camere","Soggiorno","Esterno","Garage / cantina"]},
+      {id:"posa",label:"Come preferisci i cavi?",showIf:se("tipo","Aggiunta prese / punti luce","Spostamento o modifica"),options:["Sotto traccia","Canalina a vista","Da valutare"]},
+      /* Quadro */
+      {id:"quadro",label:"Cosa serve sul quadro?",multi:true,showIf:se("tipo","Quadro elettrico"),options:["Sostituzione completa","Aggiunta interruttori","Controllo ed etichette"]},
+      {id:"eta",label:"Età indicativa dell'impianto?",showIf:se("tipo","Quadro elettrico","Rifacimento","Controllo / manutenzione"),options:["Prima del 1990","1990–2008","Dopo il 2008","Non lo so"]},
+      /* Sensori */
+      {id:"sensori",label:"Che dispositivo?",multi:true,showIf:se("tipo","Sensori e temporizzatori"),options:["Sensore di movimento","Crepuscolare","Temporizzatore"]},
+      {id:"sensoridove",label:"Dove?",showIf:se("tipo","Sensori e temporizzatori"),options:["Interno","Esterno","Scale / parti comuni"]},
+      /* Controllo */
+      {id:"controllo",label:"Cosa ti preoccupa?",multi:true,showIf:se("tipo","Controllo / manutenzione"),options:["Impianto vecchio","Prese o placche rovinate","Vendita / affitto casa","Controllo generale"]}
+    ]
+  },
+  illuminazione:{
+    esempio:"Esempio: vorrei sostituire 3 lampadari e mettere dei faretti LED in soggiorno...",
+    domande:[
+      {id:"tipo",label:"Cosa ti serve?",multi:true,options:["Nuovi punti luce","Sostituzione lampadari / plafoniere","Faretti / strisce LED","Luci esterne, garage o portico","Sensori / crepuscolari"]},
+      {id:"nuovipunti",label:"Quanti nuovi punti luce?",showIf:se("tipo","Nuovi punti luce"),options:["1–2","3–5","Più di 5"]},
+      {id:"lampadari",label:"Quanti apparecchi da sostituire?",showIf:se("tipo","Sostituzione lampadari / plafoniere"),options:["1–2","3–5","Più di 5"]},
+      {id:"altezza",label:"Soffitto più alto di 3 metri?",showIf:se("tipo","Nuovi punti luce","Sostituzione lampadari / plafoniere"),options:["No","Sì"]},
+      {id:"controsoffitto",label:"C'è un controsoffitto?",showIf:se("tipo","Faretti / strisce LED"),options:["Sì","No","Da realizzare"]},
+      {id:"ledquanti",label:"Quanti faretti o metri di LED?",showIf:se("tipo","Faretti / strisce LED"),options:["Pochi (fino a 5 faretti / 5 m)","Medio (6–15 / 5–15 m)","Tanti (oltre)"]},
+      {id:"esterne",label:"Dove vanno le luci?",multi:true,showIf:se("tipo","Luci esterne, garage o portico"),options:["A parete","A terra / giardino","Vialetto / ingresso","Garage","Portico"]},
+      {id:"sensori",label:"Per quali luci?",multi:true,showIf:se("tipo","Sensori / crepuscolari"),options:["Esterne","Garage","Scale / corridoi"]},
+      {id:"apparecchi",label:"Hai già gli apparecchi?",showIf:se("tipo","Nuovi punti luce","Sostituzione lampadari / plafoniere","Faretti / strisce LED","Luci esterne, garage o portico"),options:QQ_MATERIALE}
+    ]
+  },
+  guasti:{
+    esempio:"Esempio: in cucina scatta il differenziale quando accendo il forno, succede da qualche giorno...",
+    domande:[
+      {id:"sintomo",label:"Cosa succede?",multi:true,options:["Scatta il differenziale","Manca corrente","Presa / interruttore non funziona","Luci che sfarfallano","Odore di bruciato / scintille"],
+        avvisi:{"Odore di bruciato / scintille":QQ_AVVISO_BRUCIATO}},
+      {id:"scatta",label:"Quando scatta?",showIf:se("sintomo","Scatta il differenziale"),options:["Subito, non si riarma","Quando accendo un apparecchio","Quando piove","A caso"]},
+      {id:"mancadove",label:"Dove manca corrente?",showIf:se("sintomo","Manca corrente"),options:["Una stanza / zona","Un piano","Esterno","Tutta la casa"],
+        avvisi:{"Tutta la casa":QQ_AVVISO_CONTATORE}},
+      {id:"presequante",label:"Quante prese o interruttori?",showIf:se("sintomo","Presa / interruttore non funziona"),options:["Uno","Alcuni","Tutta una zona"]},
+      {id:"luci",label:"Lo sfarfallio riguarda",showIf:se("sintomo","Luci che sfarfallano"),options:["Una lampada","Una stanza","Tutta la casa"]},
+      {id:"quando",label:"Da quando?",options:["Oggi","Da qualche giorno","Da tempo"]},
+      {id:"lavori",label:"Ci sono stati lavori o nuovi apparecchi di recente?",options:["Sì","No","Non lo so"]}
+    ]
+  },
+  esterni:{
+    esempio:"Esempio: vorrei illuminare il vialetto e aggiungere una presa vicino al barbecue...",
+    domande:[
+      {id:"tipo",label:"Cosa ti serve?",multi:true,options:["Illuminazione esterna","Prese esterne","Sensori / crepuscolari","Canalizzazioni e predisposizioni"]},
+      {id:"lucidove",label:"Dove vanno le luci?",multi:true,showIf:se("tipo","Illuminazione esterna"),options:["Giardino","Vialetto / ingresso","Portico","Garage"]},
+      {id:"luciquante",label:"Quanti punti luce?",showIf:se("tipo","Illuminazione esterna"),options:["1–2","3–5","Più di 5"]},
+      {id:"prese",label:"Quante prese?",showIf:se("tipo","Prese esterne"),options:["1","2–3","Più di 3"]},
+      {id:"sensori",label:"Che dispositivo?",multi:true,showIf:se("tipo","Sensori / crepuscolari"),options:["Sensore di movimento","Crepuscolare"]},
+      {id:"distanza",label:"Distanza indicativa dalla casa?",showIf:se("tipo","Canalizzazioni e predisposizioni","Illuminazione esterna","Prese esterne"),options:["Sulla facciata","Fino a 10 m","10–30 m","Oltre 30 m"]},
+      {id:"scavo",label:"Serve uno scavo?",showIf:se("tipo","Canalizzazioni e predisposizioni"),options:["Sì","No, ci sono già tubi","Non lo so"]}
+    ]
+  },
+  reti:{
+    esempio:"Esempio: il Wi-Fi non arriva al piano di sopra, vorrei un punto rete in camera...",
+    domande:[
+      {id:"tipo",label:"Cosa ti serve?",multi:true,options:["Nuovi punti rete (RJ45)","Wi-Fi più stabile","Riordino cablaggi"]},
+      {id:"rj45",label:"Quanti punti rete?",showIf:se("tipo","Nuovi punti rete (RJ45)"),options:["1–2","3–5","Più di 5"]},
+      {id:"tubi",label:"Ci sono tubi liberi per i cavi?",showIf:se("tipo","Nuovi punti rete (RJ45)"),options:["Sì","No","Non lo so"]},
+      {id:"casa",label:"Quanto è grande la casa?",showIf:se("tipo","Wi-Fi più stabile"),options:["Un piano","Due piani","Più piani o giardino"]},
+      {id:"ap",label:"Hai già ripetitori o access point?",showIf:se("tipo","Wi-Fi più stabile"),options:["Sì","No"]},
+      {id:"riordino",label:"Dove?",showIf:se("tipo","Riordino cablaggi"),options:["Armadio / rack","Dietro TV o scrivania","Altro"]}
+    ]
+  },
+  citofonia:{
+    esempio:"Esempio: il videocitofono non si accende più, è un modello di circa 10 anni fa...",
+    domande:[
+      {id:"tipo",label:"Su cosa intervenire?",options:["Citofono","Videocitofono","Campanello / pulsante"]},
+      {id:"intervento",label:"Cosa serve?",showIf:se("tipo","Citofono","Videocitofono","Campanello / pulsante"),options:["Nuova installazione","Sostituzione","Riparazione"]},
+      {id:"problema",label:"Cosa non funziona?",multi:true,showIf:se("intervento","Riparazione"),options:["Non suona","Non si sente","Non apre","Schermo spento"]},
+      {id:"utenze",label:"Quante abitazioni servono?",showIf:se("tipo","Citofono","Videocitofono"),options:["1","Da 2 a 4","5 o più"]},
+      {id:"apriporta",label:"Deve aprire anche il cancello?",showIf:se("tipo","Citofono","Videocitofono"),options:["Sì","No","Non lo so"]},
+      {id:"apparecchio",label:"Hai già l'apparecchio?",showIf:se("intervento","Nuova installazione","Sostituzione"),options:QQ_MATERIALE}
+    ]
+  },
+  tv:{
+    esempio:"Esempio: devo montare a parete una TV da 55 pollici e nascondere i cavi...",
+    domande:[
+      {id:"tipo",label:"Cosa ti serve?",multi:true,options:["TV a parete","Nascondere i cavi","Soundbar","Collegamenti e accessori"]},
+      {id:"pollici",label:"Quanti pollici?",showIf:se("tipo","TV a parete"),options:["Fino a 43","50–65","Oltre 65"]},
+      {id:"parete",label:QQ_PARETE.label,showIf:se("tipo","TV a parete","Soundbar"),options:QQ_PARETE.options},
+      {id:"staffa",label:"Hai già la staffa?",showIf:se("tipo","TV a parete"),options:QQ_MATERIALE},
+      {id:"cavi",label:"Come nascondere i cavi?",showIf:se("tipo","Nascondere i cavi"),options:["Canalina esterna","Dentro il muro","Da valutare"]},
+      {id:"presa",label:"C'è una presa vicino alla TV?",showIf:se("tipo","TV a parete","Nascondere i cavi"),options:["Sì","No, da aggiungere"]}
+    ]
+  },
+  audio:{
+    esempio:"Esempio: vorrei la filodiffusione in cucina e soggiorno...",
+    domande:[
+      {id:"tipo",label:"Cosa ti serve?",multi:true,options:["Diffusori / casse","Filodiffusione","Collegamento sorgenti","Sistemazione cablaggi"]},
+      {id:"diffquanti",label:"Quanti diffusori?",showIf:se("tipo","Diffusori / casse"),options:["2","3–4","Più di 4"]},
+      {id:"diffdove",label:"Dove?",showIf:se("tipo","Diffusori / casse"),options:["Interno","Esterno","Entrambi"]},
+      {id:"stanze",label:"Quante stanze?",showIf:se("tipo","Filodiffusione"),options:["1–2","3–4","Più di 4"]},
+      {id:"cavi",label:"I cavi sono…",showIf:se("tipo","Filodiffusione","Diffusori / casse"),options:["Già predisposti","Da passare","Non lo so"]},
+      {id:"materiale",label:"Hai già il materiale?",showIf:se("tipo","Diffusori / casse","Filodiffusione"),options:QQ_MATERIALE}
+    ]
+  },
+  manutenzioni:{
+    esempio:"Esempio: ho una lista di lavoretti: rifare il silicone della doccia, fissare una mensola, regolare un'anta...",
+    domande:[
+      {id:"tipo",label:"Che tipo di intervento?",multi:true,options:["Riparazioni e sistemazioni","Fissaggi e regolazioni","Siliconature e sigillature","Scaffali / garage / cantina","Sostituzione accessori","Finiture e ritocchi"]},
+      {id:"quanti",label:"Quanti lavori diversi?",options:["Uno","2–3","Una lista di lavoretti"]},
+      {id:"silicone",label:"Dove va il silicone?",multi:true,showIf:se("tipo","Siliconature e sigillature"),options:["Doccia / vasca","Lavandino / cucina","Finestre","Esterno"]},
+      {id:"scaffali",label:"Quanti scaffali o supporti?",showIf:se("tipo","Scaffali / garage / cantina"),options:["1–2","3–5","Più di 5"]},
+      {id:"interni",label:"Dove si trova?",options:["Interno","Esterno","Entrambi"]},
+      {id:"materiale",label:"Hai già il materiale?",showIf:se("tipo","Sostituzione accessori","Scaffali / garage / cantina","Fissaggi e regolazioni"),options:QQ_MATERIALE}
+    ]
+  },
+  montaggi:{
+    esempio:"Esempio: devo appendere 2 mensole, uno specchio in bagno e un bastone per le tende...",
+    domande:[
+      {id:"tipo",label:"Cosa devi montare?",multi:true,options:["Mensole","Tende e bastoni","Quadri e specchi","Accessori bagno / cucina","Staffe e supporti","Piccole riparazioni"]},
+      {id:"pezzi",label:"Quanti pezzi in totale?",options:["1–3","4–10","Più di 10"]},
+      {id:"tende",label:"Che tipo di tenda?",showIf:se("tipo","Tende e bastoni"),options:["Bastone","Binario","Tenda a rullo / pacchetto"]},
+      {id:"peso",label:"Ci sono pezzi pesanti (oltre 15 kg)?",showIf:se("tipo","Quadri e specchi","Mensole","Staffe e supporti"),options:["No","Sì"]},
+      {id:"parete",label:QQ_PARETE.label,options:QQ_PARETE.options}
+    ]
+  },
+  mobili:{
+    esempio:"Esempio: devo montare un armadio a 3 ante, il mobile è già in casa...",
+    domande:[
+      {id:"tipo",label:"Cosa devi montare?",multi:true,options:["Armadio","Letto","Scaffali / librerie","Mobile bagno","Piccoli arredi","Altro"]},
+      {id:"ante",label:"Quante ante ha l'armadio?",showIf:se("tipo","Armadio"),options:["2","3–4","5 o più"]},
+      {id:"scorrevole",label:"Ante scorrevoli?",showIf:se("tipo","Armadio"),options:["Sì","No"]},
+      {id:"quanti",label:"Quanti mobili in totale?",options:["1","2–3","Più di 3"]},
+      {id:"incasa",label:"Il mobile è già in casa?",options:["Sì","No"]},
+      {id:"fissaggio",label:"Va fissato a parete?",options:["Sì","No","Non lo so"]},
+      {id:"smontaggio",label:"C'è un mobile vecchio da smontare?",options:["No","Sì"]}
+    ]
+  },
+  porte:{
+    esempio:"Esempio: la porta del bagno non chiude bene e la maniglia della cucina è allentata...",
+    domande:[
+      {id:"tipo",label:"Su cosa intervenire?",multi:true,options:["Porta interna","Porta d'ingresso","Finestra / portafinestra"]},
+      {id:"porta",label:"Che problema ha la porta?",multi:true,showIf:se("tipo","Porta interna","Porta d'ingresso"),options:["Non chiude bene","Struscia / è storta","Maniglia","Cerniere","Fermo / accessori"]},
+      {id:"finestra",label:"Che problema ha la finestra?",multi:true,showIf:se("tipo","Finestra / portafinestra"),options:["Non chiude bene","Maniglia","Spifferi","Cerniere"]},
+      {id:"materiale",label:"Di che materiale è la finestra?",showIf:se("tipo","Finestra / portafinestra"),options:["Legno","PVC","Alluminio","Non lo so"]},
+      {id:"quanti",label:"Quante porte o finestre?",options:["1","2–3","Più di 3"]},
+      {id:"ricambi",label:"Hai già i ricambi (maniglie, cerniere…)?",showIf:se("porta","Maniglia","Cerniere"),options:QQ_MATERIALE}
+    ]
+  },
+  smarthome:{
+    esempio:"Esempio: vorrei comandare le luci del soggiorno dal telefono e con Alexa...",
+    domande:[
+      {id:"tipo",label:"Cosa vuoi rendere smart?",multi:true,options:["Luci","Prese","Tapparelle","Sensori","Termostato"],
+        avvisi:{"Termostato":"Interveniamo sul termostato e sulla sua configurazione, non sulla caldaia."}},
+      {id:"sistema",label:"Che sistema usi o preferisci?",options:["Alexa","Google","Apple Casa","Nessuno, consigliami"]},
+      {id:"wifi",label:"Il Wi-Fi arriva bene in tutta la casa?",options:["Sì","No","Non lo so"]},
+      {id:"luci",label:"Quanti punti luce o prese?",showIf:se("tipo","Luci","Prese"),options:["1–3","4–8","Più di 8"]},
+      {id:"tapparelle",label:"Le tapparelle sono già motorizzate?",showIf:se("tipo","Tapparelle"),options:["Sì","No"]},
+      {id:"sensori",label:"Che sensori?",multi:true,showIf:se("tipo","Sensori"),options:["Movimento","Apertura porte / finestre","Temperatura"]},
+      {id:"dispositivi",label:"Hai già i dispositivi?",options:QQ_MATERIALE}
+    ]
+  },
+  automazioni:{
+    esempio:"Esempio: vorrei motorizzare 4 tapparelle e comandarle da un unico pulsante...",
+    domande:[
+      {id:"tipo",label:"Su cosa intervenire?",multi:true,options:["Tapparelle","Cancello","Porta garage / basculante"]},
+      {id:"tapquante",label:"Quante tapparelle?",showIf:se("tipo","Tapparelle"),options:["1","Da 2 a 4","5 o più"]},
+      {id:"tapstato",label:"Le tapparelle oggi sono",showIf:se("tipo","Tapparelle"),options:["Manuali, da motorizzare","Motorizzate, da riparare"]},
+      {id:"tapproblema",label:"Cosa non va?",multi:true,showIf:se("tapstato","Motorizzate, da riparare"),options:["Non si muove","Si ferma a metà","Fa rumore","Pulsante rotto"]},
+      {id:"cancellotipo",label:"Che cancello è?",showIf:se("tipo","Cancello"),options:["Scorrevole","A battente"]},
+      {id:"cancellostato",label:"Il cancello oggi è",showIf:se("tipo","Cancello"),options:["Manuale, da motorizzare","Motorizzato, da riparare"]},
+      {id:"garagetipo",label:"Che porta è?",showIf:se("tipo","Porta garage / basculante"),options:["Basculante","Sezionale","Altro"]},
+      {id:"garagestato",label:"La porta oggi è",showIf:se("tipo","Porta garage / basculante"),options:["Manuale, da motorizzare","Motorizzata, da riparare"]},
+      {id:"comando",label:"Come vuoi comandarli?",multi:true,showIf:se("tipo","Tapparelle","Cancello","Porta garage / basculante"),options:["Pulsante","Telecomando","Smartphone"]}
+    ]
+  },
+  altro:{
+    esempio:"Descrivici il lavoro: cosa ti serve, dove e ogni dettaglio utile...",
+    domande:[
+      {id:"tipo",label:"Di che tipo di lavoro si tratta?",multi:true,options:["Elettrico","Manutenzione","Montaggio","Più lavori insieme","Non lo so"]},
+      {id:"sopralluogo",label:"Preferisci…",options:["Un sopralluogo","Prima sentirci al telefono"]}
+    ]
+  }
+};
+
+const QQ_ESEMPIO_BASE="Descrivi il lavoro: cosa ti serve, dove e ogni dettaglio utile...";
+const qqRisposte={};
+const qQuick=document.getElementById("qQuick");
+const qDescrizioneEl=document.getElementById("qDescription");
+
+function qqTutteDomande_(){
+  const conf=QQ_SERVIZI[qService.value];
+  return [...(conf?conf.domande:[]),...QQ_COMUNI];
+}
+
+function qqVisibile_(d){
+  if(!d.showIf) return true;
+  return (qqRisposte[d.showIf.id]||[]).some(v=>d.showIf.any.includes(v));
+}
+
+/* Rimuove a catena le risposte di domande che non sono più visibili */
+function qqPulisci_(){
+  let cambiato=true;
+  while(cambiato){
+    cambiato=false;
+    qqTutteDomande_().forEach(d=>{
+      if(qqRisposte[d.id]&&!qqVisibile_(d)){delete qqRisposte[d.id];cambiato=true;}
+    });
+  }
+  const ids=qqTutteDomande_().map(d=>d.id);
+  Object.keys(qqRisposte).forEach(k=>{if(!ids.includes(k))delete qqRisposte[k];});
+}
+
+function qqDomandeAttive_(){
+  return qqTutteDomande_().filter(qqVisibile_);
+}
+
+function qqHaDipendenti_(id){
+  return qqTutteDomande_().some(d=>d.showIf&&d.showIf.id===id);
+}
+
+function qqRender_(){
+  if(!qQuick) return;
+  const conf=QQ_SERVIZI[qService.value];
+  if(qDescrizioneEl){
+    qDescrizioneEl.placeholder=conf&&conf.esempio?conf.esempio:QQ_ESEMPIO_BASE;
+  }
+  qqPulisci_();
+
+  qQuick.innerHTML="";
+  const head=document.createElement("p");
+  head.className="qqHead";
+  head.textContent="Domande rapide";
+  const hint=document.createElement("p");
+  hint.className="qqHint";
+  hint.textContent="Facoltative: tocca le risposte, ci aiutano a capire meglio il lavoro.";
+  qQuick.append(head,hint);
+
+  qqDomandeAttive_().forEach(d=>{
+    const g=document.createElement("div");
+    g.className="qqGroup"+(d.showIf?" qqSub":"");
+    const lab=document.createElement("span");
+    lab.className="qqLabel";
+    lab.id="qq-"+d.id;
+    lab.textContent=d.label;
+    const chips=document.createElement("div");
+    chips.className="qqChips";
+    chips.setAttribute("role","group");
+    chips.setAttribute("aria-labelledby",lab.id);
+
+    d.options.forEach(opt=>{
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="qqChip";
+      b.textContent=opt;
+      b.setAttribute("aria-pressed",(qqRisposte[d.id]||[]).includes(opt)?"true":"false");
+      b.addEventListener("click",()=>{
+        let attuali=qqRisposte[d.id]||[];
+        if(attuali.includes(opt)){
+          attuali=attuali.filter(x=>x!==opt);
+        }else{
+          attuali=d.multi?[...attuali,opt]:[opt];
+        }
+        if(attuali.length) qqRisposte[d.id]=attuali; else delete qqRisposte[d.id];
+
+        if(qqHaDipendenti_(d.id)){
+          const modal=qQuick.closest(".quoteModal");
+          const y=modal?modal.scrollTop:null;
+          qqRender_();
+          if(modal&&y!=null) modal.scrollTop=y;
+          return;
+        }
+        chips.querySelectorAll(".qqChip").forEach(c=>{
+          c.setAttribute("aria-pressed",(qqRisposte[d.id]||[]).includes(c.textContent)?"true":"false");
+        });
+        qqAggiornaAvvisi_();
+      });
+      chips.appendChild(b);
+    });
+
+    g.append(lab,chips);
+    if(d.avvisi){
+      const avviso=document.createElement("div");
+      avviso.className="qqWarning";
+      avviso.dataset.domanda=d.id;
+      avviso.hidden=true;
+      avviso.setAttribute("role","alert");
+      g.appendChild(avviso);
+    }
+    qQuick.appendChild(g);
+  });
+
+  qqAggiornaAvvisi_();
+}
+
+function qqAggiornaAvvisi_(){
+  if(!qQuick) return;
+  qQuick.querySelectorAll(".qqWarning").forEach(el=>{
+    const d=qqTutteDomande_().find(x=>x.id===el.dataset.domanda);
+    const testi=d?(qqRisposte[d.id]||[]).map(v=>d.avvisi[v]).filter(Boolean):[];
+    el.innerHTML=testi.join("<br><br>");
+    el.hidden=!testi.length;
+  });
+}
+
+function qqTestoRisposte_(){
+  const righe=[];
+  qqDomandeAttive_().forEach(d=>{
+    const scelte=qqRisposte[d.id];
+    if(scelte&&scelte.length) righe.push(`${d.label.replace(/[?…]+$/,"")}: ${scelte.join(", ")}`);
+  });
+  return righe.join("\n");
+}
+
+/* Urgenza -> colonna Priorità del gestionale (valori: Bassa, Normale, Alta, Urgente) */
+function qqPriorita_(){
+  const u=(qqRisposte.urgenza||[])[0];
+  if(u==="Urgente") return "Urgente";
+  if(u==="Entro la settimana") return "Alta";
+  return "Normale";
+}
+
+function qqIndirizzo_(){
+  const comune=document.getElementById("qCity").value.trim();
+  const via=document.getElementById("qStreet").value.trim();
+  return via?`${via}, ${comune}`:comune;
+}
+
+qService.addEventListener("change",qqRender_);
+quoteForm.addEventListener("reset",()=>{
+  Object.keys(qqRisposte).forEach(k=>delete qqRisposte[k]);
+  setTimeout(qqRender_,0);
+});
+qqRender_();

@@ -43,7 +43,7 @@
     ]
   }
   </script>
- <link rel="stylesheet" href="style.css?v=14.15.3">
+ <link rel="stylesheet" href="style.css?v=14.17.0">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png?v=1">
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png?v=1">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=1">
@@ -377,9 +377,11 @@
     required
   >
 </label>
-        <label class="full">Indirizzo / Comune dell'intervento *<input id="qAddress" type="text" autocomplete="street-address" required></label>
+        <label>Comune dell'intervento *<input id="qCity" type="text" autocomplete="address-level2" placeholder="Es. Castel San Pietro Terme" required></label>
+<label>Via e numero civico <span class="optLabel">(facoltativo)</span><input id="qStreet" type="text" autocomplete="street-address"></label>
         <label class="full">Servizio richiesto *<select id="qService" required></select></label>
-        <label class="full">Descrizione del lavoro *<textarea id="qDescription" rows="6" placeholder="Esempio: devo montare un armadio a 3 ante, il mobile è già in casa..." required></textarea></label>
+<div class="full quickQuestions" id="qQuick" aria-label="Domande rapide facoltative"></div>
+        <label class="full">Descrizione del lavoro *<textarea id="qDescription" rows="6" placeholder="Esempio: in cucina scatta il differenziale quando accendo il forno, succede da qualche giorno..." required></textarea></label>
       </div>
       <p class="requiredFieldsNote">
        * I campi contrassegnati con l’asterisco sono obbligatori.
@@ -441,6 +443,6 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=14.16.0"></script>
+<script src="script.js?v=14.17.0"></script>
 </body>
 </html>
