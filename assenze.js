@@ -11,6 +11,6 @@
    Finito il periodo puoi lasciare la riga: viene ignorata da sola.
    ========================================================= */
 
-window.BERTI_ASSENZE = [
+window.BERTI_ASSENZE = [ {dal:"2026-12-10", al:"2026-12-13"},
 
 ];
