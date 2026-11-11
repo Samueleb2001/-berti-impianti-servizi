@@ -3277,3 +3277,34 @@ body.bertNavOpen{overflow:hidden}
   padding-left:12px;
   border-left:3px solid #ffc400
 }
+
+
+/* =========================
+   ICONE SOCIAL (fondo pagina)
+   ========================= */
+
+.footerSocial{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:14px
+}
+
+.footerSocial .socialIcon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid rgba(244,189,19,.45);
+  color:#f4bd13;
+  text-decoration:none;
+  transition:background .2s ease,color .2s ease
+}
+
+.footerSocial .socialIcon:hover,
+.footerSocial .socialIcon:focus-visible{
+  background:#f4bd13;
+  color:#0b1118
+}
