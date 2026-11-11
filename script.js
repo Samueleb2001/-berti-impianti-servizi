@@ -7,7 +7,7 @@ const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
 const GOOGLE_BUSINESS={
   enabled:true,
   profileUrl:"https://maps.app.goo.gl/ia6kk5vHQqaVQYKG8",
-  reviewUrl:"https://share.google/NCmQeBGqJq7PW4gDm"
+  reviewUrl:"https://g.page/r/CQepH-kRNZsyEAE/review"
 };
 
 function initGoogleBusiness(){
