@@ -3308,3 +3308,83 @@ body.bertNavOpen{overflow:hidden}
   background:#f4bd13;
   color:#0b1118
 }
+
+
+/* =========================
+   LAVORI REALIZZATI (v14.18.0)
+   Tasto in home + galleria completa con filtri
+   ========================= */
+
+.quickActions .worksQuickBtn{
+  grid-column:1 / -1;
+  justify-self:center;
+  width:100%;
+  max-width:734px;
+  background:transparent;
+  color:#ffc515;
+  border:1px solid rgba(255,197,21,.6);
+  font-weight:900;
+  cursor:pointer
+}
+
+.quickActions .worksQuickBtn[hidden]{
+  display:none
+}
+
+.quickActions .worksQuickBtn:hover,
+.quickActions .worksQuickBtn:focus-visible{
+  background:rgba(255,197,21,.10);
+  border-color:#ffc515
+}
+
+.mainNav a.navWorks[hidden]{
+  display:none
+}
+
+.worksFilters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 18px
+}
+
+.worksFilter{
+  border:1px solid #d6dbe1;
+  background:#fff;
+  color:#101722;
+  border-radius:999px;
+  padding:8px 14px;
+  font:inherit;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer
+}
+
+.worksFilter.isActive{
+  background:#ffc400;
+  border-color:#ffc400
+}
+
+.card{
+  position:relative
+}
+
+.cardPhotos{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#101722;
+  color:#ffc400;
+  font-size:12px;
+  font-weight:800;
+  padding:5px 10px;
+  border-radius:999px
+}
+
+.cardMore{
+  display:inline-block;
+  margin-top:8px;
+  color:#8a6700;
+  font-weight:800;
+  font-size:14px
+}

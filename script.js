@@ -620,7 +620,7 @@ Object.entries(services)
  .forEach(([key,s],i)=>{
    const b=document.createElement("button");
    b.className="card"; b.dataset.key=key;
-   b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p>`;
+   b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p><span class="cardMore">Scopri di più ›</span>`;
    b.onclick=()=>{
      trackEvent("servizio_aperto",{servizio:s.title});
      selectService(key,true);
@@ -1521,7 +1521,7 @@ function inizializzaTrackingSezioni_(){
 }
 
 initGoogleBusiness();
-caricaPortfolio_();
+caricaPortfolio_().then(renderVetrinaLavori_);
 initAnalyticsConsent();
 inizializzaTrackingSezioni_();
 const dettaglioIniziale=document.getElementById("dettaglio");
@@ -2061,3 +2061,133 @@ quoteForm.addEventListener("reset",()=>{
   setTimeout(qqRender_,0);
 });
 qqRender_();
+
+
+/* =========================
+   VETRINA LAVORI IN HOME (v14.19.0)
+   Tutti i lavori di lavori.json in evidenza nella pagina principale:
+   un riquadro per lavoro, al tocco si apre il confronto prima/dopo.
+   ========================= */
+
+function tuttiILavori_(){
+  const elenco=[];
+  Object.entries(lavori||{}).forEach(([categoria,lista])=>{
+    if(!Array.isArray(lista))return;
+    lista.forEach(lavoro=>{
+      if(lavoro && lavoro.prima && lavoro.dopo){
+        elenco.push({...lavoro,categoria});
+      }
+    });
+  });
+  // Stesso ordine dei servizi del sito: prima i lavori elettrici, poi gli altri.
+  const ordine=Object.keys(services);
+  const posizione=cat=>{
+    const i=ordine.indexOf(cat);
+    return i===-1 ? ordine.length : i;
+  };
+  return elenco
+    .map((lavoro,i)=>({lavoro,i}))
+    .sort((a,b)=>posizione(a.lavoro.categoria)-posizione(b.lavoro.categoria) || a.i-b.i)
+    .map(x=>x.lavoro);
+}
+
+function apriLavoroSingolo_(lavoro){
+  if(!portfolioModal || !portfolioWorks)return;
+
+  portfolioWorks.innerHTML="";
+  if(portfolioTitle)portfolioTitle.textContent="Prima e dopo";
+  portfolioWorks.appendChild(creaLavoroPortfolio_(lavoro,0));
+
+  portfolioModal.hidden=false;
+  portfolioModal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+
+  trackEvent("lavoro_aperto",{lavoro:lavoro.titolo||""});
+}
+
+function aggiornaBadgeServizi_(){
+  document.querySelectorAll("#serviceGrid .card").forEach(card=>{
+    const quanti=lavoriServizio_(card.dataset.key).length;
+    let badge=card.querySelector(".cardPhotos");
+
+    if(PORTFOLIO_ATTIVO && quanti>0){
+      if(!badge){
+        badge=document.createElement("span");
+        badge.className="cardPhotos";
+        card.insertBefore(badge,card.firstChild);
+      }
+      badge.textContent="📷 Foto lavori";
+    }else if(badge){
+      badge.remove();
+    }
+  });
+}
+
+function apriTuttiILavori_(filtro="tutti"){
+  if(!portfolioModal || !portfolioWorks)return;
+
+  const tutti=tuttiILavori_();
+  const categorie=[...new Set(tutti.map(l=>l.categoria))];
+  const elenco=filtro==="tutti" ? tutti : tutti.filter(l=>l.categoria===filtro);
+
+  portfolioWorks.innerHTML="";
+  if(portfolioTitle)portfolioTitle.textContent="Tutti i lavori";
+
+  if(categorie.length>1){
+    const filtri=document.createElement("div");
+    filtri.className="worksFilters";
+    [["tutti","Tutti"],...categorie.map(c=>[c,services[c]?.title||c])].forEach(([valore,etichetta])=>{
+      const chip=document.createElement("button");
+      chip.type="button";
+      chip.className="worksFilter"+(valore===filtro ? " isActive" : "");
+      chip.textContent=etichetta;
+      chip.addEventListener("click",()=>apriTuttiILavori_(valore));
+      filtri.appendChild(chip);
+    });
+    portfolioWorks.appendChild(filtri);
+  }
+
+  elenco.forEach((lavoro,i)=>{
+    portfolioWorks.appendChild(creaLavoroPortfolio_(lavoro,i));
+  });
+
+  if(portfolioModal.hidden){
+    portfolioModal.hidden=false;
+    portfolioModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow="hidden";
+    trackEvent("galleria_completa_aperta",{lavori:tutti.length});
+  }
+  portfolioWorks.scrollTop=0;
+}
+
+function renderVetrinaLavori_(){
+  const tasto=document.getElementById("worksAllBtn");
+  const conta=document.getElementById("worksAllCount");
+  const voceMenu=document.getElementById("navWorks");
+
+  const quanti=PORTFOLIO_ATTIVO ? tuttiILavori_().length : 0;
+
+  if(tasto){
+    tasto.hidden=quanti===0;
+    if(conta)conta.textContent=quanti ? "("+quanti+")" : "";
+    if(!tasto.dataset.pronto){
+      tasto.addEventListener("click",()=>apriTuttiILavori_());
+      tasto.dataset.pronto="1";
+    }
+  }
+
+  if(voceMenu){
+    voceMenu.hidden=quanti===0;
+    if(!voceMenu.dataset.pronto){
+      voceMenu.addEventListener("click",e=>{
+        e.preventDefault();
+        apriTuttiILavori_();
+      });
+      voceMenu.dataset.pronto="1";
+    }
+  }
+
+  aggiornaBadgeServizi_();
+}
+
+/* v14.19.0 — tasto "Vedi i lavori realizzati" in home e voce Lavori nel menu: aprono la galleria completa con filtri; "Scopri di più" e badge foto sui servizi. */
