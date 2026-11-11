@@ -632,12 +632,38 @@ const portfolioClose=document.getElementById("portfolioClose");
 const portfolioTitle=document.getElementById("portfolioTitle");
 const portfolioWorks=document.getElementById("portfolioWorks");
 
+/* Icone dei servizi (v14.22.0): icone 3D realistiche (images/icone/<servizio>.webp), uguali su tutti i dispositivi.
+   Se un servizio non ha icona qui, resta l'emoji di services. */
+const ICONE_SERVIZI={
+  elettrico:'<img src="images/icone/elettrico.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  illuminazione:'<img src="images/icone/illuminazione.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  guasti:'<img src="images/icone/guasti.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  esterni:'<img src="images/icone/esterni.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  reti:'<img src="images/icone/reti.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  citofonia:'<img src="images/icone/citofonia.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  videosorveglianza:'<img src="images/icone/videosorveglianza.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  tv:'<img src="images/icone/tv.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  audio:'<img src="images/icone/audio.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  idraulica:'<img src="images/icone/idraulica.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  manutenzioni:'<img src="images/icone/manutenzioni.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  montaggi:'<img src="images/icone/montaggi.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  mobili:'<img src="images/icone/mobili.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  porte:'<img src="images/icone/porte.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  ritocchi:'<img src="images/icone/ritocchi.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  cartongesso:'<img src="images/icone/cartongesso.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  muratura:'<img src="images/icone/muratura.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  trasporto:'<img src="images/icone/trasporto.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  smarthome:'<img src="images/icone/smarthome.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  automazioni:'<img src="images/icone/automazioni.webp" alt="" width="96" height="96" loading="lazy" decoding="async">',
+  altro:'<img src="images/icone/altro.webp" alt="" width="96" height="96" loading="lazy" decoding="async">'
+};
+
 Object.entries(services)
  .filter(([,s])=>s.active!==false)
  .forEach(([key,s],i)=>{
    const b=document.createElement("button");
    b.className="card"; b.dataset.key=key;
-   b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p><span class="cardMore">Scopri di più ›</span>`;
+   b.innerHTML=`<div class="icon">${ICONE_SERVIZI[key]||s.icon}</div><h3>${s.title}</h3><p>${s.short}</p><span class="cardMore">Scopri di più ›</span>`;
    b.onclick=()=>{
      trackEvent("servizio_aperto",{servizio:s.title});
      selectService(key,true);
@@ -2222,4 +2248,7 @@ function renderVetrinaLavori_(){
 
 /* v14.19.0 — tasto "Vedi i lavori realizzati" in home e voce Lavori nel menu: aprono la galleria completa con filtri; "Scopri di più" e badge foto sui servizi. */
 
+/* v14.20.0 — icone SVG coordinate per tutti i servizi al posto delle emoji. */
 /* v14.21.0 — nuovo servizio "Videosorveglianza e antifurto" con domande del preventivo. */
+
+/* v14.22.0 — icone servizi 3D realistiche su cerchio scuro. */
