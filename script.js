@@ -343,6 +343,23 @@ citofonia:{
  image:"images/Citofonia.webp"
 },
 
+videosorveglianza:{
+ icon:"📹",
+ title:"VIDEOSORVEGLIANZA E ANTIFURTO",
+ short:"Telecamere, visione da smartphone e antifurto per casa, condominio e attività.",
+ headline:"Videosorveglianza e antifurto",
+ text:"Installazione di nuovi impianti di videosorveglianza e antifurto, aggiunta o sostituzione di telecamere su impianti esistenti, configurazione della visione da smartphone e interventi di riparazione e manutenzione. Per case e appartamenti, condomini, negozi e uffici.",
+ items:[
+   "Telecamere IP via cavo (PoE)",
+   "Telecamere Wi-Fi",
+   "Visione delle telecamere da smartphone",
+   "Collegamento con il videocitofono",
+   "Antifurto: centralina, sensori e sirene",
+   "Riparazioni e manutenzione"
+ ],
+ image:"images/Videosorveglianza.webp"
+},
+
 tv:{
  icon:"📺",
  title:"TV, STAFFE E MULTIMEDIA",
@@ -1810,6 +1827,19 @@ const QQ_SERVIZI={
       {id:"apparecchio",label:"Hai già l'apparecchio?",showIf:se("intervento","Nuova installazione","Sostituzione"),options:QQ_MATERIALE}
     ]
   },
+  videosorveglianza:{
+    esempio:"Esempio: vorrei 3 telecamere per il cortile e il garage, da vedere sul telefono...",
+    domande:[
+      {id:"tipo",label:"Cosa ti serve?",multi:true,options:["Videosorveglianza","Antifurto"]},
+      {id:"intervento",label:"Che intervento?",options:["Nuovo impianto","Aggiungere o sostituire telecamere","Riparazione / manutenzione"]},
+      {id:"luogo",label:"Dove?",options:["Casa / appartamento","Condominio","Negozio / ufficio"]},
+      {id:"telecamere",label:"Quante telecamere?",showIf:se("tipo","Videosorveglianza"),options:["1–2","3–4","Più di 4","Non lo so"]},
+      {id:"posizione",label:"Dove vanno le telecamere?",showIf:se("tipo","Videosorveglianza"),options:["Esterno","Interno","Interno ed esterno"]},
+      {id:"app",label:"Vuoi vederle dal telefono?",showIf:se("tipo","Videosorveglianza"),options:["Sì","No"]},
+      {id:"problema",label:"Cosa non funziona?",multi:true,showIf:se("intervento","Riparazione / manutenzione"),options:["Telecamera senza immagine","Non registra","Non si vede dal telefono","Antifurto guasto o in allarme"]},
+      {id:"materiale",label:"Hai già il materiale?",showIf:se("intervento","Nuovo impianto","Aggiungere o sostituire telecamere"),options:QQ_MATERIALE}
+    ]
+  },
   tv:{
     esempio:"Esempio: devo montare a parete una TV da 55 pollici e nascondere i cavi...",
     domande:[
@@ -2191,3 +2221,5 @@ function renderVetrinaLavori_(){
 }
 
 /* v14.19.0 — tasto "Vedi i lavori realizzati" in home e voce Lavori nel menu: aprono la galleria completa con filtri; "Scopri di più" e badge foto sui servizi. */
+
+/* v14.21.0 — nuovo servizio "Videosorveglianza e antifurto" con domande del preventivo. */
