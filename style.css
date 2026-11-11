@@ -3471,6 +3471,8 @@ body.bertNavOpen{overflow:hidden}
 .natale input:not([type="checkbox"]):not([type="radio"]),
 .natale textarea{
   cursor:text
+}
+
 /* =========================
    ICONE SERVIZI (v14.19.0) — icone 3D realistiche su cerchio scuro
    ========================= */
