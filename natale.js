@@ -1,7 +1,7 @@
 /* =========================================================
    TEMA NATALIZIO: neve leggera + lucine sotto la barra in alto.
    Si accende da solo nel periodo scritto in assenze.js (BERTI_NATALE).
-   Non parte se il telefono/computer chiede "riduci movimento".
+   Con "riduci movimento" la neve è più rada e lenta.
    ========================================================= */
 (function(){
   const cfg=window.BERTI_NATALE;
@@ -22,7 +22,8 @@
 
   document.documentElement.classList.add("natale");
 
-  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  /* Con "riduci movimento" attivo la neve resta, ma più rada e più lenta. */
+  const piano=!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   function avvia(){
     const c=document.createElement("canvas");
@@ -34,14 +35,14 @@
 
     function nuovo(inizio){
       return {x:Math.random()*W,y:inizio?Math.random()*H:-10,r:1+Math.random()*2.6,
-              v:.35+Math.random()*.9,o:Math.random()*Math.PI*2,a:.5+Math.random()*.45};
+              v:(.35+Math.random()*.9)*(piano?.45:1),o:Math.random()*Math.PI*2,a:.5+Math.random()*.45};
     }
     function misura(){
       dpr=Math.min(window.devicePixelRatio||1,2);
       W=window.innerWidth;H=window.innerHeight;
       c.width=W*dpr;c.height=H*dpr;
       ctx.setTransform(dpr,0,0,dpr,0,0);
-      const n=Math.round(Math.min(80,Math.max(25,W/14)));
+      const n=Math.round(Math.min(80,Math.max(25,W/14))*(piano?.5:1));
       while(fiocchi.length<n) fiocchi.push(nuovo(true));
       fiocchi.length=n;
     }
