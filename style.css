@@ -3416,10 +3416,10 @@ body.bertNavOpen{overflow:hidden}
 
 
 /* =========================================================
-   TEMA NATALIZIO (classe .natale aggiunta da natale.js)
+   EFFETTI FESTE (feste.js). Classe .natale: Natale, Capodanno, Befana
    ========================================================= */
 
-.neveCanvas{
+.festeCanvas{
   position:fixed;
   inset:0;
   width:100vw;
