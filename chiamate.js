@@ -1,7 +1,7 @@
 /* =========================================================
    PULSANTE "CHIAMA": orari e assenze (sempre in ora italiana)
    Orari: modificabili qui sotto in ORARI.
-   Assenze: si scrivono nel file assenze.js.
+   Assenze e orari speciali di singole date: si scrivono nel file assenze.js.
    ========================================================= */
 (function(){
   /* Minuti dalla mezzanotte: 480 = 08:00, 720 = 12:00, 1350 = 22:30.
@@ -39,21 +39,30 @@
     return a.filter(x=>x&&RE_DATA.test(String(x.dal))&&RE_DATA.test(String(x.al))&&x.dal<=x.al);
   }
   function assenzaIl(ymd){return elencoAssenze().find(x=>x.dal<=ymd&&ymd<=x.al)||null;}
+  /* Orari speciali di singole date (es. vigilia o festivi): sostituiscono l'orario normale di quel giorno. */
+  const RE_ORA=/^([01]\d|2[0-3]):[0-5]\d$/;
+  function minuti(hm){const [h,m]=hm.split(":").map(Number);return h*60+m;}
+  function orarioSpeciale(ymd){
+    const a=Array.isArray(window.BERTI_ORARI_SPECIALI)?window.BERTI_ORARI_SPECIALI:[];
+    const s=a.find(x=>x&&String(x.data)===ymd&&RE_ORA.test(String(x.dalle))&&RE_ORA.test(String(x.alle))&&minuti(x.dalle)<minuti(x.alle));
+    return s?[minuti(s.dalle),minuti(s.alle)]:null;
+  }
+  function fasciaIl(ymd,day){return orarioSpeciale(ymd)||ORARI[day]||null;}
   function dataTesto(ymd){const [,m,d]=ymd.split("-").map(Number);return d+" "+MESI[m-1];}
 
   function aperto(){
     const t=adesso();
     if(assenzaIl(t.ymd)) return false;
-    const f=ORARI[t.day];
+    const f=fasciaIl(t.ymd,t.day);
     return !!f&&t.mins>=f[0]&&t.mins<f[1];
   }
-  function fineOggi(){const f=ORARI[adesso().day];return f?hhmm(f[1]):"";}
+  function fineOggi(){const t=adesso();const f=fasciaIl(t.ymd,t.day);return f?hhmm(f[1]):"";}
   function prossima(){
     const t=adesso();
     for(let i=0;i<=90;i++){
       const g=piuGiorni(t.ymd,i);
       if(assenzaIl(g.ymd)) continue;
-      const f=ORARI[g.day];
+      const f=fasciaIl(g.ymd,g.day);
       if(!f) continue;
       if(i===0&&t.mins>=f[0]) continue;
       const quando=i===0?"oggi":i===1?"domani":GIORNI[g.day]+" "+dataTesto(g.ymd);
