@@ -615,12 +615,37 @@ const portfolioClose=document.getElementById("portfolioClose");
 const portfolioTitle=document.getElementById("portfolioTitle");
 const portfolioWorks=document.getElementById("portfolioWorks");
 
+/* Icone dei servizi (v14.20.0): disegnate in SVG nello stile BERTI, uguali su tutti i dispositivi.
+   Se un servizio non ha icona qui, resta l'emoji di services. */
+const ICONE_SERVIZI={
+  elettrico:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M27 4 12 27h10l-3 17 17-24H25z\" fill=\"#f5b900\"/></svg>",
+  illuminazione:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M24 8a11 11 0 0 0-6.6 19.8c1.5 1.1 2.6 2.7 2.6 4.5V34h8v-1.7c0-1.8 1.1-3.4 2.6-4.5A11 11 0 0 0 24 8z\" fill=\"#f5b900\"/><path d=\"M20 38.5h8M21.5 43h5\"/></svg>",
+  guasti:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"20\" cy=\"20\" r=\"12.5\"/><path d=\"M29.5 29.5 41 41\" stroke-width=\"4.2\"/><path d=\"M22.5 11.5 15.5 21.5h5.5l-2 7.5 7.5-10.5h-5.5z\" fill=\"#f5b900\" stroke-width=\"1.8\"/></svg>",
+  esterni:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M16 12h16l-2.5 12h-11z\" fill=\"#f5b900\"/><path d=\"M19.5 12 24 7l4.5 5\"/><path d=\"M24 24v18M17 42h14\"/><path d=\"M8 42h4M36 42h4\"/></svg>",
+  reti:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 19.5a24 24 0 0 1 34 0M13.5 26a15 15 0 0 1 21 0M19.5 32.5a6.5 6.5 0 0 1 9 0\"/><circle cx=\"24\" cy=\"38.5\" r=\"3.2\" fill=\"#f5b900\"/></svg>",
+  citofonia:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"13\" y=\"5\" width=\"22\" height=\"38\" rx=\"4\"/><rect x=\"17.5\" y=\"10\" width=\"13\" height=\"10\" rx=\"1.5\" fill=\"#f5b900\"/><path d=\"M19 26h10M19 30h10\"/><circle cx=\"24\" cy=\"37\" r=\"2.4\"/></svg>",
+  tv:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"5\" y=\"9\" width=\"38\" height=\"25\" rx=\"3\"/><path d=\"M24 34v6M16 41h16\"/><path d=\"M21 16.5v10l8.5-5z\" fill=\"#f5b900\" stroke-width=\"2\"/></svg>",
+  audio:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 19h7l10-8v26l-10-8H7z\" fill=\"#f5b900\"/><path d=\"M30 18.5a7.5 7.5 0 0 1 0 11M35 13.5a15 15 0 0 1 0 21\"/></svg>",
+  idraulica:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M24 6S12 19.5 12 29a12 12 0 0 0 24 0C36 19.5 24 6 24 6z\" fill=\"#f5b900\"/><path d=\"M18.5 30a5.5 5.5 0 0 0 5.5 5.5\"/></svg>",
+  manutenzioni:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 22 24 8l17 14\"/><path d=\"M11 19v22h26V19\"/><path d=\"M17 30l5 5 10-11\" stroke=\"#f5b900\" stroke-width=\"3.6\"/></svg>",
+  montaggi:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 39 27 23\" stroke-width=\"4.4\"/><path d=\"M26.1 11.1 38.9 23.9 33.9 28.9 21.1 16.1z\" fill=\"#f5b900\"/></svg>",
+  mobili:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"9\" y=\"9\" width=\"30\" height=\"28\" rx=\"2.5\"/><path d=\"M9 18.5h30M9 27.5h30M13 37v5M35 37v5\"/><circle cx=\"24\" cy=\"13.8\" r=\"1.9\" fill=\"#f5b900\" stroke=\"none\"/><circle cx=\"24\" cy=\"23\" r=\"1.9\" fill=\"#f5b900\" stroke=\"none\"/><circle cx=\"24\" cy=\"32.2\" r=\"1.9\" fill=\"#f5b900\" stroke=\"none\"/></svg>",
+  porte:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M13 42V7.5A2.5 2.5 0 0 1 15.5 5h17A2.5 2.5 0 0 1 35 7.5V42\"/><path d=\"M7 42h34\"/><rect x=\"18\" y=\"10\" width=\"12\" height=\"10\" rx=\"1.5\"/><circle cx=\"30\" cy=\"27\" r=\"2.6\" fill=\"#f5b900\"/></svg>",
+  ritocchi:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"7\" y=\"7\" width=\"27\" height=\"11\" rx=\"2.5\" fill=\"#f5b900\"/><path d=\"M34 12.5h4v9H24v6.5\"/><rect x=\"20.5\" y=\"28\" width=\"7\" height=\"14\" rx=\"2\"/></svg>",
+  cartongesso:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"7\" y=\"8\" width=\"34\" height=\"32\" rx=\"2\"/><path d=\"M24 8v32M7 24h17\"/><path d=\"M28 28h9v8h-9z\" fill=\"#f5b900\" stroke=\"none\"/></svg>",
+  muratura:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"6\" y=\"10\" width=\"36\" height=\"28\" rx=\"1.5\"/><path d=\"M6 19.3h36M6 28.6h36M18 10v9.3M30 10v9.3M12 19.3v9.3M24 19.3v9.3M36 19.3v9.3M18 28.6V38M30 28.6V38\"/><path d=\"M24.8 20.1h10.4v7.7H24.8z\" fill=\"#f5b900\" stroke=\"none\"/></svg>",
+  trasporto:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M24 5 42 14v20L24 43 6 34V14z\"/><path d=\"M6 14l18 9 18-9M24 23v20\"/><path d=\"M15 9.5l18 9v6\" stroke=\"#f5b900\" stroke-width=\"3.4\"/></svg>",
+  smarthome:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 22 24 8l17 14\"/><path d=\"M11 19v22h26V19\"/><path d=\"M17 28.5a10 10 0 0 1 14 0M20.5 32.5a5 5 0 0 1 7 0\" stroke=\"#f5b900\" stroke-width=\"3\"/><circle cx=\"24\" cy=\"36.5\" r=\"2.2\" fill=\"#f5b900\" stroke=\"none\"/></svg>",
+  automazioni:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"7\" y=\"6\" width=\"34\" height=\"8\" rx=\"2\" fill=\"#f5b900\"/><path d=\"M9 14v28M39 14v28\"/><path d=\"M13 19.5h22M13 24.5h22M13 29.5h22\"/><path d=\"M20 36.5 24 33l4 3.5\"/></svg>",
+  altro:"<svg viewBox=\"0 0 48 48\" fill=\"none\" stroke=\"#101722\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"24\" cy=\"24\" r=\"17\"/><path d=\"M24 15.5v17M15.5 24h17\" stroke=\"#f5b900\" stroke-width=\"4\"/></svg>"
+};
+
 Object.entries(services)
  .filter(([,s])=>s.active!==false)
  .forEach(([key,s],i)=>{
    const b=document.createElement("button");
    b.className="card"; b.dataset.key=key;
-   b.innerHTML=`<div class="icon">${s.icon}</div><h3>${s.title}</h3><p>${s.short}</p><span class="cardMore">Scopri di più ›</span>`;
+   b.innerHTML=`<div class="icon">${ICONE_SERVIZI[key]||s.icon}</div><h3>${s.title}</h3><p>${s.short}</p><span class="cardMore">Scopri di più ›</span>`;
    b.onclick=()=>{
      trackEvent("servizio_aperto",{servizio:s.title});
      selectService(key,true);
@@ -2191,3 +2216,5 @@ function renderVetrinaLavori_(){
 }
 
 /* v14.19.0 — tasto "Vedi i lavori realizzati" in home e voce Lavori nel menu: aprono la galleria completa con filtri; "Scopri di più" e badge foto sui servizi. */
+
+/* v14.20.0 — icone SVG coordinate per tutti i servizi al posto delle emoji. */
