@@ -7,7 +7,7 @@
    Carnevale (giovedì grasso–martedì grasso): coriandoli
    Pasqua e Pasquetta: ovetti
    Festa della Repubblica (2/6): bandierine che oscillano scorrendo
-   Halloween (31/10): pipistrelli e zucche
+   Halloween (31/10): pipistrelli e zucche; da computer il cursore è un ragnetto che dondola
    Fuori da questi giorni il file si ferma subito e non fa nulla.
    Per spegnere tutto: window.BERTI_FESTE = false in assenze.js.
    Per provare un effetto: aggiungi ?festa=halloween (o un altro nome) all'indirizzo.
@@ -100,6 +100,64 @@
     ctx.fill();
   }
 
+  /* ---------- Halloween: ragnetto al posto del cursore, dondola col mouse (solo computer) ---------- */
+  function conRagno(base){
+    const ok=!piano&&!!(window.matchMedia&&window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+    if(!ok) return base;
+    let mx=0,my=0,vis=false,th=0,om=0,lx=null,lvx=0;
+    const L=26;
+    document.addEventListener("pointermove",e=>{
+      if(e.pointerType&&e.pointerType!=="mouse") return;
+      mx=e.clientX;my=e.clientY;
+      const t=e.target;
+      vis=!(t&&t.closest&&t.closest('input:not([type="checkbox"]):not([type="radio"]),textarea'));
+      if(!root.classList.contains("ragnoVivo")) root.classList.add("ragnoVivo");
+    },{passive:true});
+    document.addEventListener("mouseout",e=>{if(!e.relatedTarget) vis=false;});
+    window.addEventListener("blur",()=>{vis=false;});
+    function zampe(ctx){
+      for(const s of [-1,1]){
+        ctx.moveTo(s*2,5);ctx.quadraticCurveTo(s*7,1,s*10,4);
+        ctx.moveTo(s*2.5,7);ctx.quadraticCurveTo(s*8,6,s*10,10);
+        ctx.moveTo(s*2.5,9);ctx.quadraticCurveTo(s*7,11,s*8,16);
+        ctx.moveTo(s*2,10.5);ctx.quadraticCurveTo(s*5,13,s*5,18);
+      }
+    }
+    return {
+      misura:base.misura,
+      frame(ctx,W,H,t){
+        base.frame(ctx,W,H,t);
+        if(lx===null) lx=mx;
+        const vx=mx-lx,ax=vx-lvx;lx=mx;lvx=vx;
+        om+=-.045*Math.sin(th)-Math.max(-30,Math.min(30,ax))*.012*Math.cos(th);
+        om*=.95;th+=om;
+        if(th>1.3)th=1.3;if(th<-1.3)th=-1.3;
+        if(!vis) return true;
+        const bx=mx+L*Math.sin(th),by=my+L*Math.cos(th);
+        ctx.save();ctx.lineCap="round";ctx.lineJoin="round";
+        ctx.strokeStyle="rgba(255,255,255,.9)";ctx.lineWidth=3;
+        ctx.beginPath();ctx.moveTo(mx,my);ctx.lineTo(bx,by);ctx.stroke();
+        ctx.strokeStyle="#7d8692";ctx.lineWidth=1.1;
+        ctx.beginPath();ctx.moveTo(mx,my);ctx.lineTo(bx,by);ctx.stroke();
+        ctx.translate(bx,by);ctx.rotate(-th);
+        ctx.strokeStyle="#ffffff";ctx.lineWidth=4;ctx.beginPath();zampe(ctx);ctx.stroke();
+        ctx.beginPath();ctx.arc(0,2.5,4.4,0,6.283);ctx.ellipse(0,10.5,6.4,6.9,0,0,6.283);ctx.fillStyle="#ffffff";ctx.fill();
+        ctx.strokeStyle="#15171c";ctx.lineWidth=1.6;ctx.beginPath();zampe(ctx);ctx.stroke();
+        ctx.fillStyle="#15171c";
+        ctx.beginPath();ctx.arc(0,2.5,3,0,6.283);ctx.fill();
+        ctx.beginPath();ctx.ellipse(0,10.5,5,5.5,0,0,6.283);ctx.fill();
+        ctx.fillStyle="#ffffff";
+        ctx.beginPath();ctx.arc(-1.2,2.4,1.1,0,6.283);ctx.arc(1.2,2.4,1.1,0,6.283);ctx.fill();
+        ctx.fillStyle="#15171c";
+        ctx.beginPath();ctx.arc(-1.2,2.9,.5,0,6.283);ctx.arc(1.2,2.9,.5,0,6.283);ctx.fill();
+        ctx.strokeStyle="#f08a12";ctx.lineWidth=1.3;
+        ctx.beginPath();ctx.moveTo(-1.6,8);ctx.lineTo(1.6,9.5);ctx.lineTo(-1.6,11);ctx.lineTo(1.6,12.5);ctx.stroke();
+        ctx.restore();
+        return true;
+      }
+    };
+  }
+
   const EFFETTI={
     natale:()=>cadenti({
       n:W=>Math.min(80,Math.max(25,W/14)),
@@ -169,7 +227,7 @@
       }
     }),
 
-    halloween:()=>cadenti({
+    halloween:()=>conRagno(cadenti({
       n:W=>Math.min(14,Math.max(7,W/100)),
       nuovo:(W,H,i)=>{
         if(R()<.6){const dir=R()<.5?1:-1;
@@ -207,7 +265,7 @@
         }
         ctx.restore();
       }
-    }),
+    })),
 
     capodanno:()=>{
       const COL=["#ffd23f","#ff4d4d","#4dabff","#5fe08a","#ffffff","#ff7bd5","#ffa94d"];
