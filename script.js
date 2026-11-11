@@ -5,9 +5,9 @@ const ANALYTICS_CONSENT_KEY="berti_analytics_consent_v1";
 
 /* Quando il Profilo Google è verificato, inserire i due URL e impostare enabled:true. */
 const GOOGLE_BUSINESS={
-  enabled:false,
-  profileUrl:"",
-  reviewUrl:""
+  enabled:true,
+  profileUrl:"https://maps.app.goo.gl/ia6kk5vHQqaVQYKG8",
+  reviewUrl:"https://share.google/NCmQeBGqJq7PW4gDm"
 };
 
 function initGoogleBusiness(){
