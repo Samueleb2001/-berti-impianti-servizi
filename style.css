@@ -3401,7 +3401,7 @@ body.bertNavOpen{overflow:hidden}
   border-radius:50%;
   overflow:hidden;
   background:#080a0c;
-  box-shadow:0 0 0 2px #f5b900 inset,0 8px 18px rgba(16,23,34,.22);
+  box-shadow:0 0 0 2px #f5b900,0 8px 18px rgba(16,23,34,.22);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -3419,7 +3419,7 @@ body.bertNavOpen{overflow:hidden}
 .card:hover .icon,
 .card.active .icon{
   transform:scale(1.06);
-  box-shadow:0 0 0 3px #ffc400 inset,0 0 0 6px rgba(255,196,0,.22),0 10px 22px rgba(16,23,34,.28)
+  box-shadow:0 0 0 3px #ffc400,0 0 0 7px rgba(255,196,0,.22),0 10px 22px rgba(16,23,34,.28)
 }
 
 /* Contenuto dei riquadri servizi allineato in alto, "Scopri di più" sempre in fondo */
