@@ -1,4 +1,13 @@
 {
+  "esterni": [
+    {
+      "id": "linea-tenda-da-sole-massa-lombarda",
+      "titolo": "Linea tenda da sole massa lombarda",
+      "prima": "images/lavori/esterni-linea-tenda-da-sole-massa-lombarda-prima.webp",
+      "dopo": "images/lavori/esterni-linea-tenda-da-sole-massa-lombarda-dopo.webp",
+      "extra": []
+    }
+  ],
   "montaggi": [
     {
       "id": "installazione-porta-scorrevole-vetro",
