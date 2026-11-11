@@ -3388,3 +3388,28 @@ body.bertNavOpen{overflow:hidden}
   font-weight:800;
   font-size:14px
 }
+
+
+/* Avvisi a tempo nella sezione Contatti (feste, chiusure) */
+.festiveNotice{
+  max-width:720px;
+  margin:0 auto 18px;
+  background:#fff4cc;
+  border:2px solid #f5b900;
+  border-radius:14px;
+  padding:14px 18px;
+  color:#101722;
+  font-weight:700;
+  line-height:1.45;
+  text-align:left
+}
+
+.festiveNotice[hidden]{
+  display:none
+}
+
+.festiveNotice p+p{
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid rgba(16,23,34,.15)
+}

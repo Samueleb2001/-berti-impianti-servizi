@@ -83,6 +83,19 @@
 
   window.BertiChiamate={aperto,fineOggi,prossima,messaggioChiuso,messaggioAvviso,testo:TESTO};
 
+  /* Avvisi a tempo (assenze.js -> BERTI_AVVISI) nel riquadro #bertiAvvisi */
+  function mostraAvvisi(){
+    const box=document.getElementById("bertiAvvisi");
+    if(!box) return;
+    const oggi=adesso().ymd;
+    const lista=(Array.isArray(window.BERTI_AVVISI)?window.BERTI_AVVISI:[])
+      .filter(x=>x&&RE_DATA.test(String(x.dal))&&RE_DATA.test(String(x.al))&&x.dal<=oggi&&oggi<=x.al&&String(x.testo||"").trim());
+    box.textContent="";
+    lista.forEach(x=>{const p=document.createElement("p");p.textContent=String(x.testo).trim();box.appendChild(p);});
+    box.hidden=lista.length===0;
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mostraAvvisi); else mostraAvvisi();
+
   /* Pagine senza la gestione completa (es. "Chi sono"):
      spegne i pulsanti .call-link fuori orario e mostra un avviso al clic. */
   if(document.getElementById("hoursNotice")) return;
