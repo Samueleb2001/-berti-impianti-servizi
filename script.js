@@ -764,6 +764,19 @@ function creaLavoroPortfolio_(lavoro,index){
 
   if(slider){
     inizializzaBeforeAfter_(slider,index);
+
+    // Il riquadro prende la forma della foto "dopo" (verticale o orizzontale),
+    // cosi' la foto si vede intera e senza fasce scure.
+    const fotoDopo=slider.querySelector(".afterImage");
+    const adattaRiquadro=()=>{
+      if(fotoDopo && fotoDopo.naturalWidth && fotoDopo.naturalHeight){
+        slider.style.setProperty("--ratio",String(fotoDopo.naturalWidth/fotoDopo.naturalHeight));
+      }
+    };
+    if(fotoDopo){
+      if(fotoDopo.complete) adattaRiquadro();
+      else fotoDopo.addEventListener("load",adattaRiquadro,{once:true});
+    }
   }
 
   const extra=Array.isArray(lavoro.extra) ? lavoro.extra : [];
