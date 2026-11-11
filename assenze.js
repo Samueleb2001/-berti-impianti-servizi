@@ -47,7 +47,11 @@ window.BERTI_AVVISI = [
 ];
 
 /* =========================================================
-   TEMA NATALIZIO (neve e lucine) — attivo tra "dal" e "al"
+   EFFETTI DELLE FESTE (feste.js) — si accendono da soli ogni anno:
+   Natale 1/12–5/1, Capodanno 31/12–1/1, Befana 6/1, San Valentino 14/2,
+   Carnevale (giovedì–martedì grasso), Pasqua e Pasquetta,
+   Festa della Repubblica 2/6, Halloween 31/10.
+   Per spegnerli tutti scrivi false al posto di true.
    ========================================================= */
 
-window.BERTI_NATALE = {dal:"2026-12-01", al:"2027-01-06"};
+window.BERTI_FESTE = true;
