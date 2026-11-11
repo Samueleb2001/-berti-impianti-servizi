@@ -3627,6 +3627,21 @@ body.bertNavOpen{overflow:hidden}
   cursor:text
 }
 
+/* Halloween da computer: il ragnetto disegnato da feste.js prende il posto del cursore */
+.ragnoVivo,
+.ragnoVivo *{
+  cursor:none!important
+}
+
+.ragnoVivo input:not([type="checkbox"]):not([type="radio"]),
+.ragnoVivo textarea{
+  cursor:text!important
+}
+
+.ragnoVivo .festeCanvas{
+  z-index:2147483646
+}
+
 /* =========================
    ICONE SERVIZI (v14.19.0) — icone 3D realistiche su cerchio scuro
    ========================= */
