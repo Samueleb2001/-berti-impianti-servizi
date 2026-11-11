@@ -3413,3 +3413,37 @@ body.bertNavOpen{overflow:hidden}
   padding-top:8px;
   border-top:1px solid rgba(16,23,34,.15)
 }
+
+
+/* =========================================================
+   TEMA NATALIZIO (classe .natale aggiunta da natale.js)
+   ========================================================= */
+
+.neveCanvas{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  pointer-events:none;
+  z-index:9990
+}
+
+.natale .siteHeader::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-9px;
+  height:16px;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 12px 9px,#ff5a5a 0 3.4px,transparent 4.4px),
+    radial-gradient(circle at 36px 10px,#ffd23f 0 3.4px,transparent 4.4px),
+    radial-gradient(circle at 60px 9px,#5fd38d 0 3.4px,transparent 4.4px),
+    radial-gradient(circle at 84px 10px,#6fb6ff 0 3.4px,transparent 4.4px),
+    linear-gradient(#2b2e34,#2b2e34);
+  background-size:96px 16px,96px 16px,96px 16px,96px 16px,100% 1.5px;
+  background-position:0 0,0 0,0 0,0 0,0 4px;
+  background-repeat:repeat-x;
+  filter:drop-shadow(0 0 3px rgba(255,210,63,.45))
+}

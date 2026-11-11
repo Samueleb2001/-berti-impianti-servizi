@@ -38,7 +38,16 @@ window.BERTI_ORARI_SPECIALI = [
    ========================================================= */
 
 window.BERTI_AVVISI = [
-  {dal:"2026-12-01", al:"2026-12-12", testo:"Chiuso per ferie da giovedì 10 a sabato 12 dicembre: puoi scrivermi su WhatsApp o lasciare una richiesta, ti rispondo da lunedì 14."},
-  {dal:"2026-12-01", al:"2027-01-06", testo:"Durante le feste intervengo anche nei giorni festivi (25, 26 e 31 dicembre, 1 e 6 gennaio) dalle 8:00 alle 22:30. Il 24 dicembre solo fino alle 12:00."},
+  {dal:"2026-12-10", al:"2026-12-12", testo:"Chiuso per ferie fino a sabato 12 dicembre: puoi scrivermi su WhatsApp o lasciare una richiesta, ti rispondo da lunedì 14."},
+  {dal:"2026-12-24", al:"2026-12-24", testo:"Oggi, vigilia di Natale, sono disponibile solo fino alle 12:00."},
+  {dal:"2026-12-25", al:"2026-12-26", testo:"Oggi è festa ma ci sono: interventi dalle 8:00 alle 22:30."},
+  {dal:"2026-12-31", al:"2027-01-01", testo:"Oggi è festa ma ci sono: interventi dalle 8:00 alle 22:30."},
+  {dal:"2027-01-06", al:"2027-01-06", testo:"Oggi è festa ma ci sono: interventi dalle 8:00 alle 22:30."},
 
 ];
+
+/* =========================================================
+   TEMA NATALIZIO (neve e lucine) — attivo tra "dal" e "al"
+   ========================================================= */
+
+window.BERTI_NATALE = {dal:"2026-12-01", al:"2027-01-06"};
