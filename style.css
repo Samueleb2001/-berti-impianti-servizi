@@ -3388,3 +3388,132 @@ body.bertNavOpen{overflow:hidden}
   font-weight:800;
   font-size:14px
 }
+
+
+/* Avvisi a tempo nella sezione Contatti (feste, chiusure) */
+.festiveNotice{
+  max-width:720px;
+  margin:0 auto 18px;
+  background:#fff4cc;
+  border:2px solid #f5b900;
+  border-radius:14px;
+  padding:14px 18px;
+  color:#101722;
+  font-weight:700;
+  line-height:1.45;
+  text-align:left
+}
+
+.festiveNotice[hidden]{
+  display:none
+}
+
+.festiveNotice p+p{
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid rgba(16,23,34,.15)
+}
+
+
+/* =========================================================
+   TEMA NATALIZIO (classe .natale aggiunta da natale.js)
+   ========================================================= */
+
+.neveCanvas{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  pointer-events:none;
+  z-index:9990
+}
+
+.natale .siteHeader::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-9px;
+  height:16px;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 12px 9px,#ff5a5a 0 3.4px,transparent 4.4px),
+    radial-gradient(circle at 36px 10px,#ffd23f 0 3.4px,transparent 4.4px),
+    radial-gradient(circle at 60px 9px,#5fd38d 0 3.4px,transparent 4.4px),
+    radial-gradient(circle at 84px 10px,#6fb6ff 0 3.4px,transparent 4.4px),
+    linear-gradient(#2b2e34,#2b2e34);
+  background-size:96px 16px,96px 16px,96px 16px,96px 16px,100% 1.5px;
+  background-position:0 0,0 0,0 0,0 0,0 4px;
+  background-repeat:repeat-x;
+  filter:drop-shadow(0 0 3px rgba(255,210,63,.45))
+}
+
+/* Cursore a bastoncino di zucchero (solo computer, solo nel periodo natalizio) */
+.natale body,
+.natale a,
+.natale button,
+.natale [role="button"],
+.natale summary,
+.natale label,
+.natale select,
+.natale .card{
+  cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cg%20transform%3D%22rotate%28135%2016%2016%29%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M12%2028V11a4%204%200%200%201%208%200v3%22%20stroke%3D%22%235a0b0b%22%20stroke-width%3D%226.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%2028V11a4%204%200%200%201%208%200v3%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%224.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%2028V11a4%204%200%200%201%208%200v3%22%20stroke%3D%22%23e11d2e%22%20stroke-width%3D%224.6%22%20stroke-linecap%3D%22butt%22%20stroke-dasharray%3D%222.4%202.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 10 5, auto
+}
+
+.natale a,
+.natale button,
+.natale [role="button"],
+.natale summary,
+.natale .card{
+  cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cg%20transform%3D%22rotate%28135%2016%2016%29%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M12%2028V11a4%204%200%200%201%208%200v3%22%20stroke%3D%22%235a0b0b%22%20stroke-width%3D%226.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%2028V11a4%204%200%200%201%208%200v3%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%224.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12%2028V11a4%204%200%200%201%208%200v3%22%20stroke%3D%22%23e11d2e%22%20stroke-width%3D%224.6%22%20stroke-linecap%3D%22butt%22%20stroke-dasharray%3D%222.4%202.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 10 5, pointer
+}
+
+.natale input:not([type="checkbox"]):not([type="radio"]),
+.natale textarea{
+  cursor:text
+}
+
+/* =========================
+   ICONE SERVIZI (v14.19.0) — icone 3D realistiche su cerchio scuro
+   ========================= */
+
+.card .icon{
+  width:84px;
+  height:84px;
+  margin:0 auto;
+  border-radius:50%;
+  overflow:hidden;
+  background:#080a0c;
+  box-shadow:0 0 0 2px #f5b900,0 8px 18px rgba(16,23,34,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  transition:transform .2s,box-shadow .2s
+}
+
+.card .icon img{
+  width:100%;
+  height:100%;
+  display:block;
+  border-radius:50%
+}
+
+.card:hover .icon,
+.card.active .icon{
+  transform:scale(1.06);
+  box-shadow:0 0 0 3px #ffc400,0 0 0 7px rgba(255,196,0,.22),0 10px 22px rgba(16,23,34,.28)
+}
+
+/* Contenuto dei riquadri servizi allineato in alto, "Scopri di più" sempre in fondo */
+.card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start
+}
+
+.card .cardMore{
+  margin-top:auto;
+  padding-top:8px
+}
