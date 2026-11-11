@@ -272,7 +272,7 @@ illuminazione:{
    "Sensori di movimento",
    "Crepuscolari e temporizzatori"
  ],
- image:"images/Illuminazione.jpg.PNG"
+ image:"images/Illuminazione.webp"
 },
 
 guasti:{
@@ -289,7 +289,7 @@ guasti:{
    "Diagnosi con strumenti",
    "Piccoli ripristini"
  ],
- image:"images/Ricerca-guasti.jpg.PNG"
+ image:"images/Ricerca-guasti.webp"
 },
 
 esterni:{
@@ -306,7 +306,7 @@ esterni:{
    "Canalizzazioni esterne",
    "Predisposizioni per giardino e portico"
  ],
- image:"images/Esterni-e-giardino.jpg.PNG?v=11-1"
+ image:"images/Esterni-e-giardino.webp"
 },
 
 reti:{
@@ -323,7 +323,7 @@ reti:{
    "Posizionamento ripetitori",
    "Riordino cablaggi di rete"
  ],
- image:"images/Reti-Wi-Fi.jpg.PNG?v=11-1"
+ image:"images/Reti-Wi-Fi.webp"
 },
 
 citofonia:{
@@ -340,7 +340,7 @@ citofonia:{
    "Alimentatori e accessori compatibili",
    "Ricerca piccoli malfunzionamenti"
  ],
- image:"images/Citofonia.jpg.PNG?v=11-1"
+ image:"images/Citofonia.webp"
 },
 
 tv:{
@@ -357,7 +357,7 @@ tv:{
    "Piccoli accessori multimediali",
    "Riordino collegamenti"
  ],
- image:"images/Tv-staffe-multimedia.jpg.PNG?v=11-1"
+ image:"images/Tv-staffe-multimedia.webp"
 },
 
 audio:{
@@ -374,7 +374,7 @@ audio:{
    "Filodiffusione semplice",
    "Sistemazione cablaggi"
  ],
- image:"images/Impianti-audio-e-filodiffusione.jpg.PNG?v=11-1"
+ image:"images/Impianti-audio-e-filodiffusione.webp"
 },
 
 idraulica:{
@@ -392,7 +392,7 @@ headline:"Piccole manutenzioni idrauliche",
   "Pulizia e sistemazione componenti",
   "Piccoli ripristini"
  ],
- image:"images/Idraulica.jpg.PNG"
+ image:"images/Idraulica.webp"
 },
 
 manutenzioni:{
@@ -412,7 +412,7 @@ manutenzioni:{
    "Sistemazioni estetiche e finiture",
    "Interventi personalizzati su richiesta"
  ],
- image:"images/Manutenzioni-domestiche.jpg.PNG"
+ image:"images/Manutenzioni-domestiche.webp"
 },
 
 montaggi:{
@@ -429,7 +429,7 @@ montaggi:{
    "Staffe e supporti",
    "Piccole riparazioni"
  ],
- image:"images/Montaggi-riparazioni.jpg.PNG"
+ image:"images/Montaggi-riparazioni.webp"
 },
 
 mobili:{
@@ -446,7 +446,7 @@ mobili:{
    "Regolazione ante e cassetti",
    "Regolazioni finali"
  ],
- image:"images/Montaggio-mobili.jpg.PNG"
+ image:"images/Montaggio-mobili.webp"
 },
 
 porte:{
@@ -463,7 +463,7 @@ porte:{
    "Fermi e accessori",
    "Piccoli problemi di chiusura"
  ],
- image:"images/Porte-finestre-regolazione.jpg.PNG"
+ image:"images/Porte-finestre-regolazione.webp"
 },
 
 ritocchi:{
@@ -483,7 +483,7 @@ ritocchi:{
    "Finiture dopo opere in cartongesso",
    "Ritocchi localizzati"
  ],
- image:"images/Ritocchi.jpg.PNG?v=11-1"
+ image:"images/Ritocchi.webp"
 },
 
  cartongesso:{
@@ -503,7 +503,7 @@ ritocchi:{
    "Ripristini dopo lavori e impianti",
    "Riparazioni e finiture"
  ],
- image:"images/Cartongesso.jpg.PNG"
+ image:"images/Cartongesso.webp"
 },
 
   muratura:{
@@ -523,7 +523,7 @@ ritocchi:{
    "Stuccature e finiture",
    "Sistemazioni edili localizzate"
  ],
- image:"images/Muratura.jpg.PNG"
+ image:"images/Muratura.webp"
 },
 
 trasporto:{
@@ -541,7 +541,7 @@ trasporto:{
    "Piccoli carichi",
    "Valutazione preventiva"
  ],
- image:"images/Trasporto-oggetti.jpg.PNG"
+ image:"images/Trasporto-oggetti.webp"
 },
 
 smarthome:{
@@ -562,7 +562,7 @@ smarthome:{
    "Integrazione con assistenti vocali compatibili",
    "Configurazione di scenari e automazioni"
  ],
- image:"images/Smart-home.jpg.PNG"
+ image:"images/Smart-home.webp"
 },
 
 automazioni:{
@@ -579,7 +579,7 @@ automazioni:{
    "Piccoli automatismi",
    "Ricerca piccoli malfunzionamenti"
  ],
- image:"images/Tapparelle-automazioni.jpg.PNG"
+ image:"images/Tapparelle-automazioni.webp"
 },
 
 altro:{
@@ -596,7 +596,7 @@ altro:{
    "Sopralluogo quando necessario",
    "Preventivo gratuito"
  ],
- image:"images/Altri-servizi.jpg.PNG?v=11-1"
+ image:"images/Altri-servizi.webp"
 }
 };
 
