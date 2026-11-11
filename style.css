@@ -3391,33 +3391,35 @@ body.bertNavOpen{overflow:hidden}
 
 
 /* =========================
-   ICONE SERVIZI SVG (v14.19.0) — realistiche nero/giallo
+   ICONE SERVIZI (v14.19.0) — linea gialla su cerchio nero
    ========================= */
 
 .card .icon{
-  width:76px;
-  height:76px;
+  width:66px;
+  height:66px;
   margin:0 auto;
   border-radius:50%;
-  background:radial-gradient(circle at 50% 35%,#2a3240,#0b1118 70%);
-  box-shadow:0 0 0 2px #f5b900 inset,0 6px 16px rgba(0,0,0,.22);
+  background:#101722;
+  color:#f5b900;
+  box-shadow:0 6px 16px rgba(16,23,34,.18);
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:30px;
-  transition:transform .2s,box-shadow .2s
+  transition:background .2s,color .2s,transform .2s
 }
 
 .card .icon svg{
-  width:52px;
-  height:52px;
+  width:36px;
+  height:36px;
   display:block
 }
 
 .card:hover .icon,
 .card.active .icon{
-  transform:scale(1.06);
-  box-shadow:0 0 0 2px #ffc400 inset,0 0 0 5px rgba(255,196,0,.25),0 8px 20px rgba(0,0,0,.25)
+  background:#f5b900;
+  color:#101722;
+  transform:scale(1.05)
 }
 
 /* Contenuto dei riquadri servizi allineato in alto, "Scopri di più" sempre in fondo */
