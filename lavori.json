@@ -10,6 +10,13 @@
   ],
   "montaggi": [
     {
+      "id": "installazione-pensilina-finestra",
+      "titolo": "Installazione pensilina finestra",
+      "prima": "images/lavori/montaggi-installazione-pensilina-finestra-prima.webp",
+      "dopo": "images/lavori/montaggi-installazione-pensilina-finestra-dopo.webp",
+      "extra": []
+    },
+    {
       "id": "installazione-porta-scorrevole-vetro",
       "titolo": "Installazione porta scorrevole vetro",
       "prima": "images/lavori/montaggi-installazione-porta-scorrevole-vetro-prima.webp",
