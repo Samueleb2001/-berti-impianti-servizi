@@ -989,6 +989,72 @@ footer{
   color:#b42318
 }
 
+.formStatus.warn{
+  color:#9a6700
+}
+
+/* Esito invio: barra colorata */
+.sendProgress.ok .sendProgressBar{background:#1f9d55}
+.sendProgress.warn .sendProgressBar{background:#f5b900}
+.sendProgress.ko .sendProgressBar{background:#d92d20}
+
+/* Pulsanti dopo un invio non riuscito o non verificabile */
+.sendActions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:14px
+}
+
+.sendActions[hidden]{
+  display:none
+}
+
+.sendActionRetry,
+.sendActionWa,
+.sendActionCancel{
+  display:block;
+  width:100%;
+  border-radius:12px;
+  padding:16px 17px;
+  font-weight:900;
+  font-size:15px;
+  text-align:center;
+  text-decoration:none;
+  cursor:pointer;
+  transition:.18s ease
+}
+
+.sendActionRetry{
+  background:#d92d20;
+  color:#fff;
+  border:0
+}
+
+.sendActionRetry:hover{background:#b42318}
+
+.sendActionWa{
+  background:#25d366;
+  color:#0b2e17;
+  border:0
+}
+
+.sendActionWa:hover{background:#1ebe5a}
+
+.sendActionCancel{
+  background:#fff;
+  color:#101722;
+  border:2px solid #cfd5dc
+}
+
+.sendActionCancel:hover{border-color:#101722;background:#f3f5f7}
+
+/* Con i pulsanti di esito visibili, quelli normali si nascondono */
+.invioDaRisolvere .sendQuote,
+.invioDaRisolvere .cancelQuote{
+  display:none
+}
+
 /* =========================
    BARRA PROGRESSO INVIO
    ========================= */

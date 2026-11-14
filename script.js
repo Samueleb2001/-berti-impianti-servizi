@@ -1221,55 +1221,48 @@ function leggiStatoRichiesta_(jobId){
   });
 }
 
-async function attendiConfermaRichiesta_(jobId,timeoutMs,invioRiuscito){
-  /*
-    Chiede al gestionale se la richiesta e' stata registrata.
-    Se l'invio dal telefono e' caduto (rete instabile), il gestionale potrebbe
-    averla ricevuta lo stesso: per questo si continua a chiedere piu' a lungo.
-  */
-  timeoutMs=timeoutMs||8000;
-  const intervalloMs=1000;
-  const iniziato=Date.now();
-  let ricevuta=false;
+/*
+  Verifica se la richiesta e' arrivata al gestionale. Esiti:
+  - "ricevuta": il gestionale ha i dati (stato processing/confirmed/error)
+  - "rifiutata": il gestionale ha scartato un dato non valido
+  - "non_arrivata": il gestionale risponde ma la richiesta non ce l'ha
+  - "incerta": la connessione non permette nemmeno di verificare
+*/
+async function verificaRicezione_(jobId,invio){
+  const inizio=Date.now();
+  let statoInvio="in_corso",fineInvio=0,risposte=0;
+  invio.then(()=>{statoInvio="ok";fineInvio=Date.now();},()=>{statoInvio="fallito";fineInvio=Date.now();});
+  await new Promise(r=>setTimeout(r,800));
 
-  while(Date.now()-iniziato<timeoutMs){
+  while(true){
     try{
-      const data=await leggiStatoRichiesta_(jobId);
-
-      if(data && data.status==="confirmed"){
-        return data;
+      const d=await leggiStatoRichiesta_(jobId);
+      risposte++;
+      if(d&&["processing","confirmed","error"].includes(d.status)){
+        return {esito:"ricevuta",requestId:d.requestId||""};
       }
-
-      if(data && data.status==="processing"){
-        ricevuta=true;
+      if(d&&d.status==="rejected"){
+        return {esito:"rifiutata",errore:d.error||""};
       }
+    }catch(err){
+      console.warn("Verifica invio:",err);
+    }
 
-      if(data && data.status==="error"){
-  const backendError=new Error(
-    data.error || "Registrazione non riuscita."
-  );
+    const ora=Date.now();
+    // Il gestionale ha gia' risposto all'invio ma la richiesta non risulta: aspetta poco.
+    if(statoInvio==="ok"&&ora-fineInvio>5000) break;
+    // L'invio e' caduto: la richiesta potrebbe essere arrivata comunque, aspetta di piu'.
+    if(statoInvio==="fallito"&&ora-fineInvio>15000) break;
+    // Il gestionale segna "ricevuta" appena arrivano i dati: dopo 25 secondi senza traccia ci si ferma.
+    if(ora-inizio>25000) break;
 
-  backendError.isBackendError=true;
-  throw backendError;
-}
-
-}catch(err){
-  if(err && err.isBackendError){
-    throw err;
+    await new Promise(r=>setTimeout(r,1000));
   }
 
-  console.warn("Controllo stato richiesta:",err);
-}
-
-    await new Promise(resolve=>setTimeout(resolve,intervalloMs));
-  }
-
-  // Se il gestionale non ha mai visto la richiesta e l'invio era caduto: errore vero.
-  if(!invioRiuscito && !ricevuta){
-    throw new Error("RICHIESTA_NON_RICEVUTA");
-  }
-
-  throw new Error("TIMEOUT_CONFERMA");
+  // Il gestionale ha risposto alle verifiche ma non ha la richiesta: non e' arrivata
+  // (se il cliente riprova e invece era arrivata, non viene registrata due volte).
+  if(risposte>0) return {esito:"non_arrivata"};
+  return {esito:"incerta"};
 }
 
 quoteForm.addEventListener("submit",async e=>{
@@ -1284,14 +1277,19 @@ quoteForm.addEventListener("submit",async e=>{
  const s=services[qService.value];
  const now=Date.now();
 
-const jobId=
-  "JOB-"+(
-    window.crypto&&crypto.randomUUID
-      ? crypto.randomUUID()
-      : `${now}-${Math.random().toString(36).slice(2)}`
-  );
-  
  if(submitBtn.disabled) return;
+
+ /*
+   Codice unico della compilazione: resta lo stesso se il cliente preme "Riprova",
+   cosi' il gestionale riconosce la richiesta gia' arrivata e non la registra due volte.
+ */
+ if(!quoteJobId) quoteJobId="JOB-"+(
+   window.crypto&&crypto.randomUUID
+     ? crypto.randomUUID()
+     : `${now}-${Math.random().toString(36).slice(2)}`
+ );
+ const jobId=quoteJobId;
+ nascondiAzioniInvio_();
  if(!quoteForm.reportValidity()) return;
  const telefono =
   document.getElementById("qPhone").value.trim();
@@ -1334,13 +1332,11 @@ if(descrizione.length<5){
    formStartedAt:quoteFormStartedAt,
    submissionId:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`${now}-${Math.random().toString(36).slice(2)}`,
    jobId:jobId,
-   clientVersion:"14.17.0"
+   clientVersion:"14.23.0"
  };
 
- let finished=false;
- let pct=4;
+ let pct=0;
  let progressTimer=null;
-
  const setProgress=(value,label)=>{
    pct=Math.max(pct,Math.min(value,100));
    progressBar.style.width=pct+"%";
@@ -1348,166 +1344,161 @@ if(descrizione.length<5){
    if(label) progressLabel.textContent=label;
  };
 
- const startProgress=()=>{
-   progress.hidden=false;
-   setProgress(6,"Verifica dati…");
-
-   const started=performance.now();
-
-   progressTimer=setInterval(()=>{
-     if(finished) return;
-
-     const elapsed=performance.now()-started;
-
-    if(elapsed<2000){
-  setProgress(
-    Math.min(30,pct+3.4),
-    "Invio richiesta…"
-  );
-
-}else if(elapsed<4000){
-  setProgress(
-    Math.min(55,pct+2.8),
-    "Registrazione richiesta…"
-  );
-
-}else if(elapsed<6500){
-  setProgress(
-    Math.min(75,pct+1.8),
-    "Preparazione pratica…"
-  );
-
-}else if(elapsed<9000){
-  setProgress(
-    Math.min(90,pct+1.3),
-    "Verifica registrazione…"
-  );
-
-}else{
-  setProgress(
-    Math.min(
-      99,
-      pct + Math.max(0.10,(99-pct)*0.045)
-    ),
-    "Richiesta inviata, completamento…"
-  );
-}
-     
-},220);
-};
  submitBtn.disabled=true;
  submitBtn.classList.add("sending");
  submitBtn.textContent="INVIO IN CORSO…";
  formStatus.className="formStatus";
  formStatus.textContent="";
- startProgress();
+ progress.hidden=false;
+ progress.classList.remove("ok","warn","ko");
+ setProgress(8,"Invio richiesta…");
+ progressTimer=setInterval(()=>setProgress(Math.min(85,pct+(85-pct)*0.08)),250);
 
+ /*
+   La richiesta parte e, nello stesso momento, il sito chiede al gestionale
+   ogni secondo se l'ha ricevuta. Il gestionale risponde "ricevuta" appena ha
+   salvato i dati (1-2 secondi), senza aspettare cartelle e documenti.
+ */
+ const invio=fetch(APPS_SCRIPT_URL,{
+   method:"POST",
+   mode:"no-cors",
+   headers:{"Content-Type":"text/plain;charset=utf-8"},
+   body:JSON.stringify(payload),
+   cache:"no-store",
+   referrerPolicy:"strict-origin-when-cross-origin",
+   keepalive:true
+ });
+
+ let risultato;
  try{
-   /*
-     Con il backend V14.5 il doPost salva subito la richiesta essenziale,
-     accoda la parte pesante e risponde molto prima.
-   */
-   /*
-     Se la connessione cade mentre il gestionale lavora (succede sul telefono),
-     la richiesta puo' essere arrivata lo stesso: non si mostra subito l'errore,
-     si chiede conferma al gestionale per circa 30 secondi.
-   */
-   let invioRiuscito=true;
-   try{
-     await fetch(APPS_SCRIPT_URL,{
-       method:"POST",
-       mode:"no-cors",
-       headers:{"Content-Type":"text/plain;charset=utf-8"},
-       body:JSON.stringify(payload),
-       cache:"no-store",
-       referrerPolicy:"strict-origin-when-cross-origin",
-       keepalive:true
-     });
-   }catch(errInvio){
-     invioRiuscito=false;
-     console.warn("Invio interrotto, verifico se la richiesta e' arrivata:",errInvio);
-   }
-
-   setProgress(75,"Verifica registrazione…");
-
-const conferma=await attendiConfermaRichiesta_(jobId,invioRiuscito?8000:30000,invioRiuscito);
-
-finished=true;
-if(progressTimer) clearInterval(progressTimer);
-
-setProgress(100,"Richiesta registrata");
-
-formStatus.className="formStatus success";
-
-formStatus.textContent=
-  conferma.requestId
-    ? "Richiesta registrata correttamente. Codice: "+conferma.requestId
-    : "Richiesta registrata correttamente.";
-
-trackEvent("preventivo_inviato",{
-  servizio:s.title,
-  confermato:true
-});
-
-quoteForm.reset();
-qService.value=currentService;
-quoteFormStartedAt=Date.now();
-
-setTimeout(()=>closeQuote("inviato"),2000);
-
+   risultato=await verificaRicezione_(jobId,invio);
  }catch(err){
-  finished=true;
-  if(progressTimer) clearInterval(progressTimer);
-  console.error(err);
-
-  if(err && err.message==="TIMEOUT_CONFERMA"){
-  progressBar.style.width="100%";
-  progressPct.textContent="100%";
-  progressLabel.textContent="Richiesta presa in carico";
-
-  formStatus.className="formStatus success";
-  formStatus.textContent=
-    "Richiesta inviata al sistema. La registrazione è in completamento: non è necessario reinviarla.";
-
-  trackEvent("preventivo_preso_in_carico",{
-    servizio:s.title,
-    conferma_immediata:false
-  });
-
-  quoteForm.reset();
-  qService.value=currentService;
-  quoteFormStartedAt=Date.now();
-
-  setTimeout(()=>closeQuote("presa_in_carico"),2500);
-
-}else{
-  progressBar.style.width="100%";
-  progressPct.textContent="!";
-  progressLabel.textContent="Invio non completato";
-
-  formStatus.className="formStatus error";
-
-  if(err && err.isBackendError &&
-     String(err.message||"").toLowerCase().includes("descrizione troppo breve")){
-    formStatus.textContent=
-      "Descrizione troppo breve: inserisci almeno 5 caratteri.";
-  }else{
-    formStatus.textContent=
-      "Non è stato possibile registrare la richiesta. Riprova oppure contattaci tramite WhatsApp o telefono.";
-  }
-
-  trackEvent("preventivo_errore",{
-    servizio:s.title
-  });
-}
- }finally{
-   setTimeout(()=>{
-     submitBtn.disabled=false;
-     submitBtn.classList.remove("sending");
-     submitBtn.textContent="INVIA RICHIESTA";
-   },700);
+   console.error(err);
+   risultato={esito:"incerta"};
  }
+
+ clearInterval(progressTimer);
+ progressBar.style.width="100%";
+
+ if(risultato.esito==="ricevuta"){
+   progress.classList.add("ok");
+   progressPct.textContent="✓";
+   progressLabel.textContent="Richiesta ricevuta";
+   formStatus.className="formStatus success";
+   formStatus.textContent=
+     "Richiesta ricevuta! Ti ricontatterò al più presto"+
+     (risultato.requestId?" (codice "+risultato.requestId+").":".");
+   submitBtn.classList.remove("sending");
+   submitBtn.textContent="RICHIESTA INVIATA ✓";
+   try{formStatus.scrollIntoView({behavior:"smooth",block:"center"});}catch(_){}
+   trackEvent("preventivo_inviato",{servizio:s.title,confermato:true});
+   quoteJobId="";
+   quoteForm.reset();
+   qService.value=currentService;
+   quoteFormStartedAt=Date.now();
+   setTimeout(()=>{
+     closeQuote("inviato");
+     progress.hidden=true;
+     formStatus.textContent="";
+   },3500);
+ }else if(risultato.esito==="rifiutata"){
+   progress.classList.add("ko");
+   progressPct.textContent="!";
+   progressLabel.textContent="Richiesta non inviata";
+   formStatus.className="formStatus error";
+   formStatus.textContent=messaggioRifiuto_(risultato.errore);
+   trackEvent("preventivo_errore",{servizio:s.title,tipo:"dati"});
+   mostraAzioniInvio_(payload);
+ }else if(risultato.esito==="non_arrivata"){
+   progress.classList.add("ko");
+   progressPct.textContent="!";
+   progressLabel.textContent="Richiesta non arrivata";
+   formStatus.className="formStatus error";
+   formStatus.textContent=
+     "La richiesta non è arrivata, probabilmente per un problema di connessione. Riprova oppure scrivici su WhatsApp.";
+   trackEvent("preventivo_errore",{servizio:s.title,tipo:"non_arrivata"});
+   mostraAzioniInvio_(payload);
+ }else{
+   progress.classList.add("warn");
+   progressPct.textContent="?";
+   progressLabel.textContent="Connessione instabile";
+   formStatus.className="formStatus warn";
+   formStatus.textContent=
+     "Non riesco a verificare se la richiesta è arrivata: la connessione è instabile. Puoi riprovare (non verrà registrata due volte) oppure scriverci su WhatsApp.";
+   trackEvent("preventivo_errore",{servizio:s.title,tipo:"incerta"});
+   mostraAzioniInvio_(payload);
+ }
+
+ setTimeout(()=>{
+   submitBtn.disabled=false;
+   submitBtn.classList.remove("sending");
+   submitBtn.textContent="INVIA RICHIESTA";
+ },risultato.esito==="ricevuta"?3500:300);
 });
+
+/* ---------- Esito invio: pulsanti Riprova / WhatsApp / Annulla ---------- */
+let quoteJobId="";
+
+function messaggioRifiuto_(errore){
+  const e=String(errore||"").toLowerCase();
+  if(e.includes("descrizione")) return "Descrizione troppo breve: scrivi qualche parola in più sul lavoro.";
+  if(e.includes("telefono")) return "Il numero di telefono non sembra valido: controllalo e riprova.";
+  if(e.includes("email")) return "L'email non sembra valida: correggila oppure lasciala vuota.";
+  if(e.includes("nome")||e.includes("cognome")||e.includes("denominazione")) return "Manca il nome o il cognome: completa i dati e riprova.";
+  if(e.includes("indirizzo")) return "Manca l'indirizzo dell'intervento: completalo e riprova.";
+  if(e.includes("servizio")) return "Scegli il servizio richiesto e riprova.";
+  return "La richiesta non è stata registrata. Riprova oppure scrivici su WhatsApp.";
+}
+
+function linkWhatsAppRichiesta_(p){
+  const righe=[
+    "Buongiorno, ho provato a inviare una richiesta dal sito ma non so se è arrivata.",
+    "",
+    "Nome: "+[p.name,p.surname].filter(Boolean).join(" "),
+    "Telefono: "+(p.phone||""),
+    p.email?"Email: "+p.email:"",
+    "Indirizzo: "+(p.address||""),
+    "Servizio: "+(p.service||""),
+    "",
+    "Descrizione: "+(p.message||"")
+  ].filter((r,i,a)=>r!==""||(a[i-1]&&a[i-1]!==""));
+  return "https://wa.me/393522971348?text="+encodeURIComponent(righe.join("\n"));
+}
+
+function mostraAzioniInvio_(payload){
+  const box=document.getElementById("sendActions");
+  if(!box) return;
+  const wa=document.getElementById("sendActionWa");
+  if(wa) wa.href=linkWhatsAppRichiesta_(payload);
+  box.hidden=false;
+  quoteForm.classList.add("invioDaRisolvere");
+  try{document.getElementById("formStatus").scrollIntoView({behavior:"smooth",block:"center"});}catch(_){}
+}
+
+function nascondiAzioniInvio_(){
+  const box=document.getElementById("sendActions");
+  if(box) box.hidden=true;
+  quoteForm.classList.remove("invioDaRisolvere");
+}
+
+(function(){
+  const riprova=document.getElementById("sendActionRetry");
+  const annulla=document.getElementById("sendActionCancel");
+  const wa=document.getElementById("sendActionWa");
+  if(riprova) riprova.addEventListener("click",()=>{
+    nascondiAzioniInvio_();
+    if(quoteForm.requestSubmit) quoteForm.requestSubmit();
+    else quoteForm.querySelector(".sendQuote").click();
+  });
+  if(annulla) annulla.addEventListener("click",()=>{
+    nascondiAzioniInvio_();
+    document.getElementById("sendProgress").hidden=true;
+    const st=document.getElementById("formStatus");
+    st.className="formStatus";st.textContent="";
+    closeQuote("annulla_dopo_errore");
+  });
+  if(wa) wa.addEventListener("click",()=>trackEvent("preventivo_whatsapp_dopo_errore",{}));
+})();
 /* Orari e assenze del pulsante Chiama: vedi chiamate.js e assenze.js */
 function isCallOpen(){return window.BertiChiamate?window.BertiChiamate.aperto():true;}
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
