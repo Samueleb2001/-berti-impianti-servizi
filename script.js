@@ -1221,10 +1221,16 @@ function leggiStatoRichiesta_(jobId){
   });
 }
 
-async function attendiConfermaRichiesta_(jobId){
-  const timeoutMs=5000;
-  const intervalloMs=700;
+async function attendiConfermaRichiesta_(jobId,timeoutMs,invioRiuscito){
+  /*
+    Chiede al gestionale se la richiesta e' stata registrata.
+    Se l'invio dal telefono e' caduto (rete instabile), il gestionale potrebbe
+    averla ricevuta lo stesso: per questo si continua a chiedere piu' a lungo.
+  */
+  timeoutMs=timeoutMs||8000;
+  const intervalloMs=1000;
   const iniziato=Date.now();
+  let ricevuta=false;
 
   while(Date.now()-iniziato<timeoutMs){
     try{
@@ -1232,6 +1238,10 @@ async function attendiConfermaRichiesta_(jobId){
 
       if(data && data.status==="confirmed"){
         return data;
+      }
+
+      if(data && data.status==="processing"){
+        ricevuta=true;
       }
 
       if(data && data.status==="error"){
@@ -1252,6 +1262,11 @@ async function attendiConfermaRichiesta_(jobId){
 }
 
     await new Promise(resolve=>setTimeout(resolve,intervalloMs));
+  }
+
+  // Se il gestionale non ha mai visto la richiesta e l'invio era caduto: errore vero.
+  if(!invioRiuscito && !ricevuta){
+    throw new Error("RICHIESTA_NON_RICEVUTA");
   }
 
   throw new Error("TIMEOUT_CONFERMA");
@@ -1392,19 +1407,30 @@ if(descrizione.length<5){
      Con il backend V14.5 il doPost salva subito la richiesta essenziale,
      accoda la parte pesante e risponde molto prima.
    */
-   await fetch(APPS_SCRIPT_URL,{
-     method:"POST",
-     mode:"no-cors",
-     headers:{"Content-Type":"text/plain;charset=utf-8"},
-     body:JSON.stringify(payload),
-     cache:"no-store",
-     referrerPolicy:"strict-origin-when-cross-origin",
-     keepalive:true
-   });
+   /*
+     Se la connessione cade mentre il gestionale lavora (succede sul telefono),
+     la richiesta puo' essere arrivata lo stesso: non si mostra subito l'errore,
+     si chiede conferma al gestionale per circa 30 secondi.
+   */
+   let invioRiuscito=true;
+   try{
+     await fetch(APPS_SCRIPT_URL,{
+       method:"POST",
+       mode:"no-cors",
+       headers:{"Content-Type":"text/plain;charset=utf-8"},
+       body:JSON.stringify(payload),
+       cache:"no-store",
+       referrerPolicy:"strict-origin-when-cross-origin",
+       keepalive:true
+     });
+   }catch(errInvio){
+     invioRiuscito=false;
+     console.warn("Invio interrotto, verifico se la richiesta e' arrivata:",errInvio);
+   }
 
    setProgress(75,"Verifica registrazione…");
 
-const conferma=await attendiConfermaRichiesta_(jobId);
+const conferma=await attendiConfermaRichiesta_(jobId,invioRiuscito?8000:30000,invioRiuscito);
 
 finished=true;
 if(progressTimer) clearInterval(progressTimer);
