@@ -278,16 +278,16 @@ illuminazione:{
 guasti:{
  icon:"🔎",
  title:"RICERCA E RIPARAZIONE GUASTI",
- short:"Individuazione e risoluzione di anomalie elettriche.",
- headline:"Troviamo il problema, poi lo risolviamo",
- text:"Ricerca mirata dei guasti per individuare anomalie e ripristinare il corretto funzionamento dell'impianto.",
+ short:"Luce saltata o differenziale che scatta? Pronto intervento anche la sera.",
+ headline:"Pronto intervento: troviamo il guasto e lo risolviamo",
+ text:"Quando salta la luce, scatta il differenziale o una parte della casa resta al buio, interveniamo per trovare il guasto e rimettere in sicurezza l'impianto. Dal lunedì al venerdì anche la sera, fino alle 22:30.",
  items:[
+   "Luce saltata in casa",
    "Scatti del differenziale",
    "Prese e linee non funzionanti",
    "Problemi di illuminazione",
-   "Controllo collegamenti",
    "Diagnosi con strumenti",
-   "Piccoli ripristini"
+   "Messa in sicurezza e ripristino"
  ],
  image:"images/Ricerca-guasti.webp"
 },
