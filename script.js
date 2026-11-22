@@ -1500,7 +1500,8 @@ function nascondiAzioniInvio_(){
   if(wa) wa.addEventListener("click",()=>trackEvent("preventivo_whatsapp_dopo_errore",{}));
 })();
 /* Orari e assenze del pulsante Chiama: vedi chiamate.js e assenze.js */
-function isCallOpen(){return window.BertiChiamate?window.BertiChiamate.aperto():true;}
+/* Spento solo nei periodi di assenza; sera, fuori orario e festivi mostrano la tariffa prima della chiamata. */
+function isCallOpen(){return window.BertiChiamate&&window.BertiChiamate.stato?window.BertiChiamate.stato().tipo!=="chiuso":true;}
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
 function updateCallState(){
  const open=isCallOpen(),notice=document.getElementById("hoursNotice");
@@ -1510,7 +1511,8 @@ function updateCallState(){
   else link.setAttribute("href",link.dataset.realHref||"tel:+393522971348");
  });
  const bc=window.BertiChiamate;
- notice.textContent=!bc?"":open?"Chiamate disponibili ora, fino alle "+bc.fineOggi()+".":bc.messaggioChiuso();
+ const st=bc&&bc.stato?bc.stato():null;
+ notice.textContent=!bc?"":(st&&st.tipo==="normale")?"Chiamate disponibili ora, fino alle "+bc.fineOggi()+".":bc.messaggioChiuso();
 }
 document.addEventListener("click",e=>{const link=e.target.closest(".call-link.disabledCall");if(link){e.preventDefault();showToast(window.BertiChiamate?window.BertiChiamate.messaggioAvviso():"Puoi scriverci su WhatsApp.");}});
 document.addEventListener("click",e=>{
