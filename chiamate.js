@@ -99,10 +99,8 @@
     }
     if(festivo(t.ymd,t.day)) return {tipo:"tariffa",chiave:"festivo",tariffa:TARIFFE.festivo};
     const f=fasciaIl(t.ymd,t.day);
-    if(f&&t.mins>=f[0]&&t.mins<f[1]){
-      if(t.mins>=INIZIO_SERA) return {tipo:"tariffa",chiave:"sera",tariffa:TARIFFE.sera};
-      return {tipo:"normale"};
-    }
+    // Negli orari indicati si chiama subito (anche la sera fino alle 22:30).
+    if(f&&t.mins>=f[0]&&t.mins<f[1]) return {tipo:"normale"};
     // Sabato pomeriggio: tariffa festiva (come nell'app preventivi).
     if(t.day===6) return {tipo:"tariffa",chiave:"festivo",tariffa:TARIFFE.festivo};
     return {tipo:"tariffa",chiave:"fuoriOrario",tariffa:TARIFFE.fuoriOrario};
@@ -112,7 +110,7 @@
   function fineOggi(){
     const t=adesso();const f=fasciaIl(t.ymd,t.day);
     if(!f) return "";
-    return hhmm(t.mins<INIZIO_SERA&&f[1]>INIZIO_SERA?INIZIO_SERA:f[1]);
+    return hhmm(f[1]);
   }
   function prossima(){
     const t=adesso();
@@ -129,12 +127,8 @@
   }
   function messaggioChiuso(){
     const s=stato();
-    if(s.tipo==="tariffa"&&s.chiave==="sera"){
-      return "Fino alle 22:30 puoi chiamarci con la tariffa serale: il costo ti viene mostrato prima della chiamata.";
-    }
     if(s.tipo==="tariffa"){
-      return "Ora è attiva la tariffa "+s.tariffa.nome+": puoi chiamarci per urgenze, il costo ti viene mostrato prima della chiamata. "+
-        "Per tutto il resto scrivici su WhatsApp o compila il preventivo: ti ricontattiamo "+prossima()+".";
+      return "Fuori orario. Chiamate: "+TESTO+". Puoi scriverci su WhatsApp o compilare il preventivo: ti ricontattiamo "+prossima()+".";
     }
     const a=assenzaIl(adesso().ymd);
     const inizio=a?"Chiamate sospese fino al "+dataTesto(a.al)+".":"Chiamate non disponibili in questo momento.";
@@ -262,10 +256,11 @@
     window.bertiToastTimer=setTimeout(()=>t.classList.remove("show"),3200);
   }
   function aggiorna(){
-    const ok=stato().tipo!=="chiuso";
+    const st=stato().tipo,ok=st!=="chiuso";
     document.querySelectorAll(".call-link").forEach(l=>{
       if(!l.dataset.realHref) l.dataset.realHref=l.getAttribute("href")||TEL;
       l.classList.toggle("disabledCall",!ok);
+      l.classList.toggle("callFuoriOrario",st==="tariffa");
       l.setAttribute("aria-disabled",String(!ok));
       l.setAttribute("href",ok?l.dataset.realHref:"#");
     });

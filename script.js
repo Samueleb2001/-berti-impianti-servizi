@@ -1500,13 +1500,14 @@ function nascondiAzioniInvio_(){
   if(wa) wa.addEventListener("click",()=>trackEvent("preventivo_whatsapp_dopo_errore",{}));
 })();
 /* Orari e assenze del pulsante Chiama: vedi chiamate.js e assenze.js */
-/* Spento solo nei periodi di assenza; sera, fuori orario e festivi mostrano la tariffa prima della chiamata. */
+/* Spento nei periodi di assenza; fuori orario resta grigio e al clic mostra la tariffa prima della chiamata. */
 function isCallOpen(){return window.BertiChiamate&&window.BertiChiamate.stato?window.BertiChiamate.stato().tipo!=="chiuso":true;}
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2800);}
 function updateCallState(){
  const open=isCallOpen(),notice=document.getElementById("hoursNotice");
  document.querySelectorAll(".call-link").forEach(link=>{
   link.classList.toggle("disabledCall",!open);link.setAttribute("aria-disabled",String(!open));
+  link.classList.toggle("callFuoriOrario",!!(window.BertiChiamate&&window.BertiChiamate.stato&&window.BertiChiamate.stato().tipo==="tariffa"));
   if(!open){if(!link.dataset.realHref)link.dataset.realHref=link.getAttribute("href")||"tel:+393522971348";link.setAttribute("href","#");}
   else link.setAttribute("href",link.dataset.realHref||"tel:+393522971348");
  });

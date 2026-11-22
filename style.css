@@ -724,12 +724,14 @@ nav a{
 .googleProfileBtn:hover,
 .googleReviewBtn:hover{transform:translateY(-1px)}
 
-.disabledCall{
+.disabledCall,
+.callFuoriOrario{
   opacity:.45!important;
   pointer-events:auto!important;
   cursor:not-allowed!important;
   filter:grayscale(1)
 }
+.callFuoriOrario{cursor:pointer!important}
 
 /* =========================
    FOOTER
