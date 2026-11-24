@@ -3793,3 +3793,56 @@ body.bertNavOpen{overflow:hidden}
 .callRateWa{display:block;text-align:center;margin-top:14px;color:#0b1118;font-weight:700}
 @media (prefers-reduced-motion:no-preference){.callRateBox{animation:callRateIn .18s ease-out}}
 @keyframes callRateIn{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+
+/* =========================================================
+   BERTI v14.22.0 — PAGINE SERVIZI E ZONE (SEO)
+   ========================================================= */
+.seoCrumbs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;font-size:13px;color:rgba(255,255,255,.6)}
+.seoCrumbs a{color:rgba(255,255,255,.8);text-decoration:none}
+.seoCrumbs a:hover,.seoCrumbs a:focus-visible{color:#ffc515;text-decoration:underline}
+.seoHeroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.seoPage .seoCall{background:#ffc515;color:#111820}
+.seoPage .seoGhost{border:2px solid rgba(255,255,255,.55);background:transparent;color:#fff}
+.seoPage .seoGhost:hover,.seoPage .seoGhost:focus-visible{border-color:#ffc515;color:#ffc515}
+.seoGrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.seoGrid li{display:flex;flex-direction:column;gap:6px;padding:20px 22px;border:1px solid #dce2e8;border-left:4px solid #ffc515;border-radius:14px;background:#fff}
+.seoGrid strong{font-size:17px;color:#101722}
+.seoGrid span{color:#4a5563;line-height:1.55}
+.seoGridLinks li{padding:0}
+.seoGridLinks a{display:flex;flex-direction:column;gap:6px;height:100%;padding:20px 22px;color:inherit;text-decoration:none;border-radius:10px}
+.seoGridLinks a:hover strong,.seoGridLinks a:focus-visible strong{text-decoration:underline;text-decoration-color:#ffc515;text-decoration-thickness:3px}
+.seoChecks{margin:0;padding:0 0 0 20px;display:grid;gap:12px;color:#4a5563;font-size:17px;line-height:1.65}
+.seoChecks strong{color:#101722}
+.seoNote{background:#101923;border-color:#101923}
+.seoNote h2{color:#fff}
+.seoNote .seoChecks,.seoNote .seoChecks li{color:#c8d0d9}
+.seoNote .seoChecks strong{color:#ffc515}
+.seoFaq{width:100%;max-width:none;margin:0}
+.seoLinksWrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.seoLinks{padding:24px 26px;border:1px solid #dce2e8;border-radius:18px;background:#fff}
+.seoLinks h3{margin:0 0 12px;font-size:18px}
+.seoLinks ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.seoLinks a{display:inline-block;padding:8px 12px;border-radius:999px;background:#f1f4f7;color:#101722;text-decoration:none;font-weight:700;font-size:15px}
+.seoLinks a:hover,.seoLinks a:focus-visible{background:#ffc515}
+@media(max-width:900px){.seoGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.seoGrid,.seoLinksWrap{grid-template-columns:1fr}.seoHeroActions .aboutCtaLink{flex:1 1 100%}}
+
+/* Home: link a zone e servizi sotto "Dove interveniamo" */
+.areaLinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;width:min(100%,1000px);margin:30px auto 0;text-align:left}
+.areaLinkGroup h3{margin:0 0 10px;font-size:16px}
+.areaLinkGroup ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.areaLinkGroup a{display:inline-block;padding:8px 12px;border:1px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font-size:14px;font-weight:700;opacity:.9}
+.areaLinkGroup a:hover,.areaLinkGroup a:focus-visible{opacity:1;border-color:#ffc515;color:#ffc515}
+@media(max-width:700px){.areaLinks{grid-template-columns:1fr}}
+
+/* Home: recensioni Google (selezione riportata a mano) */
+.reviewCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;width:min(100%,1100px);margin:30px auto 0;text-align:left}
+.reviewCard{display:flex;flex-direction:column;gap:12px;margin:0;padding:22px 24px;border:1px solid #e1e5e9;border-radius:16px;background:#fff;box-shadow:0 7px 24px rgba(11,17,24,.06)}
+.reviewStars{margin:0;color:#f4b400;font-size:19px;letter-spacing:2px}
+.reviewStars span{color:#d5dbe1}
+.reviewCard blockquote{margin:0;flex:1}
+.reviewCard blockquote p{margin:0;color:#26303b;font-size:16px;line-height:1.6}
+.reviewCard figcaption{font-weight:800;color:#101722;font-size:15px}
+.reviewCard figcaption span{font-weight:500;color:#697483}
+.reviewsNote{max-width:720px;margin:18px auto 26px;color:#5a6570;font-size:14px;line-height:1.55}
+.reviewsNote a{color:#101722;font-weight:800}
